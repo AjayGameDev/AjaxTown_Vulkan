@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
     std::cout << "\nCan not initialize SDL" << SDL_GetError() << std::endl;
     return -1;
   }
-  SDL_Window *window = SDL_CreateWindow("Ajax Town", 640, 480, SDL_WINDOW_VULKAN);
+  SDL_Window *window = SDL_CreateWindow("Ajax Town", 640, 480, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
   if (window == nullptr)
   {
@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
   appInfo.applicationVersion = 1.0;
   appInfo.pEngineName = "Ajax";
   appInfo.engineVersion = 1.0;
-  appInfo.apiVersion = VK_API_VERSION_1_3;  // Vulkan version
+  appInfo.apiVersion = VK_API_VERSION_1_1;  // Vulkan version 1.1 supports most of the android
 
   //---------------------------------------------------------------------------- Get all available extensions
 
@@ -300,14 +300,15 @@ int main(int argc, char* argv[])
   }
 
   // Enabling dynamic rendering
-  VkPhysicalDeviceDynamicRenderingFeatures dynamicRenderingFeatures{};  // This will be used for pNext of logical device
-  dynamicRenderingFeatures.sType              =   VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES;
-  dynamicRenderingFeatures.dynamicRendering   =   VK_TRUE;
-  dynamicRenderingFeatures.pNext              =   nullptr;
+  //VkPhysicalDeviceDynamicRenderingFeatures dynamicRenderingFeatures{};  // This will be used for pNext of logical device
+  //dynamicRenderingFeatures.sType              =   VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES;
+  //dynamicRenderingFeatures.dynamicRendering   =   VK_TRUE;
+  //dynamicRenderingFeatures.pNext              =   nullptr;
 
 #pragma endregion
 
 #pragma region Checking physical device for required queues
+
   // After picking physical device we need to check if it supports the queue that we want to use it for
   uint32_t queueFamilyCount = 0;
   vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice,&queueFamilyCount,nullptr);
@@ -337,12 +338,13 @@ int main(int argc, char* argv[])
 
 #pragma region Creating logical device and required queues
 
-  // After selecting physical device and getting graphics queue we can create logical device
+  // After selecting the physical device and getting graphics queue we can create a logical device
 
   VkDevice device = nullptr;
   float queuePriority = 1.0f;
 
-  const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME  }; // it's not part of vulkan core so have to enable swap-chain as an extension
+  //const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME  }; // it's not part of vulkan core so have to enable swap-chain as an extension
+  const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME  }; // it's not part of vulkan core so have to enable swap-chain as an extension
 
   VkDeviceQueueCreateInfo queueCreateInfo{};
   queueCreateInfo.sType             =  VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -354,7 +356,7 @@ int main(int argc, char* argv[])
   deviceCreateInfo.sType                    =   VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
   deviceCreateInfo.queueCreateInfoCount     =   1;
   deviceCreateInfo.pQueueCreateInfos        =   &queueCreateInfo;
-  deviceCreateInfo.pNext                    =   &dynamicRenderingFeatures; // Dynamic rendering
+  deviceCreateInfo.pNext                    =   nullptr;
   deviceCreateInfo.enabledExtensionCount    =   static_cast<uint32_t>(requiredDeviceExtensions.size());
   deviceCreateInfo.ppEnabledExtensionNames  =   requiredDeviceExtensions.data();
 
@@ -481,6 +483,74 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+#pragma region Creating Render pass
+
+  VkAttachmentDescription colorAttachment{};
+  colorAttachment.format          =  surfaceFormat.format;
+  colorAttachment.samples         =  VK_SAMPLE_COUNT_1_BIT;
+  colorAttachment.loadOp          =  VK_ATTACHMENT_LOAD_OP_CLEAR;
+  colorAttachment.storeOp         =  VK_ATTACHMENT_STORE_OP_STORE;
+  colorAttachment.stencilLoadOp   =  VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+  colorAttachment.stencilStoreOp  =  VK_ATTACHMENT_STORE_OP_DONT_CARE;
+  colorAttachment.initialLayout   =  VK_IMAGE_LAYOUT_UNDEFINED;
+  colorAttachment.finalLayout     =  VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+  VkAttachmentReference colorAttachmentRef{};
+  colorAttachmentRef.layout      =  VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+  colorAttachmentRef.attachment  =  0;
+
+  VkSubpassDescription subpass{};
+  subpass.pipelineBindPoint     =   VK_PIPELINE_BIND_POINT_GRAPHICS;
+  subpass.colorAttachmentCount  =   1;
+  subpass.pColorAttachments     =   &colorAttachmentRef;
+
+  VkRenderPassCreateInfo renderpassCreateInfo{};
+  renderpassCreateInfo.sType              =     VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+  renderpassCreateInfo.attachmentCount    =     1;
+  renderpassCreateInfo.pAttachments       =     &colorAttachment;
+  renderpassCreateInfo.subpassCount       =     1;
+  renderpassCreateInfo.pSubpasses         =     &subpass;
+
+  VkRenderPass renderpass = nullptr;
+
+  if (vkCreateRenderPass(device,&renderpassCreateInfo,nullptr,&renderpass) != VK_SUCCESS)
+  {
+    std::cout << "\nCan't create render pass!";
+    return -1;
+  }
+
+#pragma endregion
+
+#pragma region Creating framebuffer for each swapchain image view
+
+  std::vector<VkFramebuffer> framebuffers;
+
+  for (auto & swapchainImageView : swapchainImageViews)
+  {
+    VkImageView attachments[] = { swapchainImageView };
+
+    VkFramebufferCreateInfo framebufferCreateInfo{};
+
+    framebufferCreateInfo.sType             =     VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+    framebufferCreateInfo.renderPass        =     renderpass;
+    framebufferCreateInfo.attachmentCount   =     1;
+    framebufferCreateInfo.pAttachments      =     attachments;
+    framebufferCreateInfo.layers            =     1;
+    framebufferCreateInfo.width             =     surfaceCapabilities.currentExtent.width;
+    framebufferCreateInfo.height            =     surfaceCapabilities.currentExtent.height;
+
+    VkFramebuffer framebuffer = nullptr;
+    if (vkCreateFramebuffer(device,&framebufferCreateInfo,nullptr,&framebuffer) != VK_SUCCESS)
+    {
+        std::cout << "\nCan't create framebuffer!";
+        return -1;
+    }
+    framebuffers.push_back(framebuffer);
+
+  }
+
+#pragma endregion
+
 #pragma region Creating Semaphore and Fence
 
   // Semaphores are for GPU-GPU synchronization
@@ -532,6 +602,8 @@ int main(int argc, char* argv[])
   }
 
 #pragma endregion
+
+
 
 #pragma region Creating graphics pipeline in 8 steps
 
@@ -623,14 +695,6 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
-  #pragma region Pipeline rendering info
-
- VkPipelineRenderingCreateInfo pipelineRenderingInfo{};
-  pipelineRenderingInfo.sType                     =   VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
-  pipelineRenderingInfo.colorAttachmentCount      =   1;
-  pipelineRenderingInfo.pColorAttachmentFormats   =   &surfaceFormat.format;
-
-  #pragma endregion
 
   #pragma region Shader stage setup
 
@@ -650,6 +714,8 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
+
+
   #pragma region Graphics pipeline Info
 
   VkGraphicsPipelineCreateInfo graphicsPipelineInfo{};
@@ -664,10 +730,10 @@ int main(int argc, char* argv[])
   graphicsPipelineInfo.pDynamicState        =   &dynamicStateInfo;
   graphicsPipelineInfo.pColorBlendState     =   &colorStateInfo;
   graphicsPipelineInfo.layout               =   pipelineLayout;
-  graphicsPipelineInfo.renderPass           =   VK_NULL_HANDLE; // Not used in dynamic rendering
+  graphicsPipelineInfo.renderPass           =   renderpass;
   graphicsPipelineInfo.subpass              =   0;
   graphicsPipelineInfo.basePipelineHandle   =   VK_NULL_HANDLE;
-  graphicsPipelineInfo.pNext                =   &pipelineRenderingInfo; // Using dynamic rendering
+  graphicsPipelineInfo.pNext                =   nullptr;
 
   #pragma endregion
 
@@ -693,7 +759,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-#pragma region Record command buffer and draw with dynamic rendering
+#pragma region Record command buffer and draw
 
   //  Create command buffer
   VkCommandBuffer commandBuffer = nullptr;
@@ -734,55 +800,8 @@ int main(int argc, char* argv[])
     return -1;
   }
 
-  // Transition image from UNDEFINED to COLOR_ATTACHMENT_OPTIMAL
-  VkImageMemoryBarrier imageBarrierToAttachment{};
-
-  imageBarrierToAttachment.sType                             =   VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-  imageBarrierToAttachment.oldLayout                         =   VK_IMAGE_LAYOUT_UNDEFINED;
-  imageBarrierToAttachment.newLayout                         =   VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-  imageBarrierToAttachment.srcQueueFamilyIndex               =   VK_QUEUE_FAMILY_IGNORED;
-  imageBarrierToAttachment.dstQueueFamilyIndex               =   VK_QUEUE_FAMILY_IGNORED;
-  imageBarrierToAttachment.image                             =   swapchainImages[imageIndex];
-  imageBarrierToAttachment.subresourceRange.aspectMask       =   VK_IMAGE_ASPECT_COLOR_BIT;
-  imageBarrierToAttachment.subresourceRange.baseMipLevel     =   0;
-  imageBarrierToAttachment.subresourceRange.levelCount       =   1;
-  imageBarrierToAttachment.subresourceRange.baseArrayLayer   =   0;
-  imageBarrierToAttachment.subresourceRange.layerCount       =   1;
-  imageBarrierToAttachment.srcAccessMask                     =   0;
-  imageBarrierToAttachment.dstAccessMask                     =   VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-
-  // Execute the layout transition OUTSIDE of dynamic rendering
-  vkCmdPipelineBarrier(commandBuffer,
-                       VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-                       VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                       0, 0, nullptr, 0, nullptr, 1, &imageBarrierToAttachment);
 
 
-  //  Rendering info
-  VkRenderingAttachmentInfo renderingAttachmentInfo{};
-  renderingAttachmentInfo.sType         =   VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
-  renderingAttachmentInfo.imageView     =   swapchainImageViews[imageIndex];
-  renderingAttachmentInfo.imageLayout   =   VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL;
-  renderingAttachmentInfo.loadOp        =   VK_ATTACHMENT_LOAD_OP_CLEAR;
-  renderingAttachmentInfo.storeOp       =   VK_ATTACHMENT_STORE_OP_STORE;
-
-  VkClearValue clearColor = {{{.1f,.1f,.2f,1.0f}}};
-  renderingAttachmentInfo.clearValue = clearColor;
-
-  VkRenderingInfo renderingInfo{};
-  renderingInfo.sType                   =   VK_STRUCTURE_TYPE_RENDERING_INFO;
-  renderingInfo.colorAttachmentCount    =   1;
-  renderingInfo.layerCount              =   1;
-  renderingInfo.renderArea.offset    =   {0,0};
-  renderingInfo.renderArea.extent       =   swapChainCreateInfo.imageExtent;
-  renderingInfo.pColorAttachments       =   &renderingAttachmentInfo;
-
-
-  // Begin rendering
-  vkCmdBeginRendering(commandBuffer,&renderingInfo);
-
-  // Bind pipeline state
-  vkCmdBindPipeline(commandBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
 
   // Set dynamic viewport
   VkViewport viewport{};
@@ -800,33 +819,28 @@ int main(int argc, char* argv[])
   scissor.extent    = swapChainCreateInfo.imageExtent;
   vkCmdSetScissor(commandBuffer,0,1,&scissor);
 
+  VkClearValue clearColor = {{ .1f,.2f,.3f,1.0f } };
+  VkRenderPassBeginInfo renderpassBeginInfo{};
+  renderpassBeginInfo.sType                =    VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+  renderpassBeginInfo.framebuffer          =    framebuffers[imageIndex];
+  renderpassBeginInfo.renderPass           =    renderpass;
+  renderpassBeginInfo.clearValueCount      =    1;
+  renderpassBeginInfo.pClearValues         =    &clearColor;
+  renderpassBeginInfo.renderArea.offset =    {0,0};
+  renderpassBeginInfo.renderArea.extent    =    surfaceCapabilities.currentExtent;
+
+  vkCmdBeginRenderPass(commandBuffer,&renderpassBeginInfo,VK_SUBPASS_CONTENTS_INLINE);
+
+
+  // Bind pipeline
+  vkCmdBindPipeline(commandBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
   // Draw command buffer
   vkCmdDraw(commandBuffer,3,1,0,0);
 
+  vkCmdEndRenderPass(commandBuffer);
 
 
-  vkCmdEndRendering(commandBuffer);
 
-  // Transition image from COLOR_ATTACHMENT_OPTIMAL to PRESENT_SRC
-  VkImageMemoryBarrier imageBarrierToPresent{};
-  imageBarrierToPresent.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-  imageBarrierToPresent.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-  imageBarrierToPresent.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-  imageBarrierToPresent.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-  imageBarrierToPresent.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-  imageBarrierToPresent.image = swapchainImages[imageIndex];
-  imageBarrierToPresent.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-  imageBarrierToPresent.subresourceRange.baseMipLevel = 0;
-  imageBarrierToPresent.subresourceRange.levelCount = 1;
-  imageBarrierToPresent.subresourceRange.baseArrayLayer = 0;
-  imageBarrierToPresent.subresourceRange.layerCount = 1;
-  imageBarrierToPresent.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-  imageBarrierToPresent.dstAccessMask = 0;
-
-  vkCmdPipelineBarrier(commandBuffer,
-                       VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                       VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-                       0, 0, nullptr, 0, nullptr, 1, &imageBarrierToPresent);
 
   if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
   {
@@ -899,6 +913,11 @@ int main(int argc, char* argv[])
 #endif
 
   vkDeviceWaitIdle(device);
+  for (auto framebuffer : framebuffers)
+  {
+    vkDestroyFramebuffer(device,framebuffer,nullptr);
+  }
+  vkDestroyRenderPass(device,renderpass,nullptr);
   vkDestroyCommandPool(device,commandPool,nullptr);
   vkDestroyPipeline(device,graphicsPipeline,nullptr);
   vkDestroyPipelineLayout(device,pipelineLayout,nullptr);
