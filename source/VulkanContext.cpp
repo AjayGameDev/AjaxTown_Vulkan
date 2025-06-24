@@ -1,0 +1,302 @@
+#include "VulkanContext.h"
+#include "vector"
+
+#include <iostream>
+#ifndef NDEBUG
+#include "spdlog/spdlog.h" // include only when debugging [ when NDBUG is not defined ]
+#endif
+
+/*
+VulkanContext::VulkanContext(Window *window) : window(window)
+{
+  CreateInstance();
+}
+
+VulkanContext::~VulkanContext()
+{
+
+}
+
+#pragma region Debugging Helper Functions
+
+#ifdef NDEBUG
+
+//std::cout << "\n" << "Not Debug Mode "; // Disable validation layers for better optimization
+const bool enableValidationLayers = false;
+
+#else
+
+//std::cout << "\n" << "Debug Mode";
+constexpr bool enableValidationLayers = true;
+
+#endif
+
+#ifndef NDEBUG  // ndef means NDEBUG(No Debug) is not defined so it is a debug mode
+
+  // These are macros used by vulkan to ensure cross-platform compatibility
+ //  On windows VKAPI_CALL will be __declspec(dllexport) and VKAPI_CALL will be __stdcall
+
+  VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* callbackData,void* userData)
+  {
+    if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+      spdlog::error("[Vulkan] {}",callbackData->pMessage);
+    else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+      spdlog::warn("[Vulkan] {}",callbackData->pMessage);
+    else
+      spdlog::info("[Vulkan] {}",callbackData->pMessage);
+
+    return false;   // Vulkan continue, the message has been reported and there is no need to stop
+                   //  If you return true, then vulkan will stop execution
+  }
+
+  // It's not in the core vulkan so have to load these extension functions manually to create and destroy Debug Messenger
+  VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger)
+  {
+    auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
+        vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
+
+    if (func != nullptr)
+      return func(instance, pCreateInfo, pAllocator, pMessenger);
+    else
+      return VK_ERROR_EXTENSION_NOT_PRESENT;
+
+  }
+
+  void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator)
+  {
+    auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+        vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
+
+    if (func != nullptr)
+      func(instance, messenger, pAllocator);
+  }
+
+#endif
+
+
+#pragma endregion
+
+void VulkanContext ::CreateInstance()
+{
+    //----------------------------------------------------------------------------
+    //Describe your app info
+
+    VkApplicationInfo appInfo = {};
+    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pNext = nullptr;
+    appInfo.pApplicationName = "Ajax Town";
+    appInfo.applicationVersion = 1.0;
+    appInfo.pEngineName = "Ajax";
+    appInfo.engineVersion = 1.0;
+    appInfo.apiVersion =
+        VK_API_VERSION_1_1; // Vulkan version 1.1 supports most of the android
+
+    //----------------------------------------------------------------------------
+    //Get all available extensions
+
+    uint32_t extensionsCount;
+    const std::vector<const char *> validationLayers = {
+        "VK_LAYER_KHRONOS_validation"};
+    char const *const *extensions = window->GetExtensions(extensionsCount);
+    std::vector<const char *> extensionsVector(extensions,
+                                               extensions + extensionsCount);
+
+    if (enableValidationLayers)
+      extensionsVector.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+    if (extensionsVector.empty())
+      throw std::runtime_error("Can't load any vulkan extension! \n");
+
+    //----------------------------------------------------------------------------
+    //Vulkan instance creation info
+
+    VkInstanceCreateInfo createInfo = {};
+    VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+
+    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo = &appInfo;
+    createInfo.enabledExtensionCount = extensionsVector.size();
+    createInfo.ppEnabledExtensionNames = extensionsVector.data();
+
+#ifndef NDEBUG
+    if (enableValidationLayers)
+    {
+      createInfo.enabledLayerCount = validationLayers.size();
+      createInfo.ppEnabledLayerNames =
+          validationLayers.empty() ? nullptr : validationLayers.data();
+
+      debugCreateInfo.sType =
+          VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+      debugCreateInfo.messageSeverity =
+          VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
+          VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT;
+      debugCreateInfo.messageType =
+          VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+          VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+          VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+      debugCreateInfo.pfnUserCallback = DebugCallback;
+      debugCreateInfo.pUserData = nullptr;
+
+      createInfo.pNext = &debugCreateInfo;
+    }
+#else
+  createInfo.pNext = nullptr;
+#endif
+
+    //----------------------------------------------------------------------------
+    //Vulkan instance creation
+
+    instance = nullptr;
+
+    if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+      throw std::runtime_error("\nCan't create vulkan instance ");
+
+    VkDebugUtilsMessengerEXT debugMessenger;
+
+    if (enableValidationLayers)
+    {
+      // Create a message only if validation layers are enabled
+#ifndef NDEBUG
+      if (CreateDebugUtilsMessengerEXT(instance, &debugCreateInfo, nullptr,
+                                       &debugMessenger) != VK_SUCCESS)
+        throw std::runtime_error("\nCan't create debug messenger");
+#endif
+    }
+  }
+
+void VulkanContext::CreateSurface()
+{
+    window->CreateSurface(instance, surface);
+}
+
+void VulkanContext::PickPhysicalDevice()
+{
+  physicalDevice = nullptr;
+  uint32_t deviceCount = 0;
+
+  vkEnumeratePhysicalDevices(
+      instance, &deviceCount,
+      nullptr); // query how many physical devices are present
+  std::vector<VkPhysicalDevice> physicalDevices(deviceCount);
+  vkEnumeratePhysicalDevices(
+      instance, &deviceCount,
+      physicalDevices.data()); // Get all physical devices
+
+  for (const auto device : physicalDevices)
+  {
+    VkPhysicalDeviceProperties deviceProperties;
+    vkGetPhysicalDeviceProperties(device, &deviceProperties);
+
+
+    VkSampleCountFlags sampleCountFlag =
+    deviceProperties.limits.framebufferColorSampleCounts; if (sampleCountFlag &
+    VK_SAMPLE_COUNT_32_BIT) std::cout << "\n" << "32 Sample count supported";
+    else if (sampleCountFlag & VK_SAMPLE_COUNT_16_BIT)
+      std::cout << "\n" << "16 Sample count supported";
+    else if (sampleCountFlag & VK_SAMPLE_COUNT_8_BIT)
+      std::cout << "\n" << "8 Sample count supported";
+    else if (sampleCountFlag & VK_SAMPLE_COUNT_4_BIT)
+      std::cout << "\n" << "4 Sample count supported";
+
+    VkPhysicalDeviceFeatures deviceFeatures;
+    vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+    std::cout << "\n" << deviceProperties.deviceName;
+    std::cout << "\n" << deviceFeatures.multiViewport;
+
+    if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+    {
+      physicalDevice = device;
+      break;
+    }
+  }
+  if (physicalDevice == nullptr)
+  {
+    std::cout << "\nNo physical device detected with vulkan support!";
+  }
+}
+
+void VulkanContext::CheckPhysicalDeviceForRequiredQueues()
+{
+  // After picking the physical device, we need to check if it supports the
+  // queue that we want to use it for
+  uint32_t queueFamilyCount = 0;
+  vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount,
+                                           nullptr);
+  std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
+  vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount,
+                                           queueFamilyProperties.data());
+
+  graphicsFamilyIndex = -1;
+  transferFamilyIndex = -1;
+  computeFamilyIndex = -1;
+
+  // Pick the first ideal queue and stick to it, no need to override
+  for (int i = 0; i < queueFamilyCount; ++i)
+  {
+    if ((graphicsFamilyIndex == -1) &&
+        (queueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT))
+    {
+      graphicsFamilyIndex = i;
+    }
+    if ((transferFamilyIndex == -1) &&
+        (queueFamilyProperties[i].queueFlags & VK_QUEUE_TRANSFER_BIT))
+    {
+      transferFamilyIndex = i;
+    }
+    if ((computeFamilyIndex == -1) &&
+        (queueFamilyProperties[i].queueFlags & VK_QUEUE_COMPUTE_BIT))
+    {
+      computeFamilyIndex = i;
+    }
+  }
+
+  if (graphicsFamilyIndex == -1)
+    std::cout << "Selected device doesn't support graphics queue!";
+  if (transferFamilyIndex == -1)
+    std::cout << "Selected device doesn't support transfer queue!";
+  if (computeFamilyIndex == -1)
+    std::cout << "Selected device doesn't support compute queue!";
+
+  // Checking for presentation support
+  VkBool32 presentationSupport = false;
+  vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, graphicsFamilyIndex,
+                                       surface, &presentationSupport);
+  if (!presentationSupport)
+  {
+    std::cout << "\nSelected physical device can't present to the surface!";
+  }
+}
+
+void VulkanContext::CreteLogicalDevice()
+{
+    // After selecting the physical device and getting graphics queue we can create a logical device
+
+    device = nullptr;
+    float queuePriority = 1.0f;
+
+    //const std::vector<const char*> requiredDeviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME }; // it's not part of vulkan core so have to enable the swap-chain as an extension
+    const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME  }; // it's not part of vulkan core, so have to enable the swap-chain as an extension
+
+    VkDeviceQueueCreateInfo queueCreateInfo{};
+    queueCreateInfo.sType             =  VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    queueCreateInfo.queueFamilyIndex  =  graphicsFamilyIndex;
+    queueCreateInfo.queueCount        =  1;
+    queueCreateInfo.pQueuePriorities  =  &queuePriority;
+
+    VkDeviceCreateInfo deviceCreateInfo{};
+    deviceCreateInfo.sType                    =   VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    deviceCreateInfo.queueCreateInfoCount     =   1;
+    deviceCreateInfo.pQueueCreateInfos        =   &queueCreateInfo;
+    deviceCreateInfo.pNext                    =   nullptr;
+    deviceCreateInfo.enabledExtensionCount    =   static_cast<uint32_t>(requiredDeviceExtensions.size());
+    deviceCreateInfo.ppEnabledExtensionNames  =   requiredDeviceExtensions.data();
+
+    if (vkCreateDevice(physicalDevice,&deviceCreateInfo,nullptr,&device) != VK_SUCCESS)
+    {
+      std::cout << "\nCan't create logical device from physical device!";
+    }
+    // Now creating graphics queue
+    vkGetDeviceQueue(device,graphicsFamilyIndex,0,&graphicsQueue);
+}
+*/

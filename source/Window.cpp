@@ -1,0 +1,44 @@
+#include "Window.h"
+#include "stdexcept"
+#include "string"
+
+Window::Window(const char *title, const int width, const int height)
+{
+
+  std::string error;
+
+  if (!SDL_Init(SDL_INIT_VIDEO))
+  {
+    error = SDL_GetError();
+    throw std::runtime_error("Can't Initialize SDL \n" + error);
+  }
+
+  window = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
+
+  if (window == nullptr)
+  {
+    error = SDL_GetError();
+
+    SDL_Quit();
+    throw std::runtime_error("Can't create SDL window \n" + error);
+
+  }
+}
+
+char const *const *Window::GetExtensions(uint32_t &extensionCount)
+{
+  return SDL_Vulkan_GetInstanceExtensions(&extensionCount);
+}
+void Window::CreateSurface(VkInstance instance,VkSurfaceKHR surface)
+{
+  if (!SDL_Vulkan_CreateSurface(window,instance,nullptr,&surface))
+  {
+    throw std::runtime_error("\nCan't create SDL surface!");
+  }
+}
+
+Window::~Window()
+{
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+}

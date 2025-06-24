@@ -1,17 +1,4 @@
-#pragma region headers
-
-#include "SDL3/SDL.h"
-#include "SDL3/SDL_vulkan.h"
-#include "vulkan/vulkan.h"
-
-#include <fstream>
-#include <iostream>
-#include <vector>
-#ifndef NDEBUG
-#include "spdlog/spdlog.h"
-#endif
-
-#pragma endregion
+#include "Headers.h"
 
 
 #pragma region Debugging callback
@@ -30,8 +17,8 @@
     else
       spdlog::info("[Vulkan] {}",callbackData->pMessage);
 
-    return false;   // Vulkan continue,message has been reported and there is no need to stop
-                   //  If you return true then vulkan will stop execution
+    return false;   // Vulkan continue, the message has been reported and there is no need to stop
+                   //  If you return true, then vulkan will stop execution
   }
 
   // It's not in the core vulkan so have to load these extension functions manually to create and destroy Debug Messenger
@@ -81,7 +68,7 @@ std::vector<char> ReadShader(const std::string& shaderName, const ShaderType sha
     case ShaderType::vert     :   shaderTypeName  =  ".vert.spv";    break;     // these extensions are not enforced by the vulkan but
     case ShaderType::frag     :   shaderTypeName  =  ".frag.spv";    break;    //  tools like glslc (from shaderc compiler) uses these extensions
     case ShaderType::comp     :   shaderTypeName  =  ".comp.spv";    break;   //   these can be overriden while compiling like using .vertex instead of .vert
-    default                   :   shaderTypeName  =  "";             break;  //    but then you have override it for all (~14) extensions
+    default                   :   shaderTypeName  =  "";             break;  //    but then you have to override it for all (~14) extensions
 
   }
 
@@ -123,8 +110,56 @@ VkShaderModule CreateShaderModule(const VkDevice& device,const std::vector<char>
 
 #pragma endregion
 
+VkCommandBuffer BeginOneTimeCommandBuffer(VkDevice device, VkCommandPool commandPool)
+{
+  VkCommandBuffer commandBuffer = nullptr;
+  VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
+  commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+  commandBufferAllocateInfo.commandBufferCount = 1;
+  commandBufferAllocateInfo.commandPool = commandPool;
+  commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+
+  vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer);
+
+  VkCommandBufferBeginInfo commandBufferBeginInfo{};
+  commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+  vkBeginCommandBuffer(commandBuffer,&commandBufferBeginInfo);
+
+  return commandBuffer;
+
+}
+
+
+void EndOneTimeCommandBuffer( VkCommandBuffer commandBuffer, VkQueue queue, VkDevice device, VkCommandPool commandPool)
+{
+  vkEndCommandBuffer(commandBuffer);
+
+  VkSubmitInfo submitInfo{};
+  submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submitInfo.commandBufferCount = 1;
+  submitInfo.pCommandBuffers = &commandBuffer;
+
+  vkQueueSubmit(queue,1,&submitInfo,VK_NULL_HANDLE);
+  vkQueueWaitIdle(queue);
+
+  vkFreeCommandBuffers(device,commandPool,1,&commandBuffer);
+}
+
 int main(int argc, char* argv[])
 {
+
+  std::vector<Vertex> vertices =
+  {
+
+     {  { 0.0,-0.5 },{ 1.0,0.0,0.0 } },
+
+     {  { 0.0,-0.5 },{ 0.0,1.0,0.0 } },
+
+     {  { 0.0,-0.5 },{ 0.0,0.0,1.0 } }
+
+  };
 
 #pragma region Platform-Architecture specific setup
 
@@ -144,25 +179,13 @@ int main(int argc, char* argv[])
 
 
 #pragma region SDL window creation with vulkan support
-  //---------------------------------------------------------------------------- Step I : Create window with sdl3 which supports vulkan
+  //---------------------------------------------------------------------------- Step I : Create a window with sdl3, which supports vulkan
+  Window window("Ajax Town",640,480);
 
-  if (!SDL_Init(SDL_INIT_VIDEO))
-  {
-    std::cout << "\nCan not initialize SDL" << SDL_GetError() << std::endl;
-    return -1;
-  }
-  SDL_Window *window = SDL_CreateWindow("Ajax Town", 640, 480, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
-
-  if (window == nullptr)
-  {
-    std::cout << "\nCan not create window " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    return -1;
-  }
 #pragma endregion
 
 #pragma region Vulkan Instance Creation
-  //---------------------------------------------------------------------------- Step II : Create Vulkan instance
+  //---------------------------------------------------------------------------- Step II : Create a Vulkan instance
 
 
   //---------------------------------------------------------------------------- Describe your app info
@@ -180,7 +203,7 @@ int main(int argc, char* argv[])
 
   uint32_t extensionsCount;
   const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
-  char const* const* extensions = SDL_Vulkan_GetInstanceExtensions(&extensionsCount);
+  char const* const* extensions = window.GetExtensions(extensionsCount);
   std::vector<const char*> extensionsVector(extensions,extensions+extensionsCount);
 
   if (enableValidationLayers)
@@ -233,7 +256,7 @@ int main(int argc, char* argv[])
   VkDebugUtilsMessengerEXT debugMessenger;
   if (enableValidationLayers)
   {
-    // Create message only if validation layers are enabled
+    // Create a message only if validation layers are enabled
 #ifndef NDEBUG
     if (CreateDebugUtilsMessengerEXT(instance,&debugCreateInfo,nullptr,&debugMessenger) != VK_SUCCESS)
       std::cout << "\nCan't create debug messenger";
@@ -246,7 +269,7 @@ int main(int argc, char* argv[])
 #pragma region Vulkan Surface Creation
 
   VkSurfaceKHR vkSurface;
-  if (!SDL_Vulkan_CreateSurface(window,instance,nullptr,&vkSurface))
+  if (!SDL_Vulkan_CreateSurface(window.window,instance,nullptr,&vkSurface))
   {
     std::cout << "\nCan't create SDL surface!";
     return -1;
@@ -299,17 +322,13 @@ int main(int argc, char* argv[])
     std::cout << "\nNo physical device detected with vulkan support!";
   }
 
-  // Enabling dynamic rendering
-  //VkPhysicalDeviceDynamicRenderingFeatures dynamicRenderingFeatures{};  // This will be used for pNext of logical device
-  //dynamicRenderingFeatures.sType              =   VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES;
-  //dynamicRenderingFeatures.dynamicRendering   =   VK_TRUE;
-  //dynamicRenderingFeatures.pNext              =   nullptr;
+
 
 #pragma endregion
 
 #pragma region Checking physical device for required queues
 
-  // After picking physical device we need to check if it supports the queue that we want to use it for
+  // After picking the physical device, we need to check if it supports the queue that we want to use it for
   uint32_t queueFamilyCount = 0;
   vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice,&queueFamilyCount,nullptr);
   std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
@@ -343,8 +362,8 @@ int main(int argc, char* argv[])
   VkDevice device = nullptr;
   float queuePriority = 1.0f;
 
-  //const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME  }; // it's not part of vulkan core so have to enable swap-chain as an extension
-  const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME  }; // it's not part of vulkan core so have to enable swap-chain as an extension
+  //const std::vector<const char*> requiredDeviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME }; // it's not part of vulkan core so have to enable the swap-chain as an extension
+  const std::vector<const char*> requiredDeviceExtensions = {  VK_KHR_SWAPCHAIN_EXTENSION_NAME  }; // it's not part of vulkan core, so have to enable the swap-chain as an extension
 
   VkDeviceQueueCreateInfo queueCreateInfo{};
   queueCreateInfo.sType             =  VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -369,6 +388,7 @@ int main(int argc, char* argv[])
   vkGetDeviceQueue(device,selectedQueueFamily,0,&graphicsQueue);
 
 #pragma endregion
+
 
 #pragma region Query Swapchain support, surface formats and present modes
 
@@ -445,7 +465,7 @@ int main(int argc, char* argv[])
 
 
   // Get swapchain images (2 for double buffering, 3 for triple buffering)
-  // and create image views for them(these are wrappers around images with more info like format,mip-level,depth,image type like 1D,2D,3D)
+  // and create image views for them (these are wrappers around images with more info like format, mip-level,depth,image type like 1D,2D,3D)
 
   uint32_t swapchainImageCount = 0;
   vkGetSwapchainImagesKHR(device,swapChain,&swapchainImageCount,nullptr);
@@ -553,24 +573,33 @@ int main(int argc, char* argv[])
 
 #pragma region Creating Semaphore and Fence
 
+  const uint32_t maxFramesInFlight = swapchainImageCount; // 3 for triple buffering (mailbox) and 2 for double buffering (FIFO)
+
   // Semaphores are for GPU-GPU synchronization
   // Fences are for CPU-GPU or GPU-CPU synchornization | vkWaitForFence can be used on cpu side to wait for gpu to finish rendering | vkResetFences to reset fence
 
-  VkSemaphore imageAvailableSemaphore;  // used to signal that image from swapchain is ready to be rendered to
-  VkSemaphore renderFinishedSemaphore; //  used to signal that rendering has finished and image can be used for presentation
-  VkFence     inFlightFence;          //   used to wait on cpu side for GPU to finish rendering
+  std::vector<VkSemaphore> imageAvailableSemaphore(maxFramesInFlight);   // used to signal that image from swapchain is ready to be rendered to
+  std::vector<VkSemaphore> renderFinishedSemaphore(maxFramesInFlight);  //  used to signal that rendering has finished and image can be used for presentation
+  std::vector<VkFence>  inFlightFence(maxFramesInFlight);              //   used to wait on cpu side for GPU to finish rendering
 
   VkSemaphoreCreateInfo semaphoreCreateInfo{};
   semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-  vkCreateSemaphore(device,&semaphoreCreateInfo,nullptr,&imageAvailableSemaphore);
-  vkCreateSemaphore(device,&semaphoreCreateInfo,nullptr,&renderFinishedSemaphore);
+  for (int i = 0; i < maxFramesInFlight; ++i)
+  {
+    vkCreateSemaphore(device,&semaphoreCreateInfo,nullptr,&imageAvailableSemaphore[i]);
+    vkCreateSemaphore(device,&semaphoreCreateInfo,nullptr,&renderFinishedSemaphore[i]);
+  }
+
 
   VkFenceCreateInfo fenceCreateInfo{};
   fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
   fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-  vkCreateFence(device,&fenceCreateInfo,nullptr,&inFlightFence);
+  for (int i = 0; i < maxFramesInFlight; ++i)
+  {
+    vkCreateFence(device,&fenceCreateInfo,nullptr,&inFlightFence[i]);
+  }
 
 #pragma endregion
 
@@ -749,56 +778,49 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-#pragma region Acquire image from swapchain before rendering
 
-  vkWaitForFences(device,1,&inFlightFence,VK_TRUE,UINT64_MAX);
-  vkResetFences(device,1,&inFlightFence);
-
-  uint32_t imageIndex; // use this rendering attachment info instead of swapchainImageViews[0]
-  vkAcquireNextImageKHR(device,swapChain,UINT64_MAX,imageAvailableSemaphore,nullptr,&imageIndex);
-
-#pragma endregion
 
 #pragma region Record command buffer and draw
 
   //  Create command buffer
-  VkCommandBuffer commandBuffer = nullptr;
-  VkCommandPool commandPool = nullptr;
+  std::vector<VkCommandBuffer> commandBuffer(swapchainImageCount);
+  std::vector<VkCommandPool> commandPool(swapchainImageCount);
 
   VkCommandPoolCreateInfo commandPoolCreateInfo{};
   commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
   commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
   commandPoolCreateInfo.queueFamilyIndex = selectedQueueFamily;
 
-  if (vkCreateCommandPool(device,&commandPoolCreateInfo,nullptr,&commandPool) !=  VK_SUCCESS)
+  for (int i = 0; i < swapchainImageCount; ++i)
   {
-    std::cout << "\nCan't create command pool!";
-    return -1;
+    if (vkCreateCommandPool(device,&commandPoolCreateInfo,nullptr,&commandPool[i]) !=  VK_SUCCESS)
+    {
+      std::cout << "\nCan't create command pool!";
+      return -1;
+    }
   }
 
-  // Allocate command buffer
-  VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
-  commandBufferAllocateInfo.sType                 =    VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-  commandBufferAllocateInfo.commandPool           =    commandPool;
-  commandBufferAllocateInfo.level                 =    VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  commandBufferAllocateInfo.commandBufferCount    =    1;
 
-  if (vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer) != VK_SUCCESS)
+
+
+  for (int i = 0; i < swapchainImageCount; ++i)
   {
-    std::cout << "\nCan't allocate command buffer!";
-    return -1;
+    // Allocate command buffer
+    VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
+    commandBufferAllocateInfo.sType                 =    VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    commandBufferAllocateInfo.commandPool           =    commandPool[i];
+    commandBufferAllocateInfo.level                 =    VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    commandBufferAllocateInfo.commandBufferCount    =    1;
+
+    if (vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer[i]) != VK_SUCCESS)
+    {
+      std::cout << "\nCan't allocate command buffer!";
+      return -1;
+    }
   }
 
-  //  Begin command buffer
-  VkCommandBufferBeginInfo commandBufferBeginInfo{};
-  commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-  if (vkBeginCommandBuffer(commandBuffer,&commandBufferBeginInfo) != VK_SUCCESS)
-  {
-    std::cout << "\nCan't begin the command buffer!";
-    return -1;
-  }
+
 
 
 
@@ -811,86 +833,140 @@ int main(int argc, char* argv[])
   viewport.height = static_cast<float>(swapChainCreateInfo.imageExtent.height);
   viewport.minDepth = 0.0f;
   viewport.maxDepth = 1.0f;
-  vkCmdSetViewport(commandBuffer,0,1,&viewport);
+
 
   // Set dynamic Scissor
   VkRect2D scissor{};
   scissor.offset = {0,0};
   scissor.extent    = swapChainCreateInfo.imageExtent;
-  vkCmdSetScissor(commandBuffer,0,1,&scissor);
+
 
   VkClearValue clearColor = {{ .1f,.2f,.3f,1.0f } };
-  VkRenderPassBeginInfo renderpassBeginInfo{};
-  renderpassBeginInfo.sType                =    VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderpassBeginInfo.framebuffer          =    framebuffers[imageIndex];
-  renderpassBeginInfo.renderPass           =    renderpass;
-  renderpassBeginInfo.clearValueCount      =    1;
-  renderpassBeginInfo.pClearValues         =    &clearColor;
-  renderpassBeginInfo.renderArea.offset =    {0,0};
-  renderpassBeginInfo.renderArea.extent    =    surfaceCapabilities.currentExtent;
-
-  vkCmdBeginRenderPass(commandBuffer,&renderpassBeginInfo,VK_SUBPASS_CONTENTS_INLINE);
 
 
-  // Bind pipeline
-  vkCmdBindPipeline(commandBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
-  // Draw command buffer
-  vkCmdDraw(commandBuffer,3,1,0,0);
-
-  vkCmdEndRenderPass(commandBuffer);
+#pragma endregion
 
 
+#pragma region Creating global VMA allocator
+/*
+  VmaAllocatorCreateInfo allocatorCreateInfo{};
+  allocatorCreateInfo.instance         =   instance;
+  allocatorCreateInfo.device           =   device;
+  allocatorCreateInfo.physicalDevice   =   physicalDevice;
 
+  VmaAllocator allocator;
 
-  if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
+  if (vmaCreateAllocator(&allocatorCreateInfo,&allocator) != VK_SUCCESS)
   {
-    std::cout << "\nCan't record the command buffer!";
+    std::cout << "\nCan't create global VMA allocator!";
+    return -1;
+  }*/
+  //BufferManager bufferManager(device,physicalDevice,instance,selectedQueueFamily,graphicsQueue);
+
+#pragma endregion
+
+#pragma region Creating Staging Buffer
+/*
+  VkBuffer stagingBuffer;
+  VmaAllocation stagingAllocation;
+
+  VkBufferCreateInfo bufferCreateInfo{};
+  bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+  bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+  bufferCreateInfo.size = sizeof(Vertex) * vertices.size();
+
+  VmaAllocationCreateInfo allocationCreateInfo{};
+  allocationCreateInfo.usage = VMA_MEMORY_USAGE_CPU_ONLY;
+
+  if (vmaCreateBuffer(allocator,&bufferCreateInfo,&allocationCreateInfo,&stagingBuffer,&stagingAllocation,nullptr) != VK_SUCCESS)
+  {
+    std::cout << "\nCan't create staging buffer!";
     return -1;
   }
+  */
+  //const size_t vertexBufferSize = sizeof(Vertex) * vertices.size();
+  //Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+
+#pragma endregion
+
+#pragma region copy vertices into staging buffer
+
+  //void* data; // Pointer to reference to the start of the memory
+  //vmaMapMemory(allocator,stagingAllocation,&data); // Write address of start of the buffer into this data pointer
+  //memcpy(data,vertices.data(),bufferCreateInfo.size); // Copy data to that buffer
+  //vmaUnmapMemory(allocator,stagingAllocation); // we are done writing into this buffer, don't use it after as data is invalid now and we need to map it again for use
+
+  //stagingBuffer.CopyData(vertices.data(),sizeof(vertices)); wrong sizeof(vertices) will return size of Vertex object and not data in it so it will give different result than sizeof(Vertex) * vertices.size()
+
+  //stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
+
+
+#pragma endregion
+
+#pragma region Creating buffer on gpu
+/*
+  VkBuffer vertexBuffer;
+  VmaAllocation vertexAllocation;
+
+  bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+  allocationCreateInfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
+
+  vmaCreateBuffer(allocator,&bufferCreateInfo,&allocationCreateInfo,&vertexBuffer,&vertexAllocation,nullptr);*/
+  //float a = stagingBuffer.bufferCreateInfo.size;
+
+  //Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+
+
+#pragma endregion
+
+#pragma region copy data from staging buffer to gpu buffer
+/*
+  VkCommandPool tempCommandPool = nullptr;
+
+  VkCommandPoolCreateInfo tempCommandPoolCreateInfo{};
+
+  tempCommandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+  tempCommandPoolCreateInfo.queueFamilyIndex = selectedQueueFamily;
+  tempCommandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT; // This command pool is for one time command buffer
+
+  vkCreateCommandPool(device,&tempCommandPoolCreateInfo,nullptr,&tempCommandPool);
+
+
+  VkCommandBuffer cmd =  BeginOneTimeCommandBuffer(device,tempCommandPool);
+
+  VkBufferCopy bufferCopyRegion{};
+  bufferCopyRegion.size = bufferCreateInfo.size;
+  vkCmdCopyBuffer(cmd,stagingBuffer,vertexBuffer,1,&bufferCopyRegion);
+  EndOneTimeCommandBuffer(cmd,graphicsQueue,device,tempCommandPool);
+
+  vmaDestroyBuffer(allocator,stagingBuffer,stagingAllocation);
+
+*/
+  //bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
 
 #pragma endregion
 
 
-#pragma region Submit command buffer and graphics queue
-
-  VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-
-  VkSubmitInfo submitInfo{};
-
-  submitInfo.sType                  =    VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  submitInfo.waitSemaphoreCount     =    1;
-  submitInfo.pWaitSemaphores        =    &imageAvailableSemaphore;
-  submitInfo.commandBufferCount     =    1;
-  submitInfo.pCommandBuffers        =    &commandBuffer;
-  submitInfo.pWaitDstStageMask      =    waitStages;
-  submitInfo.signalSemaphoreCount   =    1;
-  submitInfo.pSignalSemaphores      =    &renderFinishedSemaphore;
-
-  vkQueueSubmit(graphicsQueue,1,&submitInfo,inFlightFence);
-
-#pragma endregion
-
-#pragma region Present Image
-
-  VkPresentInfoKHR presentInfo{};
-  presentInfo.sType                 =     VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-  presentInfo.waitSemaphoreCount    =     1;
-  presentInfo.pWaitSemaphores       =     &renderFinishedSemaphore;
-  presentInfo.swapchainCount        =     1;
-  presentInfo.pSwapchains           =     &swapChain;
-  presentInfo.pImageIndices         =     &imageIndex;
-
-  vkQueuePresentKHR(graphicsQueue,&presentInfo);
-
-#pragma endregion
 
 #pragma region main loop
 
   bool closeWindow = false;
+  GameTime time;
+  uint8_t currentFrame = 0; // size [ 1 byte ] range [ 0 - 255 ]
+
+
+
+  //BufferManager bufferManager(device,physicalDevice,instance,selectedQueueFamily,graphicsQueue);
+  //const size_t vertexBufferSize = sizeof(Vertex) * vertices.size();
+  //Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+  //stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
+  //Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+  //bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
+
 
   while(!closeWindow)
   {
-
+    time.Update();
     SDL_Event e;
     while (SDL_PollEvent(&e))
     {
@@ -898,34 +974,148 @@ int main(int argc, char* argv[])
         closeWindow = true;
     }
 
+#pragma region Acquire image from swapchain before rendering
+
+    vkWaitForFences(device,1,&inFlightFence[currentFrame],VK_TRUE,UINT64_MAX);
+    vkResetFences(device,1,&inFlightFence[currentFrame]);
+
+    uint32_t imageIndex; // use this rendering attachment info instead of swapchainImageViews[0]
+    vkAcquireNextImageKHR(device,swapChain,UINT64_MAX,imageAvailableSemaphore[currentFrame],nullptr,&imageIndex);
+
+#pragma endregion
+
+#pragma region Submit command buffer and graphics queue
+
+    VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+
+    VkSubmitInfo submitInfo{};
+
+    submitInfo.sType                  =    VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.waitSemaphoreCount     =    1;
+    submitInfo.pWaitSemaphores        =    &imageAvailableSemaphore[currentFrame];
+    submitInfo.commandBufferCount     =    1;
+    submitInfo.pCommandBuffers        =    &commandBuffer[currentFrame];
+    submitInfo.pWaitDstStageMask      =    waitStages;
+    submitInfo.signalSemaphoreCount   =    1;
+    submitInfo.pSignalSemaphores      =    &renderFinishedSemaphore[currentFrame];
+
+
+    // Reset command buffer
+    vkResetCommandBuffer(commandBuffer[currentFrame],0);
+
+    //  Begin command buffer
+    VkCommandBufferBeginInfo commandBufferBeginInfo{};
+    commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+    if (vkBeginCommandBuffer(commandBuffer[currentFrame],&commandBufferBeginInfo) != VK_SUCCESS)
+    {
+      std::cout << "\nCan't begin the command buffer!";
+      return -1;
+    }
+
+    vkCmdSetViewport(commandBuffer[currentFrame],0,1,&viewport);
+    vkCmdSetScissor(commandBuffer[currentFrame],0,1,&scissor);
+
+    VkRenderPassBeginInfo renderpassBeginInfo{};
+    renderpassBeginInfo.sType                =    VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    renderpassBeginInfo.framebuffer          =    framebuffers[imageIndex];
+    renderpassBeginInfo.renderPass           =    renderpass;
+    renderpassBeginInfo.clearValueCount      =    1;
+    renderpassBeginInfo.pClearValues         =    &clearColor;
+    renderpassBeginInfo.renderArea.offset    =    {0,0};
+    renderpassBeginInfo.renderArea.extent    =    surfaceCapabilities.currentExtent;
+
+    vkCmdBeginRenderPass(commandBuffer[currentFrame],&renderpassBeginInfo,VK_SUBPASS_CONTENTS_INLINE);
+
+
+    // Bind pipeline
+    vkCmdBindPipeline(commandBuffer[currentFrame],VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
+    VkDeviceSize offset = 0;
+    //vkCmdBindVertexBuffers(commandBuffer[currentFrame],0,1,&vertexBuffer.buffer,&offset);
+
+    // Draw command buffer
+    //vkCmdDraw(commandBuffer[currentFrame],3,1,0,0);
+    vkCmdDraw(commandBuffer[currentFrame],vertices.size(),1,0,0);
+
+    vkCmdEndRenderPass(commandBuffer[currentFrame]);
+
+
+
+
+    if (vkEndCommandBuffer(commandBuffer[currentFrame]) != VK_SUCCESS)
+    {
+      std::cout << "\nCan't record the command buffer!";
+      return -1;
+    }
+
+
+#pragma endregion
+
+#pragma region submit graphics queue
+
+    vkQueueSubmit(graphicsQueue,1,&submitInfo,inFlightFence[currentFrame]);
+#pragma endregion
+
+#pragma region Present Image
+
+    VkPresentInfoKHR presentInfo{};
+    presentInfo.sType                 =     VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+    presentInfo.waitSemaphoreCount    =     1;
+    presentInfo.pWaitSemaphores       =     &renderFinishedSemaphore[currentFrame];
+    presentInfo.swapchainCount        =     1;
+    presentInfo.pSwapchains           =     &swapChain;
+    presentInfo.pImageIndices         =     &imageIndex;
+
+    vkQueuePresentKHR(graphicsQueue,&presentInfo);
+
+#pragma endregion
+
+  currentFrame = (currentFrame + 1) % maxFramesInFlight;
+
+    //std::cout << "\nFPS " << 1 / time.deltaTime << "  Delta Time " <<  time.deltaTime * 1000 << std::flush;
+
   }
+
+
   std::cout << "\n" << "Welcome to Ajax Town!" << std::endl;
 
-  #pragma endregion
-
+#pragma endregion
 
 #pragma region clean-up
 
   // Clean-up
 #ifndef NDEBUG
+
   if (enableValidationLayers)
     DestroyDebugUtilsMessengerEXT(instance,debugMessenger,nullptr);
+
 #endif
 
   vkDeviceWaitIdle(device);
+  //vmaDestroyBuffer(allocator,vertexBuffer,vertexAllocation);
+  //vmaDestroyAllocator(allocator);
   for (auto framebuffer : framebuffers)
   {
     vkDestroyFramebuffer(device,framebuffer,nullptr);
   }
   vkDestroyRenderPass(device,renderpass,nullptr);
-  vkDestroyCommandPool(device,commandPool,nullptr);
+  for (int i = 0; i < swapchainImageCount; ++i)
+  {
+    vkDestroyCommandPool(device,commandPool[i],nullptr);
+  }
+
   vkDestroyPipeline(device,graphicsPipeline,nullptr);
   vkDestroyPipelineLayout(device,pipelineLayout,nullptr);
   vkDestroyShaderModule(device,vertexShaderModule,nullptr);
   vkDestroyShaderModule(device,fragmentShaderModule,nullptr);
-  vkDestroySemaphore(device,renderFinishedSemaphore,nullptr);
-  vkDestroySemaphore(device,imageAvailableSemaphore,nullptr);
-  vkDestroyFence(device,inFlightFence,nullptr);
+  for (int i = 0; i < maxFramesInFlight; ++i)
+  {
+    vkDestroySemaphore(device,renderFinishedSemaphore[i],nullptr);
+    vkDestroySemaphore(device,imageAvailableSemaphore[i],nullptr);
+    vkDestroyFence(device,inFlightFence[i],nullptr);
+  }
+
 
   for (auto swapchainImageView : swapchainImageViews)
   {
@@ -937,8 +1127,8 @@ int main(int argc, char* argv[])
 
   vkDestroyInstance(instance,nullptr); // Destroy all childrens of instance before destroying the instance
 
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+  //SDL_DestroyWindow(window);
+  //SDL_Quit();
 
 
   return 0;
