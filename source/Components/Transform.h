@@ -1,6 +1,5 @@
 #pragma once
-#include "../../../../AppData/Local/Android/Sdk/ndk/29.0.13113456/sources/android/cpufeatures/Maths.h"
-#include <cstdint>
+#include "Maths.h"
 
 struct Transform
 {

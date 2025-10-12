@@ -1,10 +1,7 @@
 #include "Buffer.h"
 #include "string"
 
-Buffer::Buffer(const VmaAllocator &allocator, const float &size,
-               const VkBufferUsageFlags &usage,
-               const VmaMemoryUsage &memoryUsageType)
-    : allocator(allocator)
+Buffer::Buffer(VkDevice device, const VmaAllocator &allocator, const uint64_t &size, const VkBufferUsageFlags &usage, const VmaMemoryUsage &memoryUsageType) : allocator(allocator),device(device)
 {
 
   buffer = nullptr;
@@ -15,8 +12,7 @@ Buffer::Buffer(const VmaAllocator &allocator, const float &size,
 
   allocationCreateInfo.usage = memoryUsageType;
 
-  if (vmaCreateBuffer(this->allocator, &bufferCreateInfo, &allocationCreateInfo,
-                      &buffer, &allocation, nullptr) != VK_SUCCESS)
+  if (vmaCreateBuffer(this->allocator, &bufferCreateInfo, &allocationCreateInfo, &buffer, &allocation, nullptr) != VK_SUCCESS)
   {
     throw std::runtime_error("\nCan't create VMA buffer!");
   }
@@ -32,7 +28,7 @@ void Buffer::CopyData(const void *dataSource, const size_t size)
 
 Buffer::~Buffer()
 {
-
+  vkDeviceWaitIdle(device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
   vmaDestroyBuffer(allocator,buffer,allocation);
-
 }
+

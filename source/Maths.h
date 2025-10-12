@@ -131,6 +131,70 @@ struct Vector3
 
 };
 
+//-----------------------------------------------------------------------  Vector 4
+
+struct Vector4
+{
+	float x, y,z,w;
+	Vector4()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 0;
+	}
+
+	Vector4(float value)
+	{
+		x = value;
+		y = value;
+		z = value;
+		w = value;
+	}
+
+	Vector4(float a, float b,float c, float d)
+	{
+		x = a;
+		y = b;
+		z = c;
+		w = d;
+	}
+};
+
+
+//-----------------------------------------------------------------------  uint 4
+
+struct uint4
+{
+	unsigned int x, y,z,w;
+
+	uint4()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 0;
+	}
+
+	uint4(unsigned int value)
+	{
+		x = value;
+		y = value;
+		z = value;
+		w = value;
+	}
+
+	uint4(unsigned int a, unsigned int b,unsigned int c, unsigned int d)
+	{
+		x = a;
+		y = b;
+		z = c;
+		w = d;
+	}
+};
+
+
+
 //-----------------------------------------------------------------------  Vector 2
 
 

@@ -1,6 +1,6 @@
 #include "Headers.h"
 
-
+// abstracted in  context
 #pragma region Debugging callback
 
 #ifndef NDEBUG  // ndef means NDEBUG(No Debug) is not defined so it is a debug mode
@@ -47,6 +47,7 @@
 
 #pragma endregion
 
+// abstracted in shader class
 #pragma region Shader helper functions
 
 enum class ShaderType : uint8_t
@@ -54,7 +55,6 @@ enum class ShaderType : uint8_t
     vert,
     frag,
     comp
-
 };
 
 std::vector<char> ReadShader(const std::string& shaderName, const ShaderType shaderType)
@@ -110,6 +110,9 @@ VkShaderModule CreateShaderModule(const VkDevice& device,const std::vector<char>
 
 #pragma endregion
 
+// abstracted in buffer manager
+#pragma region Buffer helper functions
+
 VkCommandBuffer BeginOneTimeCommandBuffer(VkDevice device, VkCommandPool commandPool)
 {
   VkCommandBuffer commandBuffer = nullptr;
@@ -147,10 +150,14 @@ void EndOneTimeCommandBuffer( VkCommandBuffer commandBuffer, VkQueue queue, VkDe
   vkFreeCommandBuffers(device,commandPool,1,&commandBuffer);
 }
 
+#pragma endregion
+
+
 int main(int argc, char* argv[])
 {
-
-  std::vector<Vertex> vertices =
+  std::vector<Vertex_Standard> vertices;
+/*
+  =
   {
 
      {  { 0.0,-0.5 },{ 1.0,0.0,0.0 } },
@@ -160,7 +167,9 @@ int main(int argc, char* argv[])
      {  { 0.0,-0.5 },{ 0.0,0.0,1.0 } }
 
   };
+*/
 
+  // abstracted in  context
 #pragma region Platform-Architecture specific setup
 
 #ifdef NDEBUG
@@ -177,27 +186,28 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-
+  // abstracted in window
 #pragma region SDL window creation with vulkan support
   //---------------------------------------------------------------------------- Step I : Create a window with sdl3, which supports vulkan
   Window window("Ajax Town",640,480);
 
 #pragma endregion
 
+  // abstracted in  context
 #pragma region Vulkan Instance Creation
   //---------------------------------------------------------------------------- Step II : Create a Vulkan instance
 
 
   //---------------------------------------------------------------------------- Describe your app info
 
-  VkApplicationInfo appInfo = {};
-  appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-  appInfo.pNext = nullptr;
-  appInfo.pApplicationName = "Ajax Town";
-  appInfo.applicationVersion = 1.0;
-  appInfo.pEngineName = "Ajax";
-  appInfo.engineVersion = 1.0;
-  appInfo.apiVersion = VK_API_VERSION_1_1;  // Vulkan version 1.1 supports most of the android
+  VkApplicationInfo appInfo{};
+
+  appInfo.sType                =   VK_STRUCTURE_TYPE_APPLICATION_INFO;
+  appInfo.pApplicationName     =   "Ajax Town";
+  appInfo.applicationVersion   =   1.0;
+  appInfo.pEngineName          =   "Ajax";
+  appInfo.engineVersion        =   1.0;
+  appInfo.apiVersion           =   VK_MAKE_API_VERSION(0,1,1,0);  // Vulkan version 1.1 supports most of the android (variant,major,minor,patch)
 
   //---------------------------------------------------------------------------- Get all available extensions
 
@@ -266,6 +276,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // abstracted in  context
 #pragma region Vulkan Surface Creation
 
   VkSurfaceKHR vkSurface;
@@ -277,7 +288,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-
+  // abstracted in  context
 #pragma region Selecting Physical Device
 
   //---------------------------------------------------------------------------- Step III : Get physical devices
@@ -326,6 +337,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // abstracted in  context
 #pragma region Checking physical device for required queues
 
   // After picking the physical device, we need to check if it supports the queue that we want to use it for
@@ -355,6 +367,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // abstracted in  context
 #pragma region Creating logical device and required queues
 
   // After selecting the physical device and getting graphics queue we can create a logical device
@@ -389,7 +402,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-
+  // abstracted in  context
 #pragma region Query Swapchain support, surface formats and present modes
 
 
@@ -435,6 +448,7 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
+  // abstracted in  swapchain
 #pragma region Creating swapchain and swapchain images with imageviews for each swapchain image
 
   VkSwapchainCreateInfoKHR swapChainCreateInfo{};
@@ -503,7 +517,9 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // abstracted in  renderpass
 #pragma region Creating Render pass
+
 
   VkAttachmentDescription colorAttachment{};
   colorAttachment.format          =  surfaceFormat.format;
@@ -524,12 +540,15 @@ int main(int argc, char* argv[])
   subpass.colorAttachmentCount  =   1;
   subpass.pColorAttachments     =   &colorAttachmentRef;
 
+
   VkRenderPassCreateInfo renderpassCreateInfo{};
   renderpassCreateInfo.sType              =     VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
   renderpassCreateInfo.attachmentCount    =     1;
   renderpassCreateInfo.pAttachments       =     &colorAttachment;
   renderpassCreateInfo.subpassCount       =     1;
   renderpassCreateInfo.pSubpasses         =     &subpass;
+
+
 
   VkRenderPass renderpass = nullptr;
 
@@ -541,20 +560,23 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // abstracted in  frame buffer
 #pragma region Creating framebuffer for each swapchain image view
 
+  //ImageManager imageManager(context);
+  //Framebuffer framebuffer(context,swapChain,imageManager,renderpass);
   std::vector<VkFramebuffer> framebuffers;
 
-  for (auto & swapchainImageView : swapchainImageViews)
+  for (auto& swapchainImageView : swapchainImageViews)
   {
-    VkImageView attachments[] = { swapchainImageView };
+    std::vector<VkImageView> attachments = { swapchainImageView };
 
     VkFramebufferCreateInfo framebufferCreateInfo{};
 
     framebufferCreateInfo.sType             =     VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
     framebufferCreateInfo.renderPass        =     renderpass;
-    framebufferCreateInfo.attachmentCount   =     1;
-    framebufferCreateInfo.pAttachments      =     attachments;
+    framebufferCreateInfo.attachmentCount   =     attachments.size();
+    framebufferCreateInfo.pAttachments      =     attachments.data();
     framebufferCreateInfo.layers            =     1;
     framebufferCreateInfo.width             =     surfaceCapabilities.currentExtent.width;
     framebufferCreateInfo.height            =     surfaceCapabilities.currentExtent.height;
@@ -565,22 +587,34 @@ int main(int argc, char* argv[])
         std::cout << "\nCan't create framebuffer!";
         return -1;
     }
+
     framebuffers.push_back(framebuffer);
 
   }
-
 #pragma endregion
 
+// abstracted
 #pragma region Creating Semaphore and Fence
 
   const uint32_t maxFramesInFlight = swapchainImageCount; // 3 for triple buffering (mailbox) and 2 for double buffering (FIFO)
+
+  //---------------------------------------------------------------------  abstracted version
+
+  //FrameSyncManager frameSyncManager(maxFramesInFlight);
+  //auto& currentFrameSync = frameSyncManager.GetCurrentFrameSync();
+  //currentFrameSync.frameFence.WaitAndReset();
+  //currentFrameSync.imageAvailableSemaphore.GetHandle();
+  //currentFrameSync.renderFinishedSemaphore.GetHandle();
+  //frameSyncManager.NextFrame(); Use it in while loop to advance the frame
+
+  // ------------------------------------------------------------------------------------
 
   // Semaphores are for GPU-GPU synchronization
   // Fences are for CPU-GPU or GPU-CPU synchornization | vkWaitForFence can be used on cpu side to wait for gpu to finish rendering | vkResetFences to reset fence
 
   std::vector<VkSemaphore> imageAvailableSemaphore(maxFramesInFlight);   // used to signal that image from swapchain is ready to be rendered to
   std::vector<VkSemaphore> renderFinishedSemaphore(maxFramesInFlight);  //  used to signal that rendering has finished and image can be used for presentation
-  std::vector<VkFence>  inFlightFence(maxFramesInFlight);              //   used to wait on cpu side for GPU to finish rendering
+  std::vector<VkFence>     inFlightFence(maxFramesInFlight);           //   used to wait on cpu side for GPU to finish rendering
 
   VkSemaphoreCreateInfo semaphoreCreateInfo{};
   semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -603,6 +637,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // can be abstracted using shader class
 #pragma region Creating shader modules
 
   auto vertexShaderCode   =  ReadShader("Triangle",ShaderType::vert);
@@ -610,10 +645,16 @@ int main(int argc, char* argv[])
 
   VkShaderModule vertexShaderModule   = CreateShaderModule(device,vertexShaderCode);
   VkShaderModule fragmentShaderModule = CreateShaderModule(device,fragmentShaderCode);
+  //Shader triangleShader("Triangle",context);
 
 #pragma endregion
 
-#pragma region Creating graphics pipeline layout
+
+  // abstracted in  Graphics Pipeline
+#pragma region Creating graphics pipeline in 8 steps
+
+  // needs to implement reflection but abstraction is kind of done
+  #pragma region Creating graphics pipeline layout
 
   VkPipelineLayout pipelineLayout;
 
@@ -630,23 +671,100 @@ int main(int argc, char* argv[])
     return -1;
   }
 
-#pragma endregion
+  #pragma endregion
 
+  // done
+  #pragma region Shader stage setup
 
+  std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 
-#pragma region Creating graphics pipeline in 8 steps
+  VkPipelineShaderStageCreateInfo vertexStage{};
+  vertexStage.sType    =   VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+  vertexStage.stage    =   VK_SHADER_STAGE_VERTEX_BIT;
+  vertexStage.module   =   vertexShaderModule;
+  vertexStage.pName    =   "main";
 
-  #pragma region Vertex Input State
+  shaderStages.push_back(vertexStage);
 
-  VkPipelineVertexInputStateCreateInfo vertexInputStateInfo{};
-  vertexInputStateInfo.sType                             =   VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertexInputStateInfo.vertexAttributeDescriptionCount   =   0; // No vertex attributes
-  vertexInputStateInfo.pVertexAttributeDescriptions      =   nullptr;
-  vertexInputStateInfo.vertexBindingDescriptionCount     =   0; // No vertex buffer objects
-  vertexInputStateInfo.pVertexBindingDescriptions        =   nullptr;
+  VkPipelineShaderStageCreateInfo fragmentStage{};
+  fragmentStage.sType    =   VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+  fragmentStage.stage    =   VK_SHADER_STAGE_FRAGMENT_BIT;
+  fragmentStage.module   =   fragmentShaderModule;
+  fragmentStage.pName    =   "main";
+
+  shaderStages.push_back(fragmentStage);
 
   #pragma endregion
 
+  // done
+  #pragma region Vertex Input State
+
+  VkVertexInputBindingDescription bindingDescription{};
+  bindingDescription.binding   = 0;
+  bindingDescription.stride    = sizeof(Vertex_Standard);
+  bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+  std::vector<VkVertexInputAttributeDescription> attributeDescritions;
+
+  VkVertexInputAttributeDescription positionAttribute
+  {
+      .binding  = 0,
+      .location = 0,
+      .format   = VK_FORMAT_R32G32B32_SFLOAT,
+      .offset   = offsetof(Vertex_Standard,position)
+  };
+  attributeDescritions.push_back(positionAttribute);
+
+  VkVertexInputAttributeDescription normalAttribute
+  {
+    .binding  = 0,
+    .location = 1,
+    .format   = VK_FORMAT_R32G32B32_SFLOAT,
+    .offset   = offsetof(Vertex_Standard,normal)
+  };
+  attributeDescritions.push_back(normalAttribute);
+
+  VkVertexInputAttributeDescription uvAttribute
+  {
+    .binding  = 0,
+    .location = 2,
+    .format   = VK_FORMAT_R32G32_SFLOAT,
+    .offset   = offsetof(Vertex_Standard,uv)
+  };
+  attributeDescritions.push_back(uvAttribute);
+
+  VkVertexInputAttributeDescription tangentAttribute
+  {
+    .binding  = 0,
+    .location = 3,
+    .format   = VK_FORMAT_R32G32B32_SFLOAT,
+    .offset   = offsetof(Vertex_Standard,tangent)
+  };
+  attributeDescritions.push_back(tangentAttribute);
+
+  /*
+
+  VkVertexInputAttributeDescription bitangentAttribute
+   {
+     .binding  = 0,
+     .location = 4,
+     .format   = VK_FORMAT_R32G32B32_SFLOAT,
+     .offset   = offsetof(Vertex_Standard,bitangent)
+   };
+  attributeDescritions.push_back(bitangentAttribute);
+
+  */
+
+  VkPipelineVertexInputStateCreateInfo vertexInputStateInfo{};
+  vertexInputStateInfo.sType                             =   VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+  vertexInputStateInfo.vertexBindingDescriptionCount     =   1; // No vertex binding
+  vertexInputStateInfo.pVertexBindingDescriptions        =   &bindingDescription;
+  vertexInputStateInfo.vertexAttributeDescriptionCount   =   attributeDescritions.size(); // No vertex attributes
+  vertexInputStateInfo.pVertexAttributeDescriptions      =   attributeDescritions.data();
+
+  #pragma endregion
+
+  // done
   #pragma region Input Assembly
 
   VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo{};
@@ -656,6 +774,7 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
+  // done
   #pragma region Viewport and Scissor
 
   VkPipelineViewportStateCreateInfo viewportInfo{};
@@ -667,20 +786,38 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
+  // done
+  #pragma region Dynamic States
+
+  std::vector<VkDynamicState> dynamicStates =
+  {
+    VK_DYNAMIC_STATE_VIEWPORT,
+    VK_DYNAMIC_STATE_SCISSOR
+  };
+
+  VkPipelineDynamicStateCreateInfo dynamicStateInfo{};
+  dynamicStateInfo.sType              =   VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+  dynamicStateInfo.dynamicStateCount  =   dynamicStates.size();
+  dynamicStateInfo.pDynamicStates     =   dynamicStates.data();
+
+#pragma endregion
+
+  // done
   #pragma region Rasterizer
 
   VkPipelineRasterizationStateCreateInfo rasterizerInfo{};
   rasterizerInfo.sType                      =     VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-  rasterizerInfo.cullMode                   =     VK_CULL_MODE_BACK_BIT;
-  rasterizerInfo.depthClampEnable           =     VK_FALSE;
-  rasterizerInfo.depthBiasEnable            =     VK_FALSE;
-  rasterizerInfo.rasterizerDiscardEnable    =     VK_FALSE;
-  rasterizerInfo.polygonMode                =     VK_POLYGON_MODE_FILL;
+  rasterizerInfo.cullMode                   =     VK_CULL_MODE_BACK_BIT;    // cull back faces, none for grass or double sided materials
+  rasterizerInfo.depthClampEnable           =     VK_FALSE;                // mostly used for shadow stage
+  rasterizerInfo.depthBiasEnable            =     VK_FALSE;               // mostly used for shadow maps or decals to avoid z fighting
+  rasterizerInfo.rasterizerDiscardEnable    =     VK_FALSE;              // for compute stage we can completely discard rasterization
+  rasterizerInfo.polygonMode                =     VK_POLYGON_MODE_FILL; // use line mode for wireframe debugging
   rasterizerInfo.lineWidth                  =     1.0f;
   rasterizerInfo.frontFace                  =     VK_FRONT_FACE_CLOCKWISE;
 
   #pragma endregion
 
+  // done kine of
   #pragma region Multi-sampling
 
   // Not using multi-sampling, implementing MSAA,FXAA,SMAA,TAA in shaders makes more sense
@@ -691,57 +828,25 @@ int main(int argc, char* argv[])
 
   #pragma endregion
 
-  #pragma region Color attachment
+  // done
+  #pragma region Color blend
 
   VkPipelineColorBlendAttachmentState colorAttachmentInfo{};
-  colorAttachmentInfo.colorWriteMask = VK_COLOR_COMPONENT_R_BIT |
-                                       VK_COLOR_COMPONENT_G_BIT |
-                                       VK_COLOR_COMPONENT_B_BIT |
-                                       VK_COLOR_COMPONENT_A_BIT;
-  colorAttachmentInfo.blendEnable = VK_FALSE;
+  colorAttachmentInfo.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+  colorAttachmentInfo.blendEnable    = VK_FALSE;
 
   VkPipelineColorBlendStateCreateInfo colorStateInfo{};
   colorStateInfo.sType             =   VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
   colorStateInfo.logicOpEnable     =   VK_FALSE;
-  colorStateInfo.attachmentCount   =   1;
+  colorStateInfo.attachmentCount   =   1; // hardcoding number is not a good practice [improved in abstraction]
   colorStateInfo.pAttachments      =   &colorAttachmentInfo;
 
 
   #pragma endregion
 
-  #pragma region Dynamic States
-
-  std::vector<VkDynamicState> dynamicStates =
-    {
-      VK_DYNAMIC_STATE_VIEWPORT,
-      VK_DYNAMIC_STATE_SCISSOR
-    };
-
-  VkPipelineDynamicStateCreateInfo dynamicStateInfo{};
-  dynamicStateInfo.sType              =   VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-  dynamicStateInfo.dynamicStateCount  =   dynamicStates.size();
-  dynamicStateInfo.pDynamicStates     =   dynamicStates.data();
-
-  #pragma endregion
 
 
-  #pragma region Shader stage setup
 
-  VkPipelineShaderStageCreateInfo vertexStage{};
-  vertexStage.sType    =   VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  vertexStage.stage    =   VK_SHADER_STAGE_VERTEX_BIT;
-  vertexStage.module   =   vertexShaderModule;
-  vertexStage.pName    =   "main";
-
-  VkPipelineShaderStageCreateInfo fragmentStage{};
-  fragmentStage.sType    =   VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  fragmentStage.stage    =   VK_SHADER_STAGE_FRAGMENT_BIT;
-  fragmentStage.module   =   fragmentShaderModule;
-  fragmentStage.pName    =   "main";
-
-  VkPipelineShaderStageCreateInfo shaderStages[] = { vertexStage,fragmentStage };
-
-  #pragma endregion
 
 
 
@@ -749,8 +854,8 @@ int main(int argc, char* argv[])
 
   VkGraphicsPipelineCreateInfo graphicsPipelineInfo{};
   graphicsPipelineInfo.sType                =   VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  graphicsPipelineInfo.stageCount           =   2;
-  graphicsPipelineInfo.pStages              =   shaderStages;
+  graphicsPipelineInfo.stageCount           =   shaderStages.size();
+  graphicsPipelineInfo.pStages              =   shaderStages.data();
   graphicsPipelineInfo.pVertexInputState    =   &vertexInputStateInfo;
   graphicsPipelineInfo.pInputAssemblyState  =   &inputAssemblyInfo;
   graphicsPipelineInfo.pViewportState       =   &viewportInfo;
@@ -778,52 +883,8 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-
-
-#pragma region Record command buffer and draw
-
-  //  Create command buffer
-  std::vector<VkCommandBuffer> commandBuffer(swapchainImageCount);
-  std::vector<VkCommandPool> commandPool(swapchainImageCount);
-
-  VkCommandPoolCreateInfo commandPoolCreateInfo{};
-  commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-  commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-  commandPoolCreateInfo.queueFamilyIndex = selectedQueueFamily;
-
-  for (int i = 0; i < swapchainImageCount; ++i)
-  {
-    if (vkCreateCommandPool(device,&commandPoolCreateInfo,nullptr,&commandPool[i]) !=  VK_SUCCESS)
-    {
-      std::cout << "\nCan't create command pool!";
-      return -1;
-    }
-  }
-
-
-
-
-  for (int i = 0; i < swapchainImageCount; ++i)
-  {
-    // Allocate command buffer
-    VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
-    commandBufferAllocateInfo.sType                 =    VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-    commandBufferAllocateInfo.commandPool           =    commandPool[i];
-    commandBufferAllocateInfo.level                 =    VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    commandBufferAllocateInfo.commandBufferCount    =    1;
-
-    if (vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer[i]) != VK_SUCCESS)
-    {
-      std::cout << "\nCan't allocate command buffer!";
-      return -1;
-    }
-  }
-
-
-
-
-
-
+// abstracted in command buffer
+#pragma region Dynamic viewport and scissor
 
   // Set dynamic viewport
   VkViewport viewport{};
@@ -837,16 +898,67 @@ int main(int argc, char* argv[])
 
   // Set dynamic Scissor
   VkRect2D scissor{};
-  scissor.offset = {0,0};
-  scissor.extent    = swapChainCreateInfo.imageExtent;
+  scissor.offset    =   {0,0};
+  scissor.extent    =   swapChainCreateInfo.imageExtent;
 
+#pragma endregion
+
+// abstracted in command buffer and command pool
+#pragma region Allocating command Buffer from command pool
+
+  //  Create command buffer
+  std::vector<VkCommandBuffer> commandBuffer(swapchainImageCount);
+  //std::vector<VkCommandPool> commandPool(swapchainImageCount);
+  VkCommandPool commandPool;
+
+  VkCommandPoolCreateInfo commandPoolCreateInfo{};
+  commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+  commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+  commandPoolCreateInfo.queueFamilyIndex = selectedQueueFamily;
+
+  // Only one command pool is created per queue family
+
+  /*
+  for (int i = 0; i < swapchainImageCount; ++i)
+  {
+    if (vkCreateCommandPool(device,&commandPoolCreateInfo,nullptr,&commandPool[i]) !=  VK_SUCCESS)
+    {
+      std::cout << "\nCan't create command pool!";
+      return -1;
+    }
+  }
+*/
+
+  if (vkCreateCommandPool(device,&commandPoolCreateInfo,nullptr,&commandPool) !=  VK_SUCCESS)
+  {
+    std::cout << "\nCan't create command pool!";
+    return -1;
+  }
+
+
+  for (int i = 0; i < swapchainImageCount; ++i)
+  {
+    // Allocate command buffer
+    VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
+    commandBufferAllocateInfo.sType                 =    VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    //commandBufferAllocateInfo.commandPool         =    commandPool[i];
+    commandBufferAllocateInfo.commandPool           =    commandPool;
+    commandBufferAllocateInfo.level                 =    VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    commandBufferAllocateInfo.commandBufferCount    =    1;
+
+    if (vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer[i]) != VK_SUCCESS)
+    {
+      std::cout << "\nCan't allocate command buffer!";
+      return -1;
+    }
+  }
 
   VkClearValue clearColor = {{ .1f,.2f,.3f,1.0f } };
 
 
 #pragma endregion
 
-
+  // can be abstracted using buffer manager
 #pragma region Creating global VMA allocator
 /*
   VmaAllocatorCreateInfo allocatorCreateInfo{};
@@ -865,6 +977,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // can be abstracted using buffer
 #pragma region Creating Staging Buffer
 /*
   VkBuffer stagingBuffer;
@@ -889,6 +1002,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // can be abstracted using buffer
 #pragma region copy vertices into staging buffer
 
   //void* data; // Pointer to reference to the start of the memory
@@ -903,6 +1017,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // can be abstracted using buffer
 #pragma region Creating buffer on gpu
 /*
   VkBuffer vertexBuffer;
@@ -919,6 +1034,7 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
+  // can be abstracted using buffer manager
 #pragma region copy data from staging buffer to gpu buffer
 /*
   VkCommandPool tempCommandPool = nullptr;
@@ -946,142 +1062,142 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-
-
+// _____________________________________________________________________ to be done
 #pragma region main loop
 
   bool closeWindow = false;
   GameTime time;
   uint8_t currentFrame = 0; // size [ 1 byte ] range [ 0 - 255 ]
 
-
-
-  //BufferManager bufferManager(device,physicalDevice,instance,selectedQueueFamily,graphicsQueue);
-  //const size_t vertexBufferSize = sizeof(Vertex) * vertices.size();
-  //Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
-  //stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
-  //Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
-  //bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
-
-
-  while(!closeWindow)
   {
-    time.Update();
-    SDL_Event e;
-    while (SDL_PollEvent(&e))
+    BufferManager bufferManager(device,physicalDevice,instance,selectedQueueFamily,graphicsQueue);
+    const size_t vertexBufferSize = sizeof(Vertex_Standard) * vertices.size();
+    Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
+    Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+    bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
+
+
+    while(!closeWindow)
     {
-      if (e.type == SDL_EVENT_QUIT)
-        closeWindow = true;
-    }
+      time.Update();
+      SDL_Event e;
+      while (SDL_PollEvent(&e))
+      {
+        if (e.type == SDL_EVENT_QUIT)
+          closeWindow = true;
+      }
 
 #pragma region Acquire image from swapchain before rendering
 
-    vkWaitForFences(device,1,&inFlightFence[currentFrame],VK_TRUE,UINT64_MAX);
-    vkResetFences(device,1,&inFlightFence[currentFrame]);
+      vkWaitForFences(device,1,&inFlightFence[currentFrame],VK_TRUE,UINT64_MAX);
+      vkResetFences(device,1,&inFlightFence[currentFrame]);
 
-    uint32_t imageIndex; // use this rendering attachment info instead of swapchainImageViews[0]
-    vkAcquireNextImageKHR(device,swapChain,UINT64_MAX,imageAvailableSemaphore[currentFrame],nullptr,&imageIndex);
+      uint32_t imageIndex; // use this rendering attachment info instead of swapchainImageViews[0]
+      vkAcquireNextImageKHR(device,swapChain,UINT64_MAX,imageAvailableSemaphore[currentFrame],nullptr,&imageIndex);
 
 #pragma endregion
 
-#pragma region Submit command buffer and graphics queue
+#pragma region Record command buffers and submit them to graphics/compute/transfer queue
 
-    VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+      VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
-    VkSubmitInfo submitInfo{};
+      VkSubmitInfo submitInfo{};
 
-    submitInfo.sType                  =    VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    submitInfo.waitSemaphoreCount     =    1;
-    submitInfo.pWaitSemaphores        =    &imageAvailableSemaphore[currentFrame];
-    submitInfo.commandBufferCount     =    1;
-    submitInfo.pCommandBuffers        =    &commandBuffer[currentFrame];
-    submitInfo.pWaitDstStageMask      =    waitStages;
-    submitInfo.signalSemaphoreCount   =    1;
-    submitInfo.pSignalSemaphores      =    &renderFinishedSemaphore[currentFrame];
-
-
-    // Reset command buffer
-    vkResetCommandBuffer(commandBuffer[currentFrame],0);
-
-    //  Begin command buffer
-    VkCommandBufferBeginInfo commandBufferBeginInfo{};
-    commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-    if (vkBeginCommandBuffer(commandBuffer[currentFrame],&commandBufferBeginInfo) != VK_SUCCESS)
-    {
-      std::cout << "\nCan't begin the command buffer!";
-      return -1;
-    }
-
-    vkCmdSetViewport(commandBuffer[currentFrame],0,1,&viewport);
-    vkCmdSetScissor(commandBuffer[currentFrame],0,1,&scissor);
-
-    VkRenderPassBeginInfo renderpassBeginInfo{};
-    renderpassBeginInfo.sType                =    VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    renderpassBeginInfo.framebuffer          =    framebuffers[imageIndex];
-    renderpassBeginInfo.renderPass           =    renderpass;
-    renderpassBeginInfo.clearValueCount      =    1;
-    renderpassBeginInfo.pClearValues         =    &clearColor;
-    renderpassBeginInfo.renderArea.offset    =    {0,0};
-    renderpassBeginInfo.renderArea.extent    =    surfaceCapabilities.currentExtent;
-
-    vkCmdBeginRenderPass(commandBuffer[currentFrame],&renderpassBeginInfo,VK_SUBPASS_CONTENTS_INLINE);
+      submitInfo.sType                  =    VK_STRUCTURE_TYPE_SUBMIT_INFO;
+      submitInfo.waitSemaphoreCount     =    1;
+      submitInfo.pWaitSemaphores        =    &imageAvailableSemaphore[currentFrame];
+      submitInfo.commandBufferCount     =    1;
+      submitInfo.pCommandBuffers        =    &commandBuffer[currentFrame];
+      submitInfo.pWaitDstStageMask      =    waitStages;
+      submitInfo.signalSemaphoreCount   =    1;
+      submitInfo.pSignalSemaphores      =    &renderFinishedSemaphore[currentFrame];
 
 
-    // Bind pipeline
-    vkCmdBindPipeline(commandBuffer[currentFrame],VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
-    VkDeviceSize offset = 0;
-    //vkCmdBindVertexBuffers(commandBuffer[currentFrame],0,1,&vertexBuffer.buffer,&offset);
+      // Reset command buffer
+      vkResetCommandBuffer(commandBuffer[currentFrame],0);
 
-    // Draw command buffer
-    //vkCmdDraw(commandBuffer[currentFrame],3,1,0,0);
-    vkCmdDraw(commandBuffer[currentFrame],vertices.size(),1,0,0);
+      //  Begin command buffer
+      VkCommandBufferBeginInfo commandBufferBeginInfo{};
+      commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+      commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-    vkCmdEndRenderPass(commandBuffer[currentFrame]);
+      if (vkBeginCommandBuffer(commandBuffer[currentFrame],&commandBufferBeginInfo) != VK_SUCCESS)
+      {
+        std::cout << "\nCan't begin the command buffer!";
+        return -1;
+      }
+
+      vkCmdSetViewport(commandBuffer[currentFrame],0,1,&viewport);
+      vkCmdSetScissor(commandBuffer[currentFrame],0,1,&scissor);
+
+      VkRenderPassBeginInfo renderpassBeginInfo{};
+      renderpassBeginInfo.sType                =    VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+      renderpassBeginInfo.framebuffer          =    framebuffers[imageIndex];
+      renderpassBeginInfo.renderPass           =    renderpass;
+      renderpassBeginInfo.clearValueCount      =    1;
+      renderpassBeginInfo.pClearValues         =    &clearColor;
+      renderpassBeginInfo.renderArea.offset    =    {0,0};
+      renderpassBeginInfo.renderArea.extent    =    surfaceCapabilities.currentExtent;
+
+      vkCmdBeginRenderPass(commandBuffer[currentFrame],&renderpassBeginInfo,VK_SUBPASS_CONTENTS_INLINE);
+
+
+      // Bind pipeline
+      vkCmdBindPipeline(commandBuffer[currentFrame],VK_PIPELINE_BIND_POINT_GRAPHICS,graphicsPipeline);
+      VkDeviceSize offset = 0;
+      vkCmdBindVertexBuffers(commandBuffer[currentFrame],0,1,&vertexBuffer.buffer,&offset);
+
+      // Draw command buffer
+      //vkCmdDraw(commandBuffer[currentFrame],3,1,0,0);
+      vkCmdDraw(commandBuffer[currentFrame],vertices.size(),1,0,0);
+
+      vkCmdEndRenderPass(commandBuffer[currentFrame]);
 
 
 
 
-    if (vkEndCommandBuffer(commandBuffer[currentFrame]) != VK_SUCCESS)
-    {
-      std::cout << "\nCan't record the command buffer!";
-      return -1;
-    }
+      if (vkEndCommandBuffer(commandBuffer[currentFrame]) != VK_SUCCESS)
+      {
+        std::cout << "\nCan't record the command buffer!";
+        return -1;
+      }
 
 
 #pragma endregion
 
 #pragma region submit graphics queue
 
-    vkQueueSubmit(graphicsQueue,1,&submitInfo,inFlightFence[currentFrame]);
+      vkQueueSubmit(graphicsQueue,1,&submitInfo,inFlightFence[currentFrame]);
 #pragma endregion
 
 #pragma region Present Image
 
-    VkPresentInfoKHR presentInfo{};
-    presentInfo.sType                 =     VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-    presentInfo.waitSemaphoreCount    =     1;
-    presentInfo.pWaitSemaphores       =     &renderFinishedSemaphore[currentFrame];
-    presentInfo.swapchainCount        =     1;
-    presentInfo.pSwapchains           =     &swapChain;
-    presentInfo.pImageIndices         =     &imageIndex;
+      VkPresentInfoKHR presentInfo{};
+      presentInfo.sType                 =     VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+      presentInfo.waitSemaphoreCount    =     1;
+      presentInfo.pWaitSemaphores       =     &renderFinishedSemaphore[currentFrame];
+      presentInfo.swapchainCount        =     1;
+      presentInfo.pSwapchains           =     &swapChain;
+      presentInfo.pImageIndices         =     &imageIndex;
 
-    vkQueuePresentKHR(graphicsQueue,&presentInfo);
+      vkQueuePresentKHR(graphicsQueue,&presentInfo);
 
 #pragma endregion
 
-  currentFrame = (currentFrame + 1) % maxFramesInFlight;
+      currentFrame = (currentFrame + 1) % maxFramesInFlight;
 
-    //std::cout << "\nFPS " << 1 / time.deltaTime << "  Delta Time " <<  time.deltaTime * 1000 << std::flush;
+      //std::cout << "\nFPS " << 1 / time.deltaTime << "  Delta Time " <<  time.deltaTime * 1000 << std::flush;
+
+    }
+
+
+    std::cout << "\n" << "Welcome to Ajax Town!" << std::endl;
 
   }
-
-
-  std::cout << "\n" << "Welcome to Ajax Town!" << std::endl;
-
 #pragma endregion
 
+  // abstracted in different classes
 #pragma region clean-up
 
   // Clean-up
@@ -1091,7 +1207,6 @@ int main(int argc, char* argv[])
     DestroyDebugUtilsMessengerEXT(instance,debugMessenger,nullptr);
 
 #endif
-
   vkDeviceWaitIdle(device);
   //vmaDestroyBuffer(allocator,vertexBuffer,vertexAllocation);
   //vmaDestroyAllocator(allocator);
@@ -1100,15 +1215,18 @@ int main(int argc, char* argv[])
     vkDestroyFramebuffer(device,framebuffer,nullptr);
   }
   vkDestroyRenderPass(device,renderpass,nullptr);
+  /*
   for (int i = 0; i < swapchainImageCount; ++i)
   {
     vkDestroyCommandPool(device,commandPool[i],nullptr);
   }
-
+  */
+  vkDestroyCommandPool(device,commandPool,nullptr);
   vkDestroyPipeline(device,graphicsPipeline,nullptr);
   vkDestroyPipelineLayout(device,pipelineLayout,nullptr);
   vkDestroyShaderModule(device,vertexShaderModule,nullptr);
   vkDestroyShaderModule(device,fragmentShaderModule,nullptr);
+
   for (int i = 0; i < maxFramesInFlight; ++i)
   {
     vkDestroySemaphore(device,renderFinishedSemaphore[i],nullptr);

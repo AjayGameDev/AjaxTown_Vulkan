@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Buffer.h"
-#include "Dependencies/vk_mem_alloc.h"
+#include "vk_mem_alloc.h"
 #include "stdexcept"
 
 class BufferManager 

@@ -58,7 +58,7 @@ target_link_libraries(main PRIVATE SDL3::SDL3)
 target_link_libraries(main PRIVATE GPUOpen::VulkanMemoryAllocator)
 
 # Link spdlog in debug mode
-target_link_libraries(main PRIVATE $<$<CONFIG:Debug>:spdlog::spdlog>)
+target_link_libraries(main PRIVATE spdlog::spdlog)
 
 
 # Vulkan setup

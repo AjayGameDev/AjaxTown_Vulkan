@@ -20,7 +20,7 @@ Buffer BufferManager::CreateBuffer(size_t size, VkBufferUsageFlags usage,
                                    VmaMemoryUsage memoryUsageType)
 {
 
-  Buffer buffer(allocator, size, usage, memoryUsageType);
+  Buffer buffer(device,allocator, size, usage, memoryUsageType);
   return buffer;
 }
 
@@ -36,8 +36,9 @@ void BufferManager::CopyBuffer(Buffer *sourceBuffer, Buffer *destinationBuffer)
   tempCommandPoolCreateInfo.queueFamilyIndex = queueFamilyIndex;
   tempCommandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT; // This command pool is for one time command buffer
 
-  vkCreateCommandPool(device,&tempCommandPoolCreateInfo,nullptr,&tempCommandPool);
-
+  VkResult result = vkCreateCommandPool(device,&tempCommandPoolCreateInfo,nullptr,&tempCommandPool);
+  if (result != VK_SUCCESS)
+    throw std::runtime_error("\nCan't create command pool " + result);
 
   const VkCommandBuffer copyCommand =  BeginOneTimeCommandBuffer(tempCommandPool);
 
@@ -81,7 +82,7 @@ void BufferManager::EndOneTimeCommandBuffer( VkCommandBuffer commandBuffer, VkQu
   submitInfo.pCommandBuffers = &commandBuffer;
 
   vkQueueSubmit(queue,1,&submitInfo,VK_NULL_HANDLE);
-  vkQueueWaitIdle(queue);
+  vkQueueWaitIdle(queue);                                       // Check later
 
   vkFreeCommandBuffers(device,commandPool,1,&commandBuffer);
   vkDestroyCommandPool(device,commandPool,nullptr);
