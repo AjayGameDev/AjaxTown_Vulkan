@@ -9,7 +9,12 @@ class Fence
             explicit Fence(VulkanContext& context,bool isSignaled = true);
             ~Fence();
 
-            inline VkFence Get()
+            void Create(bool isSignaled);
+
+            Fence(const Fence&) = delete;
+            Fence& operator=(const Fence&) = delete;
+
+            inline VkFence GetHandle()
             {
                 return handle;
             }

@@ -11,6 +11,12 @@ class Semaphore
         public:
             Semaphore(VulkanContext& context);
             ~Semaphore();
-            inline VkSemaphore GetHandle() { return handle; } // functions defined inside the class are implicitly inline
+
+            // Delete copy constructors
+            Semaphore(const Semaphore&) = delete;
+            Semaphore& operator=(const Semaphore&) = delete;
+
+            void Create();
+            inline  VkSemaphore GetHandle() const { return handle; } // functions defined inside the class are implicitly inline
 
 };

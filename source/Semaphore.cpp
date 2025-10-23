@@ -3,7 +3,12 @@
 #include "stdexcept"
 #include "string"
 
-Semaphore::Semaphore(VulkanContext &context) : context(context)
+Semaphore::Semaphore(VulkanContext& context) : context(context)
+{
+    Create();
+}
+
+void Semaphore::Create()
 {
     VkSemaphoreCreateInfo semaphoreCreateInfo = {};
     semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;

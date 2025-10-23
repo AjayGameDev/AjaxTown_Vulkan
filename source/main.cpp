@@ -1185,7 +1185,8 @@ int main(int argc, char* argv[])
 
 #pragma endregion
 
-      currentFrame = (currentFrame + 1) % maxFramesInFlight;
+
+      currentFrame = (currentFrame + 1) % maxFramesInFlight; // advance the frame
 
       //std::cout << "\nFPS " << 1 / time.deltaTime << "  Delta Time " <<  time.deltaTime * 1000 << std::flush;
 

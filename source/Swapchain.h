@@ -15,7 +15,7 @@ class Swapchain
 
 
             explicit Swapchain(VulkanContext& context);
-
+            VkSwapchainKHR GetHandle() {    return swapchain;   }
             void CreateSwapchain();
             void AcquireSwapchainImages();
             void CreateSwapchainImageViews();
