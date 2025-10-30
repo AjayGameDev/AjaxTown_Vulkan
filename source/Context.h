@@ -1,10 +1,13 @@
 #pragma once
 
-#include "Window.h"
+//#include "Window.h"
 #include "vulkan/vulkan.h"
 #include "vma/vk_mem_alloc.h"
 
-class VulkanContext 
+
+class Window;
+
+class Context
 {
   public:
           VkInstance                instance;
@@ -29,21 +32,21 @@ class VulkanContext
 
 
 
-          Window* window;
+          Window& window;
 
-          explicit VulkanContext(Window* window);
-          ~VulkanContext();
+          explicit Context(Window& window);
+          ~Context();
 
           // No copy
-          VulkanContext(const VulkanContext&) = delete;
-          VulkanContext& operator=(const VulkanContext&) = delete;
+          Context(const Context&) = delete;
+          Context& operator=(const Context&) = delete;
 
           // No move
-          VulkanContext(VulkanContext&&) = delete;
-          VulkanContext& operator=(VulkanContext&&) = delete;
+          Context(Context&&) = delete;
+          Context& operator=(Context&&) = delete;
 
           void CreateInstance();
-          void CreateSurface();
+          void CreateSurface(VkInstance instance, VkSurfaceKHR& surface);
           void PickPhysicalDevice();
           void CheckPhysicalDeviceForRequiredQueues();
           void CreteLogicalDevice();

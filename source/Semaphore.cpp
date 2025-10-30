@@ -1,9 +1,8 @@
 #include "Semaphore.h"
-
 #include "stdexcept"
 #include "string"
 
-Semaphore::Semaphore(VulkanContext& context) : context(context)
+Semaphore::Semaphore(Context& context) : context(context)
 {
     Create();
 }
@@ -22,6 +21,16 @@ void Semaphore::Create()
 
 Semaphore::~Semaphore()
 {
-    if (handle != VK_NULL_HANDLE)
-        vkDestroySemaphore(context.device,handle,nullptr);
+    Destroy();
 }
+
+
+void Semaphore::Destroy()
+{
+    if (handle != VK_NULL_HANDLE)
+    {
+        vkDestroySemaphore(context.device,handle,nullptr);
+        handle = VK_NULL_HANDLE;
+    }
+}
+

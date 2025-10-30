@@ -4,7 +4,7 @@
 
 
 
-Shader::Shader(): context()
+Shader::Shader(Context& context): context(context)
 {
     shaderName = "";
     shaderType = ShaderType::none;
@@ -12,12 +12,12 @@ Shader::Shader(): context()
     fragmentShaderModule = nullptr;
 }
 
-Shader::Shader(const char *shaderName, VulkanContext& context): shaderName(shaderName),context(context)
+Shader::Shader(Context& context,const char *shaderName): context(context),shaderName(shaderName)
 {
     LoadShader(shaderName,context);
 }
 
-void Shader::LoadShader(const char *shaderName, VulkanContext& context)
+void Shader::LoadShader(const char *shaderName, Context& context)
 {
     if (shaderName=="")
         this->shaderName = shaderName;

@@ -1,7 +1,7 @@
 #include "Buffer.h"
 #include "string"
 
-Buffer::Buffer(VkDevice device, const VmaAllocator &allocator, const uint64_t &size, const VkBufferUsageFlags &usage, const VmaMemoryUsage &memoryUsageType) : allocator(allocator),device(device)
+Buffer::Buffer(Context& context, const uint64_t &size, const VkBufferUsageFlags &usage, const VmaMemoryUsage &memoryUsageType) : context(context)
 {
 
   buffer = nullptr;
@@ -12,7 +12,7 @@ Buffer::Buffer(VkDevice device, const VmaAllocator &allocator, const uint64_t &s
 
   allocationCreateInfo.usage = memoryUsageType;
 
-  if (vmaCreateBuffer(this->allocator, &bufferCreateInfo, &allocationCreateInfo, &buffer, &allocation, nullptr) != VK_SUCCESS)
+  if (vmaCreateBuffer(context.allocator, &bufferCreateInfo, &allocationCreateInfo, &buffer, &allocation, nullptr) != VK_SUCCESS)
   {
     throw std::runtime_error("\nCan't create VMA buffer!");
   }
@@ -21,14 +21,14 @@ Buffer::Buffer(VkDevice device, const VmaAllocator &allocator, const uint64_t &s
 void Buffer::CopyData(const void *dataSource, const size_t size)
 {
   void* bufferDataPointer;
-  vmaMapMemory(allocator,allocation,&bufferDataPointer);
-  memcpy(bufferDataPointer,&dataSource,size);
-  vmaUnmapMemory(allocator,allocation);
+  vmaMapMemory(context.allocator,allocation,&bufferDataPointer);
+  memcpy(bufferDataPointer,dataSource,size);
+  vmaUnmapMemory(context.allocator,allocation);
 }
 
 Buffer::~Buffer()
 {
-  vkDeviceWaitIdle(device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
-  vmaDestroyBuffer(allocator,buffer,allocation);
+  vkDeviceWaitIdle(context.device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
+  vmaDestroyBuffer(context.allocator,buffer,allocation);
 }
 

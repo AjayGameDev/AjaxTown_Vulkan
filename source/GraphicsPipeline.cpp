@@ -1,6 +1,6 @@
 #include "GraphicsPipeline.h"
 
-GraphicsPipeline::GraphicsPipeline(VulkanContext &context, VkPipeline pipeline, VkPipelineLayout pipelineLayout) : context(context),pipeline(pipeline),pipelineLayout(pipelineLayout) {}
+GraphicsPipeline::GraphicsPipeline(Context &context, VkPipeline pipeline, VkPipelineLayout pipelineLayout) : context(context),pipeline(pipeline),pipelineLayout(pipelineLayout) {}
 
 GraphicsPipeline::GraphicsPipeline(GraphicsPipeline &&other) noexcept :  context(other.context), pipeline(other.pipeline), pipelineLayout(other.pipelineLayout)
 {
@@ -8,7 +8,7 @@ GraphicsPipeline::GraphicsPipeline(GraphicsPipeline &&other) noexcept :  context
     other.pipelineLayout = nullptr;
 }
 
-GraphicsPipeline& GraphicsPipeline::operator=(GraphicsPipeline &&other) noexcept :  context(other.context)
+GraphicsPipeline& GraphicsPipeline::operator=(GraphicsPipeline &&other) noexcept
 {
     if (this!=&other)
     {
@@ -28,12 +28,12 @@ GraphicsPipeline& GraphicsPipeline::operator=(GraphicsPipeline &&other) noexcept
     return *this;
 }
 
-inline VkPipeline GraphicsPipeline::GetPipeline() const
+VkPipeline& GraphicsPipeline::GetPipeline()
 {
     return pipeline;
 }
 
-VkPipelineLayout GraphicsPipeline::GetPipelineLayout() const
+VkPipelineLayout& GraphicsPipeline::GetPipelineLayout()
 {
     return pipelineLayout;
 }

@@ -13,15 +13,18 @@
 #include "GameTime.h"
 #include "Model.h"
 #include "Window.h"
-#include "FrameSyncManager.h"
-//#include "Shader.h"
-//#include "Framebuffer.h"
-//#include "ImageManager.h"
-
+#include "Swapchain.h"
+#include "Renderpass.h"
+#include "Framebuffer.h"
+#include "ImageManager.h"
+#include "Renderer.h"
+#include "Shader.h"
+#include "GraphicsPipeline.h"
+#include "GraphicsPipelineBuilder.h"
 
 #define VMA_IMPLEMENTATION
 //#define VMA_VULKAN_VERSION 1001000  // Vulkan 1.1 (order matters here)
-#include "vk_mem_alloc.h"
+#include "vma/vk_mem_alloc.h"
 
 #include "spdlog/spdlog.h"
 

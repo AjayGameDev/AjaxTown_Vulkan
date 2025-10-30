@@ -3,7 +3,9 @@
 #include "stdexcept"
 #include "vma/vk_mem_alloc.h"
 
-Framebuffer::Framebuffer(VulkanContext &context, Swapchain &swapchain,ImageManager& imageManager,Renderpass& renderpass) : context(context),swapchain(&swapchain),imageManager(&imageManager),renderpass(&renderpass)
+
+
+Framebuffer::Framebuffer(Context& context, Swapchain& swapchain, ImageManager& imageManager, Renderpass& renderpass) : context(context), swapchain(swapchain), imageManager(imageManager), renderpass(renderpass), diffuse(context), normal(context), RMAO(context), depth(context),hdr(context)
 {
     CreateImages();
     CreateFrameBuffer();
@@ -12,18 +14,22 @@ Framebuffer::Framebuffer(VulkanContext &context, Swapchain &swapchain,ImageManag
 void Framebuffer::CreateImages()
 {
 
-    imageManager->Create2DImage(diffuse,context.surfaceCapabilities.currentExtent.width,context.surfaceCapabilities.currentExtent.height,diffuseFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager->Create2DImage(normal,context.surfaceCapabilities.currentExtent.width,context.surfaceCapabilities.currentExtent.height,normalFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager->Create2DImage(RMAO,context.surfaceCapabilities.currentExtent.width,context.surfaceCapabilities.currentExtent.height,RMAOFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager->Create2DImageDepth(depth,context.surfaceCapabilities.currentExtent.width,context.surfaceCapabilities.currentExtent.height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY);
+    auto width  = context.surfaceCapabilities.currentExtent.width;
+    auto height = context.surfaceCapabilities.currentExtent.height;
+
+    imageManager.Create2DImage(diffuse,width,height,diffuseFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+    imageManager.Create2DImage(normal,width,height,normalFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+    imageManager.Create2DImage(RMAO,width,height,RMAOFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+    imageManager.Create2DImage(hdr,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+    imageManager.Create2DImageDepth(depth,width,height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY);
 }
 
 void Framebuffer::CreateFrameBuffer()
 {
     // Make sure it's in the same order as the renderpass otherwise it will throw validation error
-    std::vector<VkImageView> attachments = { diffuse.imageView ,normal.imageView,RMAO.imageView,depth.imageView };
+    std::vector<VkImageView> attachments = { diffuse.imageView ,normal.imageView,RMAO.imageView,depth.imageView,hdr.imageView };
 
-    for (auto swapchainImageView : swapchain->swapchainImageViews)
+    for (auto swapchainImageView : swapchain.imageViews)
     {
         attachments.push_back(swapchainImageView);
 
@@ -36,7 +42,7 @@ void Framebuffer::CreateFrameBuffer()
         framebufferCreateInfo.attachmentCount = attachments.size();
         framebufferCreateInfo.pAttachments = attachments.data();
         framebufferCreateInfo.layers = 1;
-        framebufferCreateInfo.renderPass = renderpass->renderpass;
+        framebufferCreateInfo.renderPass = renderpass.renderpass;
 
 
         if (vkCreateFramebuffer(context.device,&framebufferCreateInfo,nullptr,&framebuffer) != VK_SUCCESS)
@@ -47,6 +53,7 @@ void Framebuffer::CreateFrameBuffer()
         framebuffers.push_back(framebuffer);
         attachments.pop_back();
     }
+
 }
 
 Framebuffer::~Framebuffer()

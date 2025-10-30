@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "VulkanContext.h"
+#include "Context.h"
 
 
 class CommandBuffer 
@@ -14,8 +14,8 @@ class CommandBuffer
     public:
             CommandBuffer() : handle(VK_NULL_HANDLE),isRecording(false) {};
             explicit CommandBuffer(VkCommandBuffer handle) : handle(handle),isRecording(false) {};
-            ~CommandBuffer();
-            VkCommandBuffer GetHandle() { return handle; }
+            ~CommandBuffer(){};
+            VkCommandBuffer& GetHandle() { return handle; }
 
 #pragma region Life cycle
 
@@ -28,6 +28,11 @@ class CommandBuffer
 
                 vkBeginCommandBuffer(handle,&beginInfo);
                 isRecording = true;
+            }
+
+            void Reset()
+            {
+                vkResetCommandBuffer(handle,0);
             }
 
             void End()
@@ -131,10 +136,27 @@ class CommandBuffer
                 vkCmdSetViewport(handle,0,1,&viewport);
             }
 
+            void SetViewport(VkViewport& viewport)
+            {
+                vkCmdSetViewport(handle,0,1,&viewport);
+            }
+
             void SetScissor(int32_t x, int32_t y, uint32_t width, uint32_t height)
             {
                 VkRect2D scissor {x,y,width,height};
                 vkCmdSetScissor(handle,0,1,&scissor);
+            }
+
+            void SetScissor(VkRect2D& scissor)
+            {
+                vkCmdSetScissor(handle,0,1,&scissor);
+            }
+
+            void SetViewportScissor(VkViewport& viewport, VkRect2D scissor)
+            {
+                vkCmdSetViewport(handle,0,1,&viewport);
+                vkCmdSetScissor(handle,0,1,&scissor);
+
             }
 
 
@@ -143,16 +165,16 @@ class CommandBuffer
 
 #pragma region Renderpass
 
-            void BeginRenderpass(VkRenderPass renderpass,VkFramebuffer framebuffer,VkRect2D renderArea,std::vector<VkClearValue>& clearValues)
+            void BeginRenderpass(VkRenderPass& renderpass,VkFramebuffer& framebuffer,VkRect2D& renderArea,std::vector<VkClearValue>& clearValues)
             {
                 VkRenderPassBeginInfo renderpassInfo{};
 
-                renderpassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-                renderpassInfo.renderPass = renderpass;
-                renderpassInfo.framebuffer = framebuffer;
-                renderpassInfo.renderArea = renderArea;
-                renderpassInfo.clearValueCount = clearValues.size();
-                renderpassInfo.pClearValues = clearValues.data();
+                renderpassInfo.sType             =   VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+                renderpassInfo.renderPass        =   renderpass;
+                renderpassInfo.framebuffer       =   framebuffer;
+                renderpassInfo.renderArea        =   renderArea;
+                renderpassInfo.clearValueCount   =   clearValues.size();
+                renderpassInfo.pClearValues      =   clearValues.data();
 
                 vkCmdBeginRenderPass(handle,&renderpassInfo,VK_SUBPASS_CONTENTS_INLINE);
             }

@@ -1,6 +1,9 @@
 #include "Window.h"
 #include "stdexcept"
 #include "string"
+#include "Context.h"
+#include "SDL3/SDL.h"
+#include "SDL3/SDL_vulkan.h"
 
 Window::Window(const char *title, const int width, const int height)
 {
@@ -13,9 +16,9 @@ Window::Window(const char *title, const int width, const int height)
     throw std::runtime_error("Can't Initialize SDL \n" + error);
   }
 
-  window = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
+  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
-  if (window == nullptr)
+  if (handle == nullptr)
   {
     error = SDL_GetError();
 
@@ -29,16 +32,28 @@ char const *const *Window::GetExtensions(uint32_t &extensionCount)
 {
   return SDL_Vulkan_GetInstanceExtensions(&extensionCount);
 }
-void Window::CreateSurface(VkInstance instance,VkSurfaceKHR surface)
+void Window::CreateSurface(VkInstance instance, VkSurfaceKHR& surface)
 {
-  if (!SDL_Vulkan_CreateSurface(window,instance,nullptr,&surface))
+  if (!SDL_Vulkan_CreateSurface(handle,instance,nullptr,&surface))
   {
     throw std::runtime_error("\nCan't create SDL surface!");
   }
 }
 
+bool Window::ShouldCloseWindow()
+{
+  SDL_Event e;
+  while (SDL_PollEvent(&e))
+  {
+    if (e.type == SDL_EVENT_QUIT)
+      shouldCloseWindow = true;
+  }
+
+  return shouldCloseWindow;
+}
+
 Window::~Window()
 {
-  SDL_DestroyWindow(window);
+  SDL_DestroyWindow(handle);
   SDL_Quit();
 }

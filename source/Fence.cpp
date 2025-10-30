@@ -1,7 +1,7 @@
 #include "Fence.h"
 
 
-Fence::Fence(VulkanContext &context, bool isSignaled) : context(context)
+Fence::Fence(Context &context, bool isSignaled) : context(context)
 {
     Create(isSignaled);
 }
@@ -21,10 +21,7 @@ void Fence::Create(bool isSignaled)
 
 Fence::~Fence()
 {
-    if (handle  !=  VK_NULL_HANDLE)
-    {
-        vkDestroyFence(context.device,handle,nullptr);
-    }
+    Destroy();
 }
 
 

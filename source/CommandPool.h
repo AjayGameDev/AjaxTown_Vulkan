@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "VulkanContext.h"
+#include "Context.h"
 
 class CommandBuffer;
 
@@ -10,10 +10,10 @@ class CommandPool
             VkCommandPool handle = VK_NULL_HANDLE;
             uint32_t queueFamilyIndex = 0;
             std::vector<VkCommandBuffer> commandBuffers;
-            VulkanContext& context;
+            Context& context;
 
     public:
-            explicit CommandPool(VulkanContext& context);
+            explicit CommandPool(Context& context);
             ~CommandPool();
             void Create(uint32_t queueFamiliyIndex = 0,VkCommandPoolCreateFlags flag = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
             void Destroy();

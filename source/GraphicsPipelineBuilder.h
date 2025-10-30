@@ -3,7 +3,7 @@
 #include "vector"
 #include "Model.h"
 #include "stdexcept"
-#include "VulkanContext.h"
+#include "Context.h"
 #include "GraphicsPipeline.h"
 
 class GraphicsPipelineBuilder
@@ -43,7 +43,8 @@ class GraphicsPipelineBuilder
             enum class VertexInputTypes
             {
                 VERTEX_FORMAT_STANDARD,
-                VERTEX_FORMAT_SKINNED
+                VERTEX_FORMAT_SKINNED,
+                VERTEX_FORMAT_MINIMAL
             };
 
             enum class BlendingType
@@ -136,6 +137,24 @@ class GraphicsPipelineBuilder
                     vertexAttributes.push_back(vertexTangentAttribute);
                     //vertexAttributes.push_back(vertexBitangentAttribute);
 
+                }
+                else if (vertexInputType == VertexInputTypes::VERTEX_FORMAT_MINIMAL)
+                {
+                    VkVertexInputBindingDescription vertexBindingDescription_first =
+                    {
+                        0, // binding
+                        sizeof(Vertex_Minimal), // stride
+                        VK_VERTEX_INPUT_RATE_VERTEX // instance or normal
+                    };
+
+                    vertexBindings.push_back(vertexBindingDescription_first);
+
+
+                    VkVertexInputAttributeDescription vertexPositionAttribute   =  { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex_Minimal,position) }; // location binding format offset
+                    VkVertexInputAttributeDescription vertexUVAttribute         =  { 1, 0, VK_FORMAT_R32G32_SFLOAT,    offsetof(Vertex_Minimal,uv) };
+
+                    vertexAttributes.push_back(vertexPositionAttribute);
+                    vertexAttributes.push_back(vertexUVAttribute);
                 }
                 else if (vertexInputType == VertexInputTypes::VERTEX_FORMAT_SKINNED)
                 {
@@ -271,6 +290,7 @@ class GraphicsPipelineBuilder
             void ResetColorBlend()
             {
                 colorblendAttachments.clear();
+                colorblendInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
             }
 
             GraphicsPipelineBuilder& AddColorblendAttachment(int numberOfColorChannels, BlendingType blendtype, int numberOfAttachements = 1)
@@ -295,12 +315,12 @@ class GraphicsPipelineBuilder
                             // finalColor = srcColor * srcAlpha + DstColor * (1 - srcAlpha)
                             // finalAlpha = srcAlpha [Alpha part will only work if referenced attachment in renderpass has alpha in format] [For R8G8B8_UNORM alpha will be ignored] [R8G8B8A8_UNORM alpha will be used]
 
-                            colorblendAttachmentState.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-                            colorblendAttachmentState.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-                            colorblendAttachmentState.colorBlendOp = VK_BLEND_OP_ADD;
-                            colorblendAttachmentState.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-                            colorblendAttachmentState.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-                            colorblendAttachmentState.alphaBlendOp = VK_BLEND_OP_ADD;
+                            colorblendAttachmentState.srcColorBlendFactor   =  VK_BLEND_FACTOR_SRC_ALPHA;
+                            colorblendAttachmentState.dstColorBlendFactor   =  VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+                            colorblendAttachmentState.colorBlendOp          =  VK_BLEND_OP_ADD;
+                            colorblendAttachmentState.srcAlphaBlendFactor   =  VK_BLEND_FACTOR_ONE;
+                            colorblendAttachmentState.dstAlphaBlendFactor   =  VK_BLEND_FACTOR_ZERO;
+                            colorblendAttachmentState.alphaBlendOp          =  VK_BLEND_OP_ADD;
 
                             break;
 
@@ -562,7 +582,7 @@ class GraphicsPipelineBuilder
                 return *this;
             }
 
-            void BuildPipelineLayout(VulkanContext& context)
+            void BuildPipelineLayout(Context& context)
             {
                 pipelineLayoutInfo.pushConstantRangeCount  =  static_cast<uint32_t>(pushConstants.size());
                 pipelineLayoutInfo.pPushConstantRanges     =  pushConstants.data();
@@ -579,7 +599,7 @@ class GraphicsPipelineBuilder
 
             //                          Builder
 
-            void Builder(VkRenderPass& renderpass,uint32_t subpass, VulkanContext& context)
+            void Builder(VkRenderPass& renderpass,uint32_t subpass, Context& context)
             {
                 BuildPipelineLayout(context);
                 BuildColorBlendState();
@@ -605,7 +625,7 @@ class GraphicsPipelineBuilder
                 graphicsPipelineInfo.pNext                =   nullptr;
             }
 
-            GraphicsPipeline Build(VkRenderPass& renderpass,uint32_t subpass, VulkanContext& context)
+            GraphicsPipeline Build(VkRenderPass& renderpass,uint32_t subpass, Context& context)
             {
                 if (pipelineLayout!=nullptr)
                 {

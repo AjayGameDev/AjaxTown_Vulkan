@@ -1,21 +1,21 @@
 #pragma once
 #include "vector"
-#include "VulkanContext.h"
+#include "Context.h"
 
 
 class Swapchain 
 {
     public:
-            VulkanContext&               context;
-            VkSwapchainKHR               swapchain;
-            uint32_t                     swapchainImageCount;
-            std::vector<VkImage>         swapchainImages;
-            std::vector<VkImageView>     swapchainImageViews;
+            Context&                     context;
+            VkSwapchainKHR               handle;
+            uint32_t                     imageCount;
+            std::vector<VkImage>         images;
+            std::vector<VkImageView>     imageViews;
+            VkSwapchainCreateInfoKHR     swapChainCreateInfo{};
 
 
-
-            explicit Swapchain(VulkanContext& context);
-            VkSwapchainKHR GetHandle() {    return swapchain;   }
+            explicit Swapchain(Context& context);
+            VkSwapchainKHR& GetHandle() {    return handle;   }
             void CreateSwapchain();
             void AcquireSwapchainImages();
             void CreateSwapchainImageViews();

@@ -1,20 +1,42 @@
 #pragma once
-#include "VulkanContext.h"
+#include "Context.h"
 #include "stdexcept"
 #include "string"
 
 class Fence 
 {
     public:
-            explicit Fence(VulkanContext& context,bool isSignaled = true);
+            explicit Fence(Context& context,bool isSignaled = true);
             ~Fence();
 
             void Create(bool isSignaled);
 
+            // Delete copy constructors
             Fence(const Fence&) = delete;
             Fence& operator=(const Fence&) = delete;
 
-            inline VkFence GetHandle()
+            // Move constructors
+            Fence(Fence&& other) noexcept:context(other.context),handle(other.handle)
+            {
+                other.handle = nullptr;
+            }
+
+            Fence& operator=(Fence&& other) noexcept
+            {
+                if (this != &other)
+                {
+                    // Destroy any existing fence
+                    Destroy();
+
+                    handle = other.handle;
+                    // context is a reference, cannot be reassigned but is assumed same
+                    other.handle = VK_NULL_HANDLE;
+                }
+
+                return *this;
+            }
+
+            VkFence& GetHandle()
             {
                 return handle;
             }
@@ -48,7 +70,16 @@ class Fence
                 throw std::runtime_error("\nError occured when trying to check fence status" + std::to_string(result) );
             }
 
+            void Destroy()
+            {
+                if (handle  !=  VK_NULL_HANDLE)
+                {
+                    vkDestroyFence(context.device,handle,nullptr);
+                    handle = VK_NULL_HANDLE;
+                }
+            }
+
     private:
+            Context& context;
             VkFence handle = VK_NULL_HANDLE;
-            VulkanContext& context;
 };

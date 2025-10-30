@@ -1,9 +1,10 @@
 #include "CommandPool.h"
+#include "CommandBuffer.h"
 #include "stdexcept"
 #include "string"
 
 
-CommandPool::CommandPool(VulkanContext& context) : context(context)
+CommandPool::CommandPool(Context& context) : context(context)
 {
 
 }
@@ -13,8 +14,9 @@ CommandPool::~CommandPool()
     Destroy();
 }
 
-void CommandPool::Create(uint32_t queueFamiliyIndex,VkCommandPoolCreateFlags flag) : queueFamilyIndex(queueFamiliyIndex)
+void CommandPool::Create(uint32_t queueFamiliyIndex,VkCommandPoolCreateFlags flag)
 {
+    this->queueFamilyIndex = queueFamiliyIndex;
     VkCommandPoolCreateInfo commandPoolCreateInfo = {};
 
     commandPoolCreateInfo.sType             =  VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VulkanContext.h"
+#include "Context.h"
 #include <vector>
 
 class Renderpass 
@@ -8,11 +8,21 @@ class Renderpass
     private:
 
 
-            VulkanContext& context;
+            Context& context;
 
             std::vector<VkAttachmentDescription>  attachments;
             std::vector<VkSubpassDescription>     subpasses;
             std::vector<VkSubpassDependency>      dependencies;
+
+            std::vector<VkAttachmentReference> geometryColorAttachmentReferences;
+            std::vector<VkAttachmentReference> geometryDepthAttachmentReferences;
+
+            std::vector<VkAttachmentReference> lightingInputAttachmentReferences;
+            std::vector<VkAttachmentReference> lightingColorAttachmentReferences;
+            std::vector<VkAttachmentReference> lightingDepthAttachmentReferences;
+
+            std::vector<VkAttachmentReference> postProcessingInputAttachmentReferences;
+            std::vector<VkAttachmentReference> postProcessingColorAttachmentReferences;
 
             void CreateRenderPass();
             void CreateAttachments();
@@ -22,7 +32,8 @@ class Renderpass
             void CreatePostProcessingSubpass();
 
     public:
-            VkRenderPass renderpass = nullptr;
-            explicit Renderpass(VulkanContext& context);
+            VkRenderPass  renderpass = nullptr;
+            VkRenderPass& GetHandle() { return renderpass; }
+            explicit Renderpass(Context& context);
             ~Renderpass();
 };

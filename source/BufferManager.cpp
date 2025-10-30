@@ -1,18 +1,7 @@
 #include "BufferManager.h"
 
-BufferManager::BufferManager( VkDevice device, VkPhysicalDevice physicalDevice, VkInstance instance, int32_t queueFamilyIndex, VkQueue graphicsQueue):device(device),physicalDevice(physicalDevice),instace(instance),queueFamilyIndex(queueFamilyIndex),graphicsQueue(graphicsQueue)
+BufferManager::BufferManager(Context& context):context(context)
 {
-
-  VmaAllocatorCreateInfo allocatorCreateInfo{};
-
-  allocatorCreateInfo.device = device;
-  allocatorCreateInfo.instance = instance;
-  allocatorCreateInfo.physicalDevice = physicalDevice;
-
-  if (vmaCreateAllocator(&allocatorCreateInfo, &allocator) != VK_SUCCESS)
-  {
-    throw std::runtime_error("\nCan't create VMA global allocator!");
-  }
 
 }
 
@@ -20,7 +9,7 @@ Buffer BufferManager::CreateBuffer(size_t size, VkBufferUsageFlags usage,
                                    VmaMemoryUsage memoryUsageType)
 {
 
-  Buffer buffer(device,allocator, size, usage, memoryUsageType);
+  Buffer buffer(context, size, usage, memoryUsageType);
   return buffer;
 }
 
@@ -33,10 +22,10 @@ void BufferManager::CopyBuffer(Buffer *sourceBuffer, Buffer *destinationBuffer)
   VkCommandPoolCreateInfo tempCommandPoolCreateInfo{};
 
   tempCommandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-  tempCommandPoolCreateInfo.queueFamilyIndex = queueFamilyIndex;
+  tempCommandPoolCreateInfo.queueFamilyIndex = context.transferFamilyIndex;
   tempCommandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT; // This command pool is for one time command buffer
 
-  VkResult result = vkCreateCommandPool(device,&tempCommandPoolCreateInfo,nullptr,&tempCommandPool);
+  VkResult result = vkCreateCommandPool(context.device,&tempCommandPoolCreateInfo,nullptr,&tempCommandPool);
   if (result != VK_SUCCESS)
     throw std::runtime_error("\nCan't create command pool " + result);
 
@@ -45,7 +34,7 @@ void BufferManager::CopyBuffer(Buffer *sourceBuffer, Buffer *destinationBuffer)
   VkBufferCopy bufferCopyRegion{};
   bufferCopyRegion.size = sourceBuffer->bufferCreateInfo.size;
   vkCmdCopyBuffer(copyCommand,sourceBuffer->buffer,destinationBuffer->buffer,1,&bufferCopyRegion);
-  EndOneTimeCommandBuffer(copyCommand,graphicsQueue,device,tempCommandPool);
+  EndOneTimeCommandBuffer(copyCommand,context.transferQueue,context.device,tempCommandPool);
 
 }
 
@@ -60,7 +49,7 @@ VkCommandBuffer BufferManager::BeginOneTimeCommandBuffer(VkCommandPool commandPo
   commandBufferAllocateInfo.commandPool = commandPool;
   commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
-  vkAllocateCommandBuffers(device,&commandBufferAllocateInfo,&commandBuffer);
+  vkAllocateCommandBuffers(context.device,&commandBufferAllocateInfo,&commandBuffer);
 
   VkCommandBufferBeginInfo commandBufferBeginInfo{};
   commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -91,7 +80,5 @@ void BufferManager::EndOneTimeCommandBuffer( VkCommandBuffer commandBuffer, VkQu
 
 BufferManager::~BufferManager()
 {
-
-  vmaDestroyAllocator(allocator);
 
 }

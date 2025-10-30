@@ -1,76 +1,79 @@
-cmake_minimum_required(VERSION 3.31)
+    cmake_minimum_required(VERSION 3.31)
 
-project(AjaxTown)
+    project(AjaxTown)
 
-set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 20)
 
-include(FetchContent)
+    include(FetchContent)
 
-# Fetch SDL
-set(SDL_SHARED OFF CACHE BOOL "" FORCE)
-set(SDL_STATIC ON CACHE BOOL "" FORCE)
-FetchContent_Declare(
-        sdl
-        GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
-        GIT_TAG "release-3.2.16"
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(sdl)
+    # Fetch SDL
+    set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+    set(SDL_STATIC ON CACHE BOOL "" FORCE)
+    FetchContent_Declare(
+            sdl
+            GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
+            GIT_TAG "release-3.2.16"
+            GIT_SHALLOW TRUE
+    )
+    FetchContent_MakeAvailable(sdl)
 
-#Fetch spdlog
-FetchContent_Declare(
-        spdlog
-        GIT_REPOSITORY "https://github.com/gabime/spdlog.git"
-        GIT_TAG "v1.15.3"
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(spdlog)
+    #Fetch spdlog
+    FetchContent_Declare(
+            spdlog
+            GIT_REPOSITORY "https://github.com/gabime/spdlog.git"
+            GIT_TAG "v1.15.3"
+            GIT_SHALLOW TRUE
+    )
+    FetchContent_MakeAvailable(spdlog)
 
-#Fetch VMA
-FetchContent_Declare(
-        VMA
-        GIT_REPOSITORY "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git"
-        GIT TAG "v3.3.0"
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(VMA)
+    #Fetch VMA
+    FetchContent_Declare(
+            VMA
+            GIT_REPOSITORY "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git"
+            GIT_TAG "v3.3.0"
+            GIT_SHALLOW TRUE
+    )
+    FetchContent_MakeAvailable(VMA)
 
-# Gather source files
-file(GLOB_RECURSE AjaxTownSourceFiles CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/source/*.h"
-)
+    # Gather source files
+    file(GLOB_RECURSE AjaxTownSourceFiles CONFIGURE_DEPENDS
+            "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/source/*.h"
+    )
 
-# Create the main target first
-if(ANDROID)
-    add_library(main SHARED ${AjaxTownSourceFiles})
-else()
-    add_executable(main ${AjaxTownSourceFiles})
-endif()
-
-# Include directories
-target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")
-
-# Link SDL
-target_link_libraries(main PRIVATE SDL3::SDL3)
-
-# Link VMA
-target_link_libraries(main PRIVATE GPUOpen::VulkanMemoryAllocator)
-
-# Link spdlog in debug mode
-target_link_libraries(main PRIVATE spdlog::spdlog)
-
-
-# Vulkan setup
-if(WIN32)
-    find_package(Vulkan REQUIRED)
-    include_directories($ENV{VULKAN_SDK}/include)
-    target_link_libraries(main PRIVATE Vulkan::Vulkan)
-
-elseif(ANDROID)
-    find_library(VULKAN_LIB vulkan)
-    if(NOT VULKAN_LIB)
-        message(FATAL_ERROR "Vulkan library not found")
+    # Create the main target first
+    if(ANDROID)
+        add_library(main SHARED ${AjaxTownSourceFiles})
+    else()
+        add_executable(main ${AjaxTownSourceFiles})
     endif()
-    target_link_libraries(main PRIVATE ${VULKAN_LIB})
-endif()
+
+    # Include directories
+    target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")
+
+    # Include VMA headers
+    target_include_directories(main PRIVATE ${vma_SOURCE_DIR}/include)
+
+    # Link SDL
+    target_link_libraries(main PRIVATE SDL3::SDL3)
+
+    # Link VMA
+    target_link_libraries(main PRIVATE GPUOpen::VulkanMemoryAllocator)
+
+    # Link spdlog in debug mode
+    target_link_libraries(main PRIVATE spdlog::spdlog)
+
+
+    # Vulkan setup
+    if(WIN32)
+        find_package(Vulkan REQUIRED)
+        include_directories($ENV{VULKAN_SDK}/include)
+        target_link_libraries(main PRIVATE Vulkan::Vulkan)
+
+    elseif(ANDROID)
+        find_library(VULKAN_LIB vulkan)
+        if(NOT VULKAN_LIB)
+            message(FATAL_ERROR "Vulkan library not found")
+        endif()
+        target_link_libraries(main PRIVATE ${VULKAN_LIB})
+    endif()

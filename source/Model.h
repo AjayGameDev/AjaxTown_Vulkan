@@ -12,6 +12,12 @@ struct Vertex_Standard
 
 };
 
+struct Vertex_Minimal
+{
+  Vector3 position;
+  Vector2 uv;
+};
+
 struct Vertex_Skinned
 {
   Vector3 position;

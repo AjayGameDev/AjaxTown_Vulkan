@@ -1,6 +1,6 @@
 #pragma once
 #include "vulkan/vulkan.h"
-#include "VulkanContext.h"
+#include "Context.h"
 #include "string"
 #include "vector"
 
@@ -17,18 +17,20 @@ enum class ShaderType : uint8_t
 class Shader 
 {
     private:
+            Context&       context;
             std::string    shaderName;
             ShaderType     shaderType;
-            VulkanContext& context;
             VkShaderModule vertexShaderModule,fragmentShaderModule;
 
             std::vector<char> ReadShader(const std::string& shaderName, ShaderType shaderType);
             VkShaderModule CreateShaderModule(const VkDevice& device,const std::vector<char>& shaderCode);
 
     public:
-            Shader();
-            Shader(const char *shaderName, VulkanContext& context);
-            void LoadShader(const char *shaderName, VulkanContext& context);
+            Shader(Context& context);
+            Shader(Context& context,const char *shaderName);
+            VkShaderModule& GetVertexShaderModule() { return vertexShaderModule; }
+            VkShaderModule& GetFragmentShaderModule() { return fragmentShaderModule; }
+            void LoadShader(const char *shaderName, Context& context);
             ~Shader();
 
 };

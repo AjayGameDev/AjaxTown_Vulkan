@@ -1,7 +1,7 @@
 #include "ImageManager.h"
 #include "stdexcept"
 
-ImageManager::ImageManager(VulkanContext& context) : context(&context)
+ImageManager::ImageManager(Context& context) : context(context)
 {
 
 }
@@ -20,14 +20,14 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
     image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE;
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
-    image.imageInfo.usage           =   VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+    image.imageInfo.usage           =   VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
 
     if (renderTarget)
         image.imageInfo.usage      |=   VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // Important for frame buffer attachments
 
     image.allocationCreateInfo.usage = vmaMemoryUsage;
 
-    if (vmaCreateImage(context->allocator,&image.imageInfo,&image.allocationCreateInfo,&image.image,&image.allocation,nullptr) != VK_SUCCESS)
+    if (vmaCreateImage(context.allocator,&image.imageInfo,&image.allocationCreateInfo,&image.image,&image.allocation,nullptr) != VK_SUCCESS)
     {
         throw std::runtime_error("Can't create 2D image ");
     }
@@ -42,7 +42,7 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     image.imageViewInfo.subresourceRange.baseArrayLayer  =   0;
     image.imageViewInfo.subresourceRange.layerCount      =   1;
 
-    if (vkCreateImageView(context->device,&image.imageViewInfo,nullptr,&image.imageView) != VK_SUCCESS)
+    if (vkCreateImageView(context.device,&image.imageViewInfo,nullptr,&image.imageView) != VK_SUCCESS)
     {
         throw std::runtime_error("Can't create 2D image view ");
     }
@@ -61,11 +61,11 @@ void ImageManager::Create2DImageDepth(Image& image,uint32_t width, uint32_t heig
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
     image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE;
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
-    image.imageInfo.usage           =   VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+    image.imageInfo.usage           =   VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
 
     image.allocationCreateInfo.usage = vmaMemoryUsage;
 
-    if (vmaCreateImage(context->allocator,&image.imageInfo,&image.allocationCreateInfo,&image.image,&image.allocation,nullptr) != VK_SUCCESS)
+    if (vmaCreateImage(context.allocator,&image.imageInfo,&image.allocationCreateInfo,&image.image,&image.allocation,nullptr) != VK_SUCCESS)
     {
         throw std::runtime_error("Can't create 2D depth image ");
     }
@@ -102,7 +102,7 @@ These contain both depth AND stencil information in the same image.
     image.imageViewInfo.subresourceRange.baseArrayLayer  =   0;
     image.imageViewInfo.subresourceRange.layerCount      =   1;
 
-    if (vkCreateImageView(context->device,&image.imageViewInfo,nullptr,&image.imageView) != VK_SUCCESS)
+    if (vkCreateImageView(context.device,&image.imageViewInfo,nullptr,&image.imageView) != VK_SUCCESS)
     {
         throw std::runtime_error("Can't create 2D depth image view ");
     }

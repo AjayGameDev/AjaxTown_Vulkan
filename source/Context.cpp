@@ -1,8 +1,8 @@
-#include "VulkanContext.h"
+#include "Context.h"
 #include "vector"
 #include <iostream>
 #include "spdlog/spdlog.h"
-
+#include "Window.h"
 
 
 
@@ -69,17 +69,19 @@ constexpr bool enableValidationLayers = true;
 #pragma region Initialize Vulkan
 
 
-VulkanContext::VulkanContext(Window *window) : window(window)
+Context::Context(Window& window) : window(window)
 {
     CreateInstance();
-    CreateSurface();
+    CreateSurface(instance,surface);
     PickPhysicalDevice();
+    CheckSurfaceCapabilities();
     CheckPhysicalDeviceForRequiredQueues();
     CreteLogicalDevice();
+    CreateGlobalAllocator();
 }
 
 
-void VulkanContext ::CreateInstance()
+void Context ::CreateInstance()
 {
     //---------------------------------------------------------------------------- Describe your app info
 
@@ -95,8 +97,8 @@ void VulkanContext ::CreateInstance()
     //---------------------------------------------------------------------------- Get all available extensions
 
     uint32_t extensionsCount;
-    const std::vector<const char *> validationLayers = { "VK_LAYER_KHRONOS_validation "};
-    char const *const *extensions = window->GetExtensions(extensionsCount);
+    const std::vector<const char *> validationLayers = { "VK_LAYER_KHRONOS_validation"};
+    char const *const *extensions = window.GetExtensions(extensionsCount);
     std::vector<const char *> extensionsVector(extensions, extensions + extensionsCount);
 
     if (enableValidationLayers)
@@ -154,12 +156,12 @@ void VulkanContext ::CreateInstance()
     }
   }
 
-void VulkanContext::CreateSurface()
+void Context::CreateSurface(VkInstance instance, VkSurfaceKHR& surface)
 {
-    window->CreateSurface(instance, surface);
+    window.CreateSurface(instance,surface);
 }
 
-void VulkanContext::CheckSurfaceCapabilities()
+void Context::CheckSurfaceCapabilities()
 {
     // Query surface capabilities
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice,surface,&surfaceCapabilities);
@@ -197,9 +199,11 @@ void VulkanContext::CheckSurfaceCapabilities()
         break;
       }
     }
+
+
 }
 
-void VulkanContext::PickPhysicalDevice()
+void Context::PickPhysicalDevice()
 {
   physicalDevice = nullptr;
   uint32_t deviceCount = 0;
@@ -245,7 +249,7 @@ void VulkanContext::PickPhysicalDevice()
   }
 }
 
-void VulkanContext::CheckPhysicalDeviceForRequiredQueues()
+void Context::CheckPhysicalDeviceForRequiredQueues()
 {
   // After picking the physical device, we need to check if it supports the
   // queue that we want to use it for
@@ -265,11 +269,11 @@ void VulkanContext::CheckPhysicalDeviceForRequiredQueues()
     {
       graphicsFamilyIndex = i;
     }
-    if ((transferFamilyIndex == -1) && (queueFamilyProperties[i].queueFlags & VK_QUEUE_TRANSFER_BIT))
+    else if ((transferFamilyIndex == -1) && (queueFamilyProperties[i].queueFlags & VK_QUEUE_TRANSFER_BIT))
     {
       transferFamilyIndex = i;
     }
-    if ((computeFamilyIndex == -1) && (queueFamilyProperties[i].queueFlags & VK_QUEUE_COMPUTE_BIT))
+    else if ((computeFamilyIndex == -1) && (queueFamilyProperties[i].queueFlags & VK_QUEUE_COMPUTE_BIT))
     {
       computeFamilyIndex = i;
     }
@@ -291,7 +295,7 @@ void VulkanContext::CheckPhysicalDeviceForRequiredQueues()
   }
 }
 
-void VulkanContext::CreteLogicalDevice()
+void Context::CreteLogicalDevice()
 {
     // After selecting the physical device and getting graphics queue we can create a logical device
     // On mobile GPU graphics,transfer and compute queues are same(most of the time) but different on discrete gpus like nvidia or amd
@@ -370,7 +374,7 @@ void VulkanContext::CreteLogicalDevice()
 
 }
 
-void VulkanContext::CreateGlobalAllocator()
+void Context::CreateGlobalAllocator()
 {
     VmaAllocatorCreateInfo allocatorCreateInfo{};
 
@@ -394,7 +398,7 @@ void VulkanContext::CreateGlobalAllocator()
 
 
 
-VulkanContext::~VulkanContext()
+Context::~Context()
 {
 
 #ifndef NDEBUG
