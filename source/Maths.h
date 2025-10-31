@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cmath>
 
 #define degreeToRadians 0.017453f
 

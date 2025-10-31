@@ -1,5 +1,4 @@
 #pragma once
-#include "Context.h"
 
 
 #define diffuseFormat               VK_FORMAT_R8G8B8A8_UNORM // Base color in linear space

@@ -1,8 +1,5 @@
 #include "CommandPool.h"
 #include "CommandBuffer.h"
-#include "stdexcept"
-#include "string"
-
 
 CommandPool::CommandPool(Context& context) : context(context)
 {

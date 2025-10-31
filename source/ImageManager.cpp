@@ -1,5 +1,5 @@
 #include "ImageManager.h"
-#include "stdexcept"
+
 
 ImageManager::ImageManager(Context& context) : context(context)
 {

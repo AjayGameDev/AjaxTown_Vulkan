@@ -1,9 +1,4 @@
-#include "Context.h"
-#include "vector"
-#include <iostream>
-#include "spdlog/spdlog.h"
 #include "Window.h"
-
 
 
 #pragma region Debugging Helper Functions

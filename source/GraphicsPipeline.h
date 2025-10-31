@@ -1,6 +1,4 @@
 #pragma once
-#include "Context.h"
-#include <vulkan/vulkan.h>
 
 class GraphicsPipeline 
 {

@@ -1,6 +1,5 @@
 #include "Renderpass.h"
 #include "ImageManager.h"
-#include "stdexcept"
 
 Renderpass::Renderpass(Context& context): context(context)
 {

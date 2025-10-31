@@ -1,13 +1,10 @@
 #pragma once
 
-#include "vector"
 #include "Fence.h"
 #include "Semaphore.h"
-#include "Context.h"
 #include "Swapchain.h"
 #include "CommandPool.h"
 #include "CommandBuffer.h"
-#include "SDL3/SDL.h"
 
 struct FrameResource
 {

@@ -1,5 +1,4 @@
 #include "Buffer.h"
-#include "string"
 
 Buffer::Buffer(Context& context, const uint64_t &size, const VkBufferUsageFlags &usage, const VmaMemoryUsage &memoryUsageType) : context(context)
 {

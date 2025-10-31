@@ -1,9 +1,4 @@
 #include "Window.h"
-#include "stdexcept"
-#include "string"
-#include "Context.h"
-#include "SDL3/SDL.h"
-#include "SDL3/SDL_vulkan.h"
 
 Window::Window(const char *title, const int width, const int height)
 {

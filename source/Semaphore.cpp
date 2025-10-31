@@ -1,6 +1,4 @@
 #include "Semaphore.h"
-#include "stdexcept"
-#include "string"
 
 Semaphore::Semaphore(Context& context) : context(context)
 {

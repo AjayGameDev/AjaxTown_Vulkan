@@ -1,9 +1,5 @@
 #pragma once
 
-//#include "Window.h"
-#include "vulkan/vulkan.h"
-#include "vma/vk_mem_alloc.h"
-
 
 class Window;
 

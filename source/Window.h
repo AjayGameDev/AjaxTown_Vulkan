@@ -1,8 +1,6 @@
 #pragma once
 
-#include "vulkan/vulkan.h"
 
-class SDL_Window;
 
 class Window 
 {

@@ -48,6 +48,8 @@
         add_executable(main ${AjaxTownSourceFiles})
     endif()
 
+    target_precompile_headers(main PRIVATE source/pch.h)
+
     # Include directories
     target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")
 

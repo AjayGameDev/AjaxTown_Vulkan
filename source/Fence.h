@@ -1,7 +1,4 @@
 #pragma once
-#include "Context.h"
-#include "stdexcept"
-#include "string"
 
 class Fence 
 {
