@@ -3,6 +3,12 @@
 
 class Window;
 
+enum class RendererType
+{
+    Deferred,
+    Forward
+};
+
 class Context
 {
   public:

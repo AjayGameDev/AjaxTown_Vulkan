@@ -40,6 +40,6 @@ class ImageManager
     public :
             explicit ImageManager(Context& context);
 
-            void Create2DImage(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage, bool renderTarget = false);
-            void Create2DImageDepth(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage);
+            void Create2DImage(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage, bool renderTarget = false,VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT,VkImageUsageFlags imageUsageFlags = 0);
+            void Create2DImageDepth(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage,VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 };

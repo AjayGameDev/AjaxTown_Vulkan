@@ -2,7 +2,7 @@
 
 
 
-Framebuffer::Framebuffer(Context& context, Swapchain& swapchain, ImageManager& imageManager, Renderpass& renderpass) : context(context), swapchain(swapchain), imageManager(imageManager), renderpass(renderpass), diffuse(context), normal(context), RMAO(context), depth(context),hdr(context)
+Framebuffer::Framebuffer(Context& context, Swapchain& swapchain, ImageManager& imageManager, Renderpass& renderpass,RendererType rendererType,VkSampleCountFlagBits samples) : context(context), swapchain(swapchain), imageManager(imageManager), renderpass(renderpass),samples(samples),rendererType(rendererType), diffuse(context), normal(context), RMAO(context), depth(context),hdr(context),hdrColorImage(context),depthImage(context),resolvedImage(context)
 {
     CreateImages();
     CreateFrameBuffer();
@@ -14,17 +14,32 @@ void Framebuffer::CreateImages()
     auto width  = context.surfaceCapabilities.currentExtent.width;
     auto height = context.surfaceCapabilities.currentExtent.height;
 
-    imageManager.Create2DImage(diffuse,width,height,diffuseFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager.Create2DImage(normal,width,height,normalFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager.Create2DImage(RMAO,width,height,RMAOFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager.Create2DImage(hdr,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
-    imageManager.Create2DImageDepth(depth,width,height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY);
+    if (rendererType==RendererType::Deferred)
+    {
+        imageManager.Create2DImage(diffuse,width,height,diffuseFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+        imageManager.Create2DImage(normal,width,height,normalFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+        imageManager.Create2DImage(RMAO,width,height,RMAOFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+        imageManager.Create2DImage(hdr,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true);
+        imageManager.Create2DImageDepth(depth,width,height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY);
+    }
+    else if (rendererType==RendererType::Forward)
+    {
+        imageManager.Create2DImage(hdrColorImage,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true,samples,VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+        imageManager.Create2DImageDepth(depthImage,width,height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY,samples);
+        imageManager.Create2DImage(resolvedImage,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true,VK_SAMPLE_COUNT_1_BIT,VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+    }
+
 }
 
 void Framebuffer::CreateFrameBuffer()
 {
+    std::vector<VkImageView> attachments;
     // Make sure it's in the same order as the renderpass otherwise it will throw validation error
-    std::vector<VkImageView> attachments = { diffuse.imageView ,normal.imageView,RMAO.imageView,depth.imageView,hdr.imageView };
+    if (rendererType==RendererType::Deferred)
+        attachments = { diffuse.imageView ,normal.imageView,RMAO.imageView,depth.imageView,hdr.imageView };
+    else if (rendererType==RendererType::Forward)
+        attachments = { hdrColorImage.imageView ,depthImage.imageView,resolvedImage.imageView};
+
 
     for (auto swapchainImageView : swapchain.imageViews)
     {

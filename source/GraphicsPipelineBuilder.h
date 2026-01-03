@@ -41,7 +41,8 @@ class GraphicsPipelineBuilder
             {
                 VERTEX_FORMAT_STANDARD,
                 VERTEX_FORMAT_SKINNED,
-                VERTEX_FORMAT_MINIMAL
+                VERTEX_FORMAT_MINIMAL,
+                VERTEX_FORMAT_NONE
             };
 
             enum class BlendingType
@@ -158,11 +159,15 @@ class GraphicsPipelineBuilder
                     // work in progress
 
                 }
+                else if (vertexInputType == VertexInputTypes::VERTEX_FORMAT_NONE)
+                {
 
-                vertexInputInfo.vertexBindingDescriptionCount    =  vertexBindings.size();
-                vertexInputInfo.pVertexBindingDescriptions       =  vertexBindings.data();
-                vertexInputInfo.vertexAttributeDescriptionCount  =  vertexAttributes.size();
-                vertexInputInfo.pVertexAttributeDescriptions     =  vertexAttributes.data();
+                }
+
+                //vertexInputInfo.vertexBindingDescriptionCount    =  vertexBindings.size();
+                //vertexInputInfo.pVertexBindingDescriptions       =  vertexBindings.data();
+                //vertexInputInfo.vertexAttributeDescriptionCount  =  vertexAttributes.size();
+                //vertexInputInfo.pVertexAttributeDescriptions     =  vertexAttributes.data();
 
                 return *this;
             }
@@ -245,8 +250,8 @@ class GraphicsPipelineBuilder
 
                 vertexShaderStage.sType   =  VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
                 vertexShaderStage.stage   =  VK_SHADER_STAGE_VERTEX_BIT; // type of shader
-                vertexShaderStage.module  =  vertexShaderModule; // compiled spir-v shader
-                vertexShaderStage.pName   =  "main"; // name of the entry point function in the shader
+                vertexShaderStage.module  =  vertexShaderModule;        // compiled spir-v shader
+                vertexShaderStage.pName   =  "main";                   // name of the entry point function in the shader
 
                 shaderStages.push_back(vertexShaderStage);
                 return *this;
@@ -296,7 +301,6 @@ class GraphicsPipelineBuilder
                 for (int i = 0; i < numberOfAttachements; ++i)
                 {
                     VkPipelineColorBlendAttachmentState colorblendAttachmentState{};
-                    colorblendAttachmentState.blendEnable = (blendtype == BlendingType::OPAQUE) ? false : true;
                     if (numberOfColorChannels == 4)
                         colorblendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
                     else if (numberOfColorChannels == 3)
@@ -305,10 +309,14 @@ class GraphicsPipelineBuilder
                     switch (blendtype)
                     {
                         case BlendingType::OPAQUE :
+
+                            colorblendAttachmentState.blendEnable = false;
                             // for opaque blending is disabled so these parameters don't matter
                               break;
 
                         case BlendingType::ALPHA :
+
+                            colorblendAttachmentState.blendEnable = true;
                             // finalColor = srcColor * srcAlpha + DstColor * (1 - srcAlpha)
                             // finalAlpha = srcAlpha [Alpha part will only work if referenced attachment in renderpass has alpha in format] [For R8G8B8_UNORM alpha will be ignored] [R8G8B8A8_UNORM alpha will be used]
 
@@ -322,6 +330,8 @@ class GraphicsPipelineBuilder
                             break;
 
                         case BlendingType::ADDITIVE :
+
+                            colorblendAttachmentState.blendEnable = true;
                             // finalColor = srcColor * srcAlpha + DstColor * 1
                             // finalAlpha = srcAlpha + dstAlpha [Alpha part will only work if referenced attachment in renderpass has alpha in format] [For R8G8B8_UNORM alpha will be ignored] [R8G8B8A8_UNORM alpha will be used]
 
@@ -415,6 +425,16 @@ class GraphicsPipelineBuilder
 
             }
 
+            GraphicsPipelineBuilder& SetMultiSampling(VkSampleCountFlagBits samples,bool alphaToCoverageEnable,bool alphaToOneEnable,bool sampleShading = false,float minSampleShading = 1.0f)
+            {
+                multisamplingInfo.rasterizationSamples  = samples;
+                multisamplingInfo.sampleShadingEnable   = sampleShading;
+                multisamplingInfo.minSampleShading      = minSampleShading;
+                multisamplingInfo.alphaToCoverageEnable = alphaToCoverageEnable;
+                multisamplingInfo.alphaToOneEnable      = alphaToOneEnable;
+
+                return *this;
+            }
             void BuildMultisampling()
             {
                 // to be done, currently it's off so might not be needed as of now

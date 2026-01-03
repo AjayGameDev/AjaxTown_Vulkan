@@ -4,9 +4,12 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/VS Debug/_deps/sdl-src" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/VS Debug/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="D:/Github/Ajax Town Builds/VS Debug/_deps/spirvcross-src" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/VS Release/_deps/sdl-src" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/VS Release/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="D:/Github/Ajax Town Builds/VS Release/_deps/spirvcross-src" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/android_arm64/_deps/sdl-src" vcs="Git" />
     <mapping directory="D:/Github/Ajax Town Builds/android_arm64/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="D:/Github/Ajax Town Builds/android_arm64/_deps/spirvcross-src" vcs="Git" />
   </component>
 </project>

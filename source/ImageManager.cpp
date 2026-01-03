@@ -6,7 +6,7 @@ ImageManager::ImageManager(Context& context) : context(context)
 
 }
 
-void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage, bool renderTarget)
+void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage, bool renderTarget,VkSampleCountFlagBits samples,VkImageUsageFlags imageUsageFlags)
 {
     //image.SetContext(context);
 
@@ -16,14 +16,22 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     image.imageInfo.mipLevels       =   1;
     image.imageInfo.arrayLayers     =   1;
     image.imageInfo.imageType       =   VK_IMAGE_TYPE_2D;
-    image.imageInfo.samples         =   VK_SAMPLE_COUNT_1_BIT;
+    image.imageInfo.samples         =   samples;
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
     image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE;
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
-    image.imageInfo.usage           =   VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
+    image.imageInfo.usage           =   VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // Important for frame buffer attachments
 
-    if (renderTarget)
-        image.imageInfo.usage      |=   VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // Important for frame buffer attachments
+    if (samples>VK_SAMPLE_COUNT_1_BIT)
+    {
+        image.imageInfo.usage      |=   VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT;
+    }
+    else
+    {
+        image.imageInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
+    }
+    if (imageUsageFlags!=0)
+        image.imageInfo.usage |= imageUsageFlags;
 
     image.allocationCreateInfo.usage = vmaMemoryUsage;
 
@@ -49,7 +57,7 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
 
 }
 
-void ImageManager::Create2DImageDepth(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage)
+void ImageManager::Create2DImageDepth(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage,VkSampleCountFlagBits samples)
 {
     image.imageInfo.sType           =   VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     image.imageInfo.extent          =   { width, height, 1};
@@ -57,12 +65,20 @@ void ImageManager::Create2DImageDepth(Image& image,uint32_t width, uint32_t heig
     image.imageInfo.mipLevels       =   1;
     image.imageInfo.arrayLayers     =   1;
     image.imageInfo.imageType       =   VK_IMAGE_TYPE_2D;
-    image.imageInfo.samples         =   VK_SAMPLE_COUNT_1_BIT;
+    image.imageInfo.samples         =   samples;
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
     image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE;
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
-    image.imageInfo.usage           =   VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
+    image.imageInfo.usage           =   VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 
+    if (samples>1)
+    {
+        image.imageInfo.usage           |= VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT;
+    }
+    else
+    {
+        image.imageInfo.usage           |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
+    }
     image.allocationCreateInfo.usage = vmaMemoryUsage;
 
     if (vmaCreateImage(context.allocator,&image.imageInfo,&image.allocationCreateInfo,&image.image,&image.allocation,nullptr) != VK_SUCCESS)

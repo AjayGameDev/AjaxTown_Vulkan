@@ -24,7 +24,7 @@ void GameTime::Update()
                                                 // store it as double instead of float[read article in .h]
 	if (frequency <= 0)
 		return;
-	deltaTime     = ( (double)(currentTicks - previousTicks) ) / frequency;
+	deltaTime     = static_cast<double>(currentTicks - previousTicks) / frequency;
 	previousTicks = currentTicks;
 
 	if (deltaTime > maxDeltaTime)

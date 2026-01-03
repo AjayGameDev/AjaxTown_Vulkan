@@ -31,16 +31,17 @@ class Renderer
     private:
             Context& context;
             Swapchain& swapchain;
-            uint8_t currentFrame = 0;
-            uint8_t maxFramesInFlight = 0;
+            uint32_t currentFrame = 0;
+            uint32_t maxFramesInFlight = 0;
             uint32_t currentImageIndex = 0;
             bool shouldCloseWindow = false;
             std::vector<FrameResource> frameResources;
             VkViewport viewport{};
             VkRect2D scissor{};
-
+            RendererType rendererType;
+            VkSampleCountFlagBits samples;
     public:
-            Renderer(Context& context,Swapchain& swapchain,const uint8_t maxFramesInFlight) : context(context),swapchain(swapchain),maxFramesInFlight(maxFramesInFlight)
+            Renderer(Context& context,Swapchain& swapchain,const uint8_t maxFramesInFlight,RendererType rendererType,VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) : context(context),swapchain(swapchain),maxFramesInFlight(maxFramesInFlight),rendererType(rendererType),samples(samples)
             {
                 frameResources.reserve(maxFramesInFlight);
 
@@ -90,7 +91,14 @@ class Renderer
                 scissor.extent    =   swapchain.swapChainCreateInfo.imageExtent;
             }
 
-
+            RendererType GetRendererType()
+            {
+                return rendererType;
+            }
+            VkSampleCountFlagBits GetSamplesCount()
+            {
+                return samples;
+            }
             bool ShouldCloseWindow()
             {
                 SDL_Event e;
@@ -148,7 +156,7 @@ class Renderer
                 presentInfo.pSwapchains          =   &swapchainHandle;
                 presentInfo.pImageIndices        =   &currentImageIndex;
                 presentInfo.waitSemaphoreCount   =   1;
-                    presentInfo.pWaitSemaphores      =   &renderingFinsihedSemaphore;
+                presentInfo.pWaitSemaphores      =   &renderingFinsihedSemaphore;
 
                 vkQueuePresentKHR(context.graphicsQueue,&presentInfo);
             }
@@ -186,15 +194,30 @@ class Renderer
                 renderArea.offset = {0,0};
                 renderArea.extent = swapchain.swapChainCreateInfo.imageExtent;
 
-                std::vector<VkClearValue> clearValues(6);
+                std::vector<VkClearValue> clearValues;
 
-                // Attachments 0-2: G-buffer color attachments
-                clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};       // Albedo
-                clearValues[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}};      // Normal
-                clearValues[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};     // RMAO
-                clearValues[3].depthStencil = {1.0f, 0};              // Attachment 3: DEPTH - MUST use depthStencil, not color!
-                clearValues[4].color = {{0.0f, 0.0f, 0.0f, 1.0f}};   // Attachment 4: HDR output
-                clearValues[5].color = {{0.1f, 0.2f, 0.3f, 1.0f}};  // Attachment 5: Final output (what you see on screen)
+                if (rendererType==RendererType::Deferred)
+                {
+                    clearValues.resize(6);
+
+                    // Attachments 0-2: G-buffer color attachments
+                    clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};       // Albedo
+                    clearValues[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}};      // Normal
+                    clearValues[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};     // RMAO
+                    clearValues[3].depthStencil = {1.0f, 0};              // Attachment 3: DEPTH - MUST use depthStencil, not color!
+                    clearValues[4].color = {{0.0f, 0.0f, 0.0f, 1.0f}};   // Attachment 4: HDR output
+                    clearValues[5].color = {{0.1f, 0.2f, 0.3f, 1.0f}};  // Attachment 5: Final output (what you see on screen)
+                }
+                else if (rendererType==RendererType::Forward)
+                {
+                    clearValues.resize(4);
+
+                    clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};       // msaa hdr color
+                    clearValues[1].depthStencil = {1.0f, 0};                //  msaa DEPTH - MUST use depthStencil, not color!
+                    clearValues[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};     //   resolved hdr
+                    clearValues[3].color = {{0.1f, 0.2f, 0.3f, 1.0f}};    //    final output
+                }
+
 
                 frameResources[currentFrame].graphicsCommandBuffer.BeginRenderpass(renderpass,framebuffer,renderArea,clearValues);
             }
@@ -224,5 +247,8 @@ class Renderer
                 frameResources[currentFrame].graphicsCommandBuffer.NextSubpass();
             }
 
-
+            void BindDescriptorSet(VkPipelineLayout& pipelineLayout,VkDescriptorSet& descriptorSet)
+            {
+                vkCmdBindDescriptorSets(frameResources[currentFrame].graphicsCommandBuffer.GetHandle(),VK_PIPELINE_BIND_POINT_GRAPHICS,pipelineLayout,0,1,&descriptorSet,0,NULL);
+            }
 };

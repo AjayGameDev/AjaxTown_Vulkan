@@ -15,3 +15,22 @@
 #include <memory.h>
 
 #include "Context.h"
+
+
+enum class ShaderType : uint8_t
+{
+    none,
+    vert,
+    frag,
+    comp
+
+};
+
+enum class DescriptorUpdateFrequency
+{
+    PerFrame,
+    PerPass,
+    PerMaterial,
+    PerObject,
+    None
+};

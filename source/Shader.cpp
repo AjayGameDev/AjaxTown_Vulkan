@@ -30,7 +30,7 @@ void Shader::LoadShader(const char *shaderName, Context& context)
 
 }
 
-std::vector<char> Shader::ReadShader(const std::string &shaderName, ShaderType shaderType)
+std::vector<uint32_t> Shader::ReadShader(const std::string &shaderName, ShaderType shaderType)
 {
     std::string shaderTypeName;
 
@@ -52,22 +52,23 @@ std::vector<char> Shader::ReadShader(const std::string &shaderName, ShaderType s
         std::cout << "\nCan't open shader file!" << shaderName;
     }
     const long long fileSize = file.tellg();
-    std::vector<char> buffer(fileSize);
+    size_t wordCount = fileSize / sizeof(uint32_t);
+    std::vector<uint32_t> buffer(wordCount);
 
     file.seekg(0);
-    file.read(buffer.data(),fileSize);
+    file.read(reinterpret_cast<char *>(buffer.data()),fileSize);
     file.close();
 
     return buffer;
 }
 
-VkShaderModule Shader::CreateShaderModule(const VkDevice& device, const std::vector<char>& shaderCode)
+VkShaderModule Shader::CreateShaderModule(const VkDevice& device, const std::vector<uint32_t>& shaderCode)
 {
     VkShaderModuleCreateInfo shaderModuleCreateInfo{};
 
     shaderModuleCreateInfo.sType     =  VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-    shaderModuleCreateInfo.codeSize  =  shaderCode.size();
-    shaderModuleCreateInfo.pCode     =  reinterpret_cast<const uint32_t*>(shaderCode.data());
+    shaderModuleCreateInfo.codeSize  =  shaderCode.size() * sizeof(uint32_t);
+    shaderModuleCreateInfo.pCode     =  shaderCode.data();
 
     VkShaderModule shaderModule;
 

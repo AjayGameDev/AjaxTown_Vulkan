@@ -35,6 +35,15 @@
     )
     FetchContent_MakeAvailable(VMA)
 
+    #Fetch SPIRV-Cross
+    FetchContent_Declare(
+            SPIRVCross
+            GIT_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Cross"
+            GIT_TAG "vulkan-sdk-1.4.328.1"
+            GIT_SHALLOW TRUE
+    )
+    FETCHCONTENT_MAKEAVAILABLE(SPIRVCross)
+
     # Gather source files
     file(GLOB_RECURSE AjaxTownSourceFiles CONFIGURE_DEPENDS
             "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
@@ -64,6 +73,9 @@
 
     # Link spdlog in debug mode
     target_link_libraries(main PRIVATE spdlog::spdlog)
+
+    # Link SPIRV Cross
+    target_link_libraries(main PRIVATE spirv-cross-core spirv-cross-glsl)
 
 
     # Vulkan setup

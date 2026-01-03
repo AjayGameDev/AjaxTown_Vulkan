@@ -33,7 +33,7 @@ void BufferManager::CopyBuffer(Buffer *sourceBuffer, Buffer *destinationBuffer)
 
   VkBufferCopy bufferCopyRegion{};
   bufferCopyRegion.size = sourceBuffer->bufferCreateInfo.size;
-  vkCmdCopyBuffer(copyCommand,sourceBuffer->buffer,destinationBuffer->buffer,1,&bufferCopyRegion);
+  vkCmdCopyBuffer(copyCommand,sourceBuffer->handle,destinationBuffer->handle,1,&bufferCopyRegion);
   EndOneTimeCommandBuffer(copyCommand,context.transferQueue,context.device,tempCommandPool);
 
 }

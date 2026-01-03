@@ -40,6 +40,8 @@ VkPipelineLayout& GraphicsPipeline::GetPipelineLayout()
 
 GraphicsPipeline::~GraphicsPipeline()
 {
+    vkDeviceWaitIdle(context.device); // to be fixed
+
     if (pipeline!=nullptr)
         vkDestroyPipeline(context.device,pipeline,nullptr);
 
