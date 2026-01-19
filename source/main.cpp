@@ -8,14 +8,14 @@ int main(int argc,char* argv[])
     Renderer renderer(context,swapchain,swapchain.imageCount,RendererType::Forward,VK_SAMPLE_COUNT_8_BIT);
     Renderpass renderpass(context,renderer.GetRendererType(),renderer.GetSamplesCount());
     ImageManager imageManager(context);
-    BufferManager bufferManager(context);
+    BufferManager bufferManager(context); 
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
     Shader triangleShader(context,"Triangle");
     Shader postprocessingShader(context,"PostProcessing");
 
     std::vector<Vertex_Minimal> vertices;
     vertices.push_back({  { 0.0,-0.5,0.0 },{ 0.0,-0.5 } });
-    vertices.push_back({  { 0.5,0.5,0.0 },{ 0.0,-0.5 } });
+    vertices.push_back({  { 0.5,0.5,0.0  },{ 0.0,-0.5 } });
     vertices.push_back({  { -0.5,0.5,0.0 },{ 0.0,-0.5 } });
 
     const size_t vertexBufferSize = sizeof(Vertex_Minimal)  * vertices.size();
@@ -30,7 +30,7 @@ int main(int argc,char* argv[])
     descriptor.AllocateGlobalSet();
     descriptor.UpdateGlobalSet(vertexBuffer,framebuffer);
 
-
+   //Model model("Webley.fbx");
 
     GraphicsPipeline forwardLightingGraphicsPipeline =  GraphicsPipelineBuilder()
                                             .InputAssembly(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST)

@@ -1,0 +1,17 @@
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/ZERO_CHECK.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/spdlog-build/CMakeFiles/spdlog.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/spdlog-build/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/spdlog-build/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/spdlog-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/vma-build/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/vma-build/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/vma-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/SDL3-static.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/SDL3_test.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/SDL_uclibc.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/ALL_BUILD.dir

@@ -2,7 +2,6 @@
 
 
 
-class Context;
 
 class Buffer 
 {

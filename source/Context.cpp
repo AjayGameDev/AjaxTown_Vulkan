@@ -372,10 +372,14 @@ void Context::CreteLogicalDevice()
 void Context::CreateGlobalAllocator()
 {
     VmaAllocatorCreateInfo allocatorCreateInfo{};
+    //VmaVulkanFunctions functions{};
+    //functions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
+    //functions.vkGetDeviceProcAddr   = vkGetDeviceProcAddr;
 
     allocatorCreateInfo.device          =  device;
     allocatorCreateInfo.instance        =  instance;
     allocatorCreateInfo.physicalDevice  =  physicalDevice;
+    //allocatorCreateInfo.pVulkanFunctions = &functions;
 
     if (vmaCreateAllocator(&allocatorCreateInfo, &allocator) != VK_SUCCESS)
     {

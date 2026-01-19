@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maths.h"
+class aiScene;
 
 struct Vertex_Standard
 {
@@ -27,3 +27,19 @@ struct Vertex_Skinned
   uint4   boneIndices;  // uInt 4, each vertex can be affected by max 4 bones
   Vector4 boneWeights; //  should sum upto 1(normalized) or can be normalized in the shader
 };
+/*
+class Model
+{
+  private:
+          std::vector<Vertex_Standard> vertices;
+          std::vector<uint32_t> indices;
+
+  public:
+          explicit Model(const std::string& modelName);
+          ~Model();
+
+          void Process(const aiScene * scene);
+
+          void LoadModel(const std::string& modelName);
+};
+*/

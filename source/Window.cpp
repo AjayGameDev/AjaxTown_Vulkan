@@ -11,7 +11,7 @@ Window::Window(const char *title, const int width, const int height)
     throw std::runtime_error("Can't Initialize SDL \n" + error);
   }
 
-  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
+  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE  | SDL_WINDOW_BORDERLESS | SDL_WINDOW_TRANSPARENT);
 
   if (handle == nullptr)
   {

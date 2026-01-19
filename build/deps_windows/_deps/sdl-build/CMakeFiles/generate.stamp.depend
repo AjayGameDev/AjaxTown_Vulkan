@@ -1,0 +1,50 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-4.2/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDependentOption.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakePushCheckState.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCCompilerFlag.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCSourceRuns.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCXXCompilerFlag.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCXXSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLanguage.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLinkerFlag.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckStructHasMember.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckSymbolExists.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindGit.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindPkgConfig.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckCompilerFlag.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckFlagCommonConfig.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckLinkerFlag.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckSourceRuns.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/WriteBasicConfigVersionFile.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/cmake.verify_globs
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/SDL_build_config.h.intermediate
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/CMakeLists.txt
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/3rdparty.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/FindLibUSB.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/GetGitRevisionDescription.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/PreseedEmscriptenCache.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/PreseedMSVCCache.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/PreseedNokiaNGageCache.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/SDL3Config.cmake.in
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/macros.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdl3.pc.in
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlchecks.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlcommands.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlcompilers.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlcpu.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlmanpages.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/cmake/sdlplatform.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/include/build_config/SDL_build_config.h.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-src/include/build_config/SDL_revision.h.cmake

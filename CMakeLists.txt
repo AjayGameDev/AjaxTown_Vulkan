@@ -4,45 +4,14 @@
 
     set(CMAKE_CXX_STANDARD 20)
 
-    include(FetchContent)
+    if(ANDROID)
+        set(External_Source "${CMAKE_CURRENT_LIST_DIR}/build/deps_android_arm64/install")
+    else()
+        set(External_Source "${CMAKE_CURRENT_LIST_DIR}/build/deps_windows/install")
+    endif ()
 
-    # Fetch SDL
-    set(SDL_SHARED OFF CACHE BOOL "" FORCE)
-    set(SDL_STATIC ON CACHE BOOL "" FORCE)
-    FetchContent_Declare(
-            sdl
-            GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
-            GIT_TAG "release-3.2.16"
-            GIT_SHALLOW TRUE
-    )
-    FetchContent_MakeAvailable(sdl)
+    list(APPEND CMAKE_PREFIX_PATH "${External_Source}") #Search packages here
 
-    #Fetch spdlog
-    FetchContent_Declare(
-            spdlog
-            GIT_REPOSITORY "https://github.com/gabime/spdlog.git"
-            GIT_TAG "v1.15.3"
-            GIT_SHALLOW TRUE
-    )
-    FetchContent_MakeAvailable(spdlog)
-
-    #Fetch VMA
-    FetchContent_Declare(
-            VMA
-            GIT_REPOSITORY "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git"
-            GIT_TAG "v3.3.0"
-            GIT_SHALLOW TRUE
-    )
-    FetchContent_MakeAvailable(VMA)
-
-    #Fetch SPIRV-Cross
-    FetchContent_Declare(
-            SPIRVCross
-            GIT_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Cross"
-            GIT_TAG "vulkan-sdk-1.4.328.1"
-            GIT_SHALLOW TRUE
-    )
-    FETCHCONTENT_MAKEAVAILABLE(SPIRVCross)
 
     # Gather source files
     file(GLOB_RECURSE AjaxTownSourceFiles CONFIGURE_DEPENDS
@@ -53,29 +22,33 @@
     # Create the main target first
     if(ANDROID)
         add_library(main SHARED ${AjaxTownSourceFiles})
+        # The Android toolchain file sets CMAKE_FIND_ROOT_PATH_MODE_PACKAGE to ONLY by default
+        # which tells CMake to only look inside the Android NDK's internal folders
+        # This allows CMake to search both the Android sysroot and your custom installation directory
+        set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+        set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+        set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
     else()
         add_executable(main ${AjaxTownSourceFiles})
     endif()
 
-    target_precompile_headers(main PRIVATE source/pch.h)
+    find_package(SDL3 CONFIG REQUIRED)
+    find_package(Threads REQUIRED)
+    find_package(External CONFIG REQUIRED)
+
+    target_link_libraries(main PRIVATE
+            SDL3::SDL3-static
+            External::spdlog
+            External::VulkanMemoryAllocator
+    )
+
+
+        target_precompile_headers(main PRIVATE source/pch.h)
 
     # Include directories
     target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
-    # Include VMA headers
-    target_include_directories(main PRIVATE ${vma_SOURCE_DIR}/include)
 
-    # Link SDL
-    target_link_libraries(main PRIVATE SDL3::SDL3)
-
-    # Link VMA
-    target_link_libraries(main PRIVATE GPUOpen::VulkanMemoryAllocator)
-
-    # Link spdlog in debug mode
-    target_link_libraries(main PRIVATE spdlog::spdlog)
-
-    # Link SPIRV Cross
-    target_link_libraries(main PRIVATE spirv-cross-core spirv-cross-glsl)
 
 
     # Vulkan setup
@@ -89,5 +62,6 @@
         if(NOT VULKAN_LIB)
             message(FATAL_ERROR "Vulkan library not found")
         endif()
-        target_link_libraries(main PRIVATE ${VULKAN_LIB})
+        target_link_libraries(main PRIVATE ${VULKAN_LIB} log android)
     endif()
+

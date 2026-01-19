@@ -1,5 +1,6 @@
 #include "Shader.h"
 
+#include "FileManager.h"
 
 
 Shader::Shader(Context& context): context(context)
@@ -44,7 +45,8 @@ std::vector<uint32_t> Shader::ReadShader(const std::string &shaderName, ShaderTy
 
     }
 
-    std::string filePath = R"(C:\Users\dubey\CLionProjects\AjaxTown\assets\shaders\compiled\)" + shaderName + shaderTypeName;
+    //std::string filePath = R"(C:\Users\dubey\CLionProjects\AjaxTown\assets\shaders\compiled\)" + shaderName + shaderTypeName;
+    std::string filePath = FileManager::GetLocation(FileManager::Shader) + shaderName + shaderTypeName;
 
     std::ifstream file(filePath,std::ios::binary | std::ios::ate);
     if (!file.is_open())

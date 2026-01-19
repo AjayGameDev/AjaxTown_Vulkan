@@ -1,5 +1,5 @@
 #include "Descriptor.h"
-#include "spirv_glsl.hpp"
+//#include "spirv_glsl.hpp"
 #include "array"
 #include "Buffer.h"
 #include "Framebuffer.h"
@@ -99,6 +99,7 @@ void Descriptor::UpdateGlobalSet(Buffer& vertexBuffer,Framebuffer& frameBuffer)
 
 void Descriptor::ReflectBindings(const std::vector<uint32_t>& spirvCode,ShaderType type)
 {
+    /*
     spirv_cross::CompilerGLSL compiler(spirvCode);
     auto resources = compiler.get_shader_resources();
 
@@ -114,6 +115,7 @@ void Descriptor::ReflectBindings(const std::vector<uint32_t>& spirvCode,ShaderTy
         binding.updateFrequency  =  SetToFrequency(binding.set);
 
         bindings.push_back(binding);
+
     }
 
     for (auto& resource: resources.uniform_buffers)
@@ -165,7 +167,7 @@ void Descriptor::ReflectBindings(const std::vector<uint32_t>& spirvCode,ShaderTy
 
         bindings.push_back(binding);
     }
-
+*/
 }
 
 void Descriptor::PrintBindings()

@@ -1,7 +1,7 @@
 #pragma once
 
 
-class Semaphore 
+class Semaphore
 {
     private:
             VkSemaphore handle = VK_NULL_HANDLE;

@@ -24,7 +24,7 @@ void Swapchain::CreateSwapchain()
     swapChainCreateInfo.imageUsage          =     VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     swapChainCreateInfo.imageSharingMode    =     VK_SHARING_MODE_EXCLUSIVE;
     swapChainCreateInfo.preTransform        =     context.surfaceCapabilities.currentTransform;
-    swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // this works with transparency too
     swapChainCreateInfo.presentMode         =     context.presentMode;
     swapChainCreateInfo.clipped             =     VK_TRUE;
     swapChainCreateInfo.oldSwapchain        =     VK_NULL_HANDLE;
