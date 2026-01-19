@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\adler32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\crc32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\deflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\gzclose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\gzlib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\gzread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\gzwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\infback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inftrees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inffast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\trees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\uncompr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\zutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-build\contrib\zlib\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\deflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\gzguts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inffast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inffixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\inftrees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\trees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\zutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\zlib\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{491785A8-2F4C-3DE7-84F3-A61A0E6AFAD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{F2ECDA7F-43B4-3D37-8918-E77861F5C3BC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

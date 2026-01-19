@@ -4,7 +4,10 @@
 		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/cmake_install.cmake",
 		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/spdlog-build/cmake_install.cmake",
 		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/vma-build/cmake_install.cmake",
-		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/sdl-build/cmake_install.cmake"
+		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/sdl-build/cmake_install.cmake",
+		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/assimp-build/cmake_install.cmake",
+		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/assimp-build/contrib/zlib/cmake_install.cmake",
+		"C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/assimp-build/code/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

@@ -1,0 +1,983 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Assimp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\CApi\CInterfaceIOWrapper.cpp">
+      <Filter>CApi</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Compression.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\BaseImporter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\BaseProcess.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\PostStepRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\ImporterRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\DefaultIOStream.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\IOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\DefaultIOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\ZipArchiveIOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Importer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\SGSpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\VertexTriangleAdjacency.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\SpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\SceneCombiner.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\ScenePreprocessor.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\SkeletonMeshBuilder.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\StandardShapes.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\TargetAnimation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\RemoveComments.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Subdivision.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\scene.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Bitmap.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Version.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\CreateAnimMesh.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\simd.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\material.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\AssertHandler.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Exceptional.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Base64.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Geometry\GeometryUtils.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\DefaultLogger.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Exporter.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\CApi\AssimpCExport.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\CalcTangentsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ComputeUVMappingProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ConvertToLHProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\EmbedTexturesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindDegenerates.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindInstancesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindInvalidDataProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FixNormalsStep.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\DropFaceNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenFaceNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenVertexNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\PretransformVertices.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ImproveCacheLocality.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\JoinVerticesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\LimitBoneWeightsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\RemoveRedundantMaterials.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\RemoveVCProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SortByPTypeProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SplitLargeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\TextureTransform.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\TriangulateProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ValidateDataStructure.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\OptimizeGraph.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\OptimizeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\DeboneProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ProcessHelper.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\MakeVerboseFormat.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ScaleProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ArmaturePopulate.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenBoundingBoxesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SplitByBoneCountProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Material\MaterialSystem.cpp">
+      <Filter>MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\STEPParser\STEPFileReader.cpp">
+      <Filter>STEPParser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\STEPParser\STEPFileEncoding.cpp">
+      <Filter>STEPParser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTFCommon\glTFCommon.cpp">
+      <Filter>glTFCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileImporter.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileMtlImporter.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileParser.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFImporter.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2Importer.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\unzip\ioapi.c">
+      <Filter>Contrib\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\unzip\unzip.c">
+      <Filter>Contrib\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\common\shapes.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\advancing_front.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\cdt.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\sweep.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\sweep_context.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\clipper\clipper.cpp">
+      <Filter>Contrib\Clipper</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\OpenDDLParser.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\DDLNode.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\OpenDDLCommon.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\OpenDDLExport.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\Value.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\code\OpenDDLStream.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcArithmeticCodec.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDynamicVectorDecoder.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDynamicVectorEncoder.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTools.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleFans.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\pugixml\src\pugixml.cpp">
+      <Filter>Contrib\Pugixml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\CApi\CInterfaceIOWrapper.h">
+      <Filter>CApi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\StbCommon.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Compression.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\BaseProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Importer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\ScenePrivate.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\DefaultProgressHandler.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\PolyTools.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Maybe.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\IFF.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\VertexTriangleAdjacency.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\ScenePreprocessor.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\StackAllocator.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\StackAllocator.inl">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\TargetAnimation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\simd.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Geometry\GeometryUtils.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\DefaultLogger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\LogStream.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Logger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\NullLogger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\Win32DebugLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\FileLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Common\StdOStreamLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\BlobIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\CalcTangentsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ComputeUVMappingProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ConvertToLHProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\EmbedTexturesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindDegenerates.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindInstancesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FindInvalidDataProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\FixNormalsStep.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\DropFaceNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenFaceNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenVertexNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\PretransformVertices.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ImproveCacheLocality.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\JoinVerticesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\LimitBoneWeightsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\RemoveRedundantMaterials.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\RemoveVCProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SortByPTypeProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SplitLargeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\TextureTransform.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\TriangulateProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ValidateDataStructure.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\OptimizeGraph.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\OptimizeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\DeboneProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ProcessHelper.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\MakeVerboseFormat.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ScaleProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\ArmaturePopulate.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\GenBoundingBoxesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\PostProcessing\SplitByBoneCountProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\Material\MaterialSystem.h">
+      <Filter>MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\STEPParser\STEPFileReader.h">
+      <Filter>STEPParser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\STEPParser\STEPFileEncoding.h">
+      <Filter>STEPParser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTFCommon\glTFCommon.h">
+      <Filter>glTFCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileData.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileImporter.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileMtlImporter.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjFileParser.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\Obj\ObjTools.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFAsset.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFAsset.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFAssetWriter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFAssetWriter.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF\glTFImporter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2Asset.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2Asset.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2AssetWriter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2AssetWriter.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\AssetLib\glTF2\glTF2Importer.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\unzip\crypt.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\unzip\ioapi.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\unzip\unzip.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\common\shapes.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\common\utils.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\advancing_front.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\cdt.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\sweep.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\poly2tri\poly2tri\sweep\sweep_context.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\clipper\clipper.hpp">
+      <Filter>Contrib\Clipper</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\OpenDDLParser.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\OpenDDLCommon.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\OpenDDLExport.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\OpenDDLStream.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\DDLNode.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\openddlparser\include\openddlparser\Value.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcAdjacencyInfo.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcArithmeticCodec.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcBinaryStream.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcCommon.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDVEncodeParams.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDynamicVectorDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDynamicVectorEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcDynamicVector.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcFIFO.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcIndexedFaceSet.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcIndexedFaceSet.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcSC3DMCDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcSC3DMCDecoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcSC3DMCEncodeParams.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcSC3DMCEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcSC3DMCEncoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTimer.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleFans.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleListDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleListDecoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleListEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcTriangleListEncoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcVector.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\Open3DGC\o3dgcVector.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\pugixml\src\pugiconfig.hpp">
+      <Filter>Contrib\Pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\pugixml\src\pugixml.hpp">
+      <Filter>Contrib\Pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\contrib\stb\stb_image.h">
+      <Filter>Contrib\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\anim.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\aabb.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ai_assert.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\camera.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\color4.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\color4.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-build\include\assimp\config.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ColladaMetaData.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\commonMetaData.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\defs.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\cfileio.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\light.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\material.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\material.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\matrix3x3.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\matrix3x3.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\matrix4x4.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\matrix4x4.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\mesh.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ObjMaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\pbrmaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\GltfMaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\postprocess.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\quaternion.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\quaternion.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\scene.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\metadata.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\texture.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\types.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\vector2.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\vector2.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\vector3.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\vector3.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\version.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\cimport.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\AssertHandler.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\importerdesc.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Importer.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ProgressHandler.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\IOStream.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\IOSystem.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\cexport.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Exporter.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\DefaultIOStream.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\DefaultIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ZipArchiveIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SceneCombiner.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\fast_atof.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\qnan.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\BaseImporter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Hash.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\MemoryIOWrapper.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ParsingUtils.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\StreamReader.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\StreamWriter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\StringComparison.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\StringUtils.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SGSpatialSort.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\GenericProperty.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SpatialSort.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SkeletonMeshBuilder.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SmallVector.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SmoothingGroups.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\SmoothingGroups.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\StandardShapes.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\RemoveComments.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Subdivision.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Vertex.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\LineSplitter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\TinyFormatter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Profiler.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\LogAux.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Bitmap.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\XMLTools.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\IOStreamBuffer.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\CreateAnimMesh.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\XmlParser.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\MathFunctions.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Exceptional.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\ByteSwapper.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Base64.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Compiler\pushpack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Compiler\poppack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\include\assimp\Compiler\pstdint.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\assimp-src\code\res\assimp.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AssetLib">
+      <UniqueIdentifier>{270A32EA-BF38-3B12-A429-9533F4D12AAD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\GLTF">
+      <UniqueIdentifier>{A99675A8-6324-31F4-A0FA-2AB50B6C34FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\OBJ">
+      <UniqueIdentifier>{27E52CAA-DB6D-3B78-99E1-831F021E8FDB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CApi">
+      <UniqueIdentifier>{04D7297B-1A56-3EEF-8D1D-71FA7E7222D9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{4F568D93-19A0-3475-979D-79C42038838F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compiler">
+      <UniqueIdentifier>{E0BC7CD0-1F2F-38BD-94BC-52252B36087D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib">
+      <UniqueIdentifier>{E30D7AF4-ED2B-3C4A-B2C8-0B6A0435659A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Clipper">
+      <UniqueIdentifier>{53A0CB90-4BB2-3828-BBB9-BC0528212FAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Poly2Tri">
+      <UniqueIdentifier>{7D8B22F8-A2F2-3E43-8CB8-C58EE8302097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Pugixml">
+      <UniqueIdentifier>{53C63E38-5D4A-378E-BD3B-B58383C55E0D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\open3dgc">
+      <UniqueIdentifier>{D350606E-EFF5-3D3E-9CB2-6FF2290B72C4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\openddl_parser">
+      <UniqueIdentifier>{515594A0-48DA-3898-B677-1976F7CC440E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\stb">
+      <UniqueIdentifier>{FFB5D7A5-F956-3894-AECA-E9EB40C48CF0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\unzip">
+      <UniqueIdentifier>{3A59BA18-B359-3B73-A357-3178414235D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{260E4916-6EDD-357B-98C9-511C6ABC7EAB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{C3468E7A-D116-3CA6-AEFF-A7967AD75271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{EABFB058-810C-3D78-A88A-67BDBC7C6320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialSystem">
+      <UniqueIdentifier>{08D4BE6B-1882-372F-8C8E-A59DD3A28D14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostProcessing">
+      <UniqueIdentifier>{23FE98BD-ED4D-39AB-94C1-85B662431C43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="STEPParser">
+      <UniqueIdentifier>{A719162A-3202-38E9-A61A-1607EAD203A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{F2ECDA7F-43B4-3D37-8918-E77861F5C3BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glTFCommon">
+      <UniqueIdentifier>{2946FC00-CC6A-385D-BF88-26D072E15FB9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{7E80F81F-C186-3546-9969-AD00A6CA14FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\assimp">
+      <UniqueIdentifier>{BCCF67A5-D4FB-3E78-A674-49772E54410F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

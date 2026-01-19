@@ -15,3 +15,15 @@ C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFi
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/PACKAGE.dir
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/INSTALL.dir
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/CMakeFiles/uninstall.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/contrib/zlib/CMakeFiles/zlibstatic.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/contrib/zlib/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/contrib/zlib/CMakeFiles/INSTALL.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/code/CMakeFiles/assimp.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/code/CMakeFiles/PACKAGE.dir
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/assimp-build/code/CMakeFiles/INSTALL.dir

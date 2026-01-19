@@ -34,10 +34,16 @@
 
     find_package(SDL3 CONFIG REQUIRED)
     find_package(Threads REQUIRED)
+    find_package(assimp REQUIRED CONFIG)
     find_package(External CONFIG REQUIRED)
+
+    target_compile_definitions(main PRIVATE ASSIMP_DLL)
+    # Note: Newer Assimp versions (v6+) handle this better,
+    # but keep this in mind if you get "undefined reference" errors.
 
     target_link_libraries(main PRIVATE
             SDL3::SDL3-static
+            assimp::assimp
             External::spdlog
             External::VulkanMemoryAllocator
     )
@@ -63,5 +69,6 @@
             message(FATAL_ERROR "Vulkan library not found")
         endif()
         target_link_libraries(main PRIVATE ${VULKAN_LIB} log android)
+
     endif()
 

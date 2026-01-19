@@ -1,0 +1,13 @@
+prefix=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install
+exec_prefix=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install
+libdir=
+sharedlibdir=
+includedir=
+
+Name: zlib
+Description: zlib compression library
+Version: 
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
