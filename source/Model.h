@@ -1,6 +1,8 @@
 #pragma once
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
-class aiScene;
 
 struct Vertex_Standard
 {
@@ -27,7 +29,7 @@ struct Vertex_Skinned
   uint4   boneIndices;  // uInt 4, each vertex can be affected by max 4 bones
   Vector4 boneWeights; //  should sum upto 1(normalized) or can be normalized in the shader
 };
-/*
+
 class Model
 {
   private:
@@ -38,8 +40,7 @@ class Model
           explicit Model(const std::string& modelName);
           ~Model();
 
-          void Process(const aiScene * scene);
+          void Process(const aiScene* scene);
 
           void LoadModel(const std::string& modelName);
 };
-*/

@@ -37,7 +37,7 @@
     find_package(assimp REQUIRED CONFIG)
     find_package(External CONFIG REQUIRED)
 
-    target_compile_definitions(main PRIVATE ASSIMP_DLL)
+    #target_compile_definitions(main PRIVATE ASSIMP_DLL)
     # Note: Newer Assimp versions (v6+) handle this better,
     # but keep this in mind if you get "undefined reference" errors.
 
@@ -47,7 +47,8 @@
             External::spdlog
             External::VulkanMemoryAllocator
     )
-
+    # Ensure no ASSIMP_DLL is present anywhere
+    target_compile_definitions(main PRIVATE ASSIMP_STATIC_LIB)
 
         target_precompile_headers(main PRIVATE source/pch.h)
 

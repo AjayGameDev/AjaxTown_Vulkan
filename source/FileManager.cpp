@@ -19,17 +19,17 @@ string FileManager::GetLocation(Location location)
 
 void FileManager::Initialize()
 {
-	locations[Model] = "C:\\Users\\dubey\\CLionProjects\\Ajax Town\\assets\\model\\";
+	locations[Model] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\model\\";
 
 	locations[Shader] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\shaders\\compiled\\";
 
-	locations[Texture] = "C:\\Users\\dubey\\CLionProjects\\Ajax Town\\assets\\textures\\";
+	locations[Texture] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\textures\\";
 
-	locations[Skybox] = "C:\\Users\\dubey\\CLionProjects\\Ajax Town\\assets\\textures\\HDRI\\";
+	locations[Skybox] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\textures\\HDRI\\";
 
-	locations[Fonts] = "C:\\Users\\dubey\\CLionProjects\\Ajax Town\\assets\\fonts\\";
+	locations[Fonts] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\fonts\\";
 
-	locations[Config] = "C:\\Users\\dubey\\CLionProjects\\Ajax Town\\assets\\configuration\\";
+	locations[Config] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\configuration\\";
 
 
 }

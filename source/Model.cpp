@@ -1,10 +1,8 @@
-/*#include "Model.h"
+#include "Model.h"
 
 #include "FileManager.h"
 
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
+
 
 
 Model::Model(const std::string& modelName)
@@ -27,10 +25,14 @@ void Model::LoadModel(const std::string& modelName)
     const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 
     if (scene == nullptr || !scene->mRootNode || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
-        throw std::runtime_error("\nCan't load model : " + modelName + importer.GetErrorString() );
+    {
+        std::string error = "\nCan't load model : " + modelName + " " + importer.GetErrorString();
+        spdlog::critical(error);
+        throw std::runtime_error(error);
+    }
 
     Process(scene);
-    std::cout << "Vertices: " + std::to_string(vertices.size()) + " Indices: " + std::to_string(indices.size());
+    std::cout << "\nVertices: " + std::to_string(vertices.size()) + " \nIndices: " + std::to_string(indices.size());
 }
 
 void Model::Process(const aiScene* scene)
@@ -78,7 +80,7 @@ void Model::Process(const aiScene* scene)
     }
 }
 
-*/
+
 
 
 

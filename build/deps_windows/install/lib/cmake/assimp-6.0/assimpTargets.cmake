@@ -62,7 +62,7 @@ add_library(assimp::zlibstatic STATIC IMPORTED)
 add_library(assimp::assimp STATIC IMPORTED)
 
 set_target_properties(assimp::assimp PROPERTIES
-  INTERFACE_COMPILE_DEFINITIONS "ASSIMP_BUILD_STATIC_LIB"
+  INTERFACE_COMPILE_DEFINITIONS "ASSIMP_STATIC_LIB"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
   INTERFACE_LINK_LIBRARIES "assimp::zlibstatic"
 )

@@ -30,7 +30,7 @@ int main(int argc,char* argv[])
     descriptor.AllocateGlobalSet();
     descriptor.UpdateGlobalSet(vertexBuffer,framebuffer);
 
-   //Model model("Webley.fbx");
+   Model model("Webley.obj");
 
     GraphicsPipeline forwardLightingGraphicsPipeline =  GraphicsPipelineBuilder()
                                             .InputAssembly(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST)

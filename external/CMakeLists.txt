@@ -70,9 +70,7 @@ FetchContent_MakeAvailable(assimp)
 # IMPORTANT: If linking statically, Assimp needs this definition to
 # remove __declspec(dllimport) from headers.
 if(NOT BUILD_SHARED_LIBS)
-    add_definitions(-DASSIMP_DLL) # Some versions use this logic
-    # Better: target-based approach
-    target_compile_definitions(assimp INTERFACE ASSIMP_BUILD_STATIC_LIB)
+    target_compile_definitions(assimp INTERFACE ASSIMP_STATIC_LIB)
 endif()
 
 install( TARGETS
