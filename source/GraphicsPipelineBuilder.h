@@ -29,8 +29,8 @@ class GraphicsPipelineBuilder
             std::vector<VkDescriptorSetLayout>                descriptorSets;
 
 
-            VkPipeline       graphicsPipeline = nullptr;
-            VkPipelineLayout pipelineLayout{};
+            VkPipeline       graphicsPipeline = nullptr; // it will be check null before creating new pipeline in build function
+            VkPipelineLayout pipelineLayout = nullptr;
 
 #pragma endregion
 

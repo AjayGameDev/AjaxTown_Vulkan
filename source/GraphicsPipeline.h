@@ -3,8 +3,8 @@
 class GraphicsPipeline 
 {
     Context& context;
-    VkPipeline pipeline = nullptr;
-    VkPipelineLayout pipelineLayout = nullptr;
+    VkPipeline pipeline{};
+    VkPipelineLayout pipelineLayout{};
 
 public:
 
@@ -16,8 +16,8 @@ public:
     GraphicsPipeline(GraphicsPipeline&& other) noexcept;              // can move through constructor (Move is fine as long as you transfer ownership and set current handles to null)
     GraphicsPipeline& operator=(GraphicsPipeline&& other) noexcept;  //  can move through = operator  (so they don't try to delete resources on their destructor)
 
-    VkPipeline& GetPipeline();
-    VkPipelineLayout& GetPipelineLayout();
+    VkPipeline& GetPipeline(){return pipeline;}
+    VkPipelineLayout& GetPipelineLayout(){return pipelineLayout;}
 
     explicit operator VkPipeline() const { return pipeline; } // Implicitly converting to pipeline for ease of use like vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 

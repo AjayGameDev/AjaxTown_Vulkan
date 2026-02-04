@@ -23,7 +23,7 @@ void Model::LoadModel(const std::string& modelName)
     Assimp::Importer importer;
     std::string filePath = FileManager::GetLocation(FileManager::Model) + modelName;
 
-    const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
+    const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
 
     if (scene == nullptr || !scene->mRootNode || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
     {

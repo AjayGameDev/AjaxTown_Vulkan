@@ -6,7 +6,7 @@ Buffer::Buffer(Context& context, const uint64_t &size, const VkBufferUsageFlags 
   handle = nullptr;
 
   bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-  bufferCreateInfo.size = size;
+  bufferCreateInfo.size  = size;
   bufferCreateInfo.usage = usage;
 
   allocationCreateInfo.usage = memoryUsageType;

@@ -20,7 +20,10 @@ class Descriptor
     VkDescriptorPool descriptorPool{};
 
     VkDescriptorSetLayout globalSetLayout{};
+    VkDescriptorSetLayout computeSetLayout{};
+
     VkDescriptorSet globalSet{};
+    VkDescriptorSet computeSet{};
 
     std::vector<BindingInfo> bindings;
     VkShaderStageFlags ShaderTypeToStage(ShaderType type);
@@ -35,11 +38,18 @@ public:
     void CreateMemoryPool();
 
     void CreateGlobalSetLayout();
+    void CreateComputeSetLayout();
 
     void AllocateGlobalSet();
+    void AllocateComputeSet();
 
     void UpdateGlobalSet(Buffer& vertexBuffer,Framebuffer& frameBuffer);
+    void UpdateComputeSet(Buffer& indirectBuffer);
 
     VkDescriptorSet& GetGlobalSet() { return globalSet; }
+    VkDescriptorSet& GetComputeSet() { return computeSet; }
+
     VkDescriptorSetLayout& GetGlobalSetLayout() { return globalSetLayout; }
+    VkDescriptorSetLayout& GetComputeSetLayout() { return computeSetLayout; }
+
 };

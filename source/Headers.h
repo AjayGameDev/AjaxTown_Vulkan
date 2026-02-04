@@ -12,7 +12,9 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "GraphicsPipeline.h"
+#include "ComputePipeline.h"
 #include "GraphicsPipelineBuilder.h"
+#include "ComputePipelineBuilder.h"
 #include "Descriptor.h"
 #include "Model.h"
 

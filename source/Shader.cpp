@@ -7,11 +7,12 @@ Shader::Shader(Context& context): context(context)
 {
     shaderName = "";
     shaderType = ShaderType::none;
-    vertexShaderModule = nullptr;
+    vertexShaderModule   = nullptr;
     fragmentShaderModule = nullptr;
+    computeShaderModule  = nullptr;
 }
 
-Shader::Shader(Context& context,const char *shaderName): context(context),shaderName(shaderName)
+Shader::Shader(Context& context,const char *shaderName,ShaderType shaderType): context(context),shaderName(shaderName),shaderType(shaderType)
 {
     LoadShader(shaderName,context);
 }
@@ -23,11 +24,23 @@ void Shader::LoadShader(const char *shaderName, Context& context)
     //if (context==nullptr)
     //    this->context = context;
 
-    auto vertexShaderCode    =  ReadShader(shaderName,ShaderType::vert);
-    auto fragmentShaderCode  =  ReadShader(shaderName,ShaderType::frag);
+    if (shaderType == ShaderType::vert || shaderType == ShaderType::frag)
+    {
+        auto vertexShaderCode    =  ReadShader(shaderName,ShaderType::vert);
+        auto fragmentShaderCode  =  ReadShader(shaderName,ShaderType::frag);
 
-    vertexShaderModule   = CreateShaderModule(context.device,vertexShaderCode);
-    fragmentShaderModule = CreateShaderModule(context.device,fragmentShaderCode);
+        vertexShaderModule   = CreateShaderModule(context.device,vertexShaderCode);
+        fragmentShaderModule = CreateShaderModule(context.device,fragmentShaderCode);
+    }
+    else if (shaderType == ShaderType::comp)
+    {
+        auto computeShaderCode    =  ReadShader(shaderName,ShaderType::comp);
+
+        computeShaderModule   = CreateShaderModule(context.device,computeShaderCode);
+    }
+
+
+
 
 }
 
@@ -83,6 +96,10 @@ VkShaderModule Shader::CreateShaderModule(const VkDevice& device, const std::vec
 
 Shader::~Shader()
 {
-    vkDestroyShaderModule(context.device,vertexShaderModule,nullptr);
-    vkDestroyShaderModule(context.device,fragmentShaderModule,nullptr);
+    if (vertexShaderModule!=VK_NULL_HANDLE)
+        vkDestroyShaderModule(context.device,vertexShaderModule,nullptr);
+    if (fragmentShaderModule!=VK_NULL_HANDLE)
+        vkDestroyShaderModule(context.device,fragmentShaderModule,nullptr);
+    if (computeShaderModule!=VK_NULL_HANDLE)
+        vkDestroyShaderModule(context.device,computeShaderModule,nullptr);
 }

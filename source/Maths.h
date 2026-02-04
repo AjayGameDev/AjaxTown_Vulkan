@@ -253,13 +253,13 @@ struct Rotation
 
 typedef float Matrix4[4][4];
 
-void GenerateIdentityMatrix(Matrix4 matrix);
+void GenerateIdentityMatrix(Matrix4& matrix);
 
-void GenerateProjectionMatrix(Matrix4 matrix,float fovH,float aspectRatio,float near,float far);
+void GenerateProjectionMatrix(Matrix4& matrix,float fovH,float aspectRatio,float near,float far);
 
-void GenerateViewMatrix(Matrix4 matrix, float pitch, float yaw, float roll, float px, float py, float pz);
+void GenerateViewMatrix(Matrix4& matrix, float pitch, float yaw, float roll, float px, float py, float pz);
 
-void GenerateModelMatrix(Matrix4 matrix, Vector3 position, Rotation rotation, Vector3 scale);
+void GenerateModelMatrix(Matrix4& matrix, Vector3 position, Rotation rotation, Vector3 scale);
 
 void Extract3x3Matrix(Matrix4& source, Matrix4& target);
 

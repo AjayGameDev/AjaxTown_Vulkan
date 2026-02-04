@@ -71,7 +71,7 @@ class Renderer
 
                     // Allocate command buffers
                     frameResources[i].graphicsCommandBuffer = frameResources[i].graphicsCommandPool.Allocate();
-                    frameResources[i].computeCommandBuffer = frameResources[i].computeCommandPool.Allocate();
+                    frameResources[i].computeCommandBuffer  = frameResources[i].computeCommandPool.Allocate();
                     frameResources[i].transferCommandBuffer = frameResources[i].tranferCommandPool.Allocate();
                 }
 
@@ -127,23 +127,58 @@ class Renderer
 
             void SubmitGraphicsQueue()
             {
-                VkSemaphore&     waitSemaphore                =   frameResources[currentFrame].imageAvailableSemaphore.GetHandle(); // Need to create this
+                VkSemaphore     waitSemaphore[]                =
+                    {
+                        frameResources[currentFrame].imageAvailableSemaphore.GetHandle(), // Need to create this
+                        frameResources[currentFrame].computeFinishedSemaphore.GetHandle()
+                    };
+
+                VkPipelineStageFlags waitStages[] =
+                    {
+                        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, // order matters based on wait semaphores
+                        VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT
+                    };
+
                 VkSemaphore&     renderingFinishedSemaphore   =   frameResources[currentFrame].renderingFinishedSemaphore.GetHandle();
                 VkCommandBuffer& graphicsCommandBuffer        =   frameResources[currentFrame].graphicsCommandBuffer.GetHandle();
-                VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
 
                 VkSubmitInfo submitInfo{};
                 submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-                submitInfo.pWaitDstStageMask = waitStages;
-                submitInfo.waitSemaphoreCount = 1;
-                submitInfo.pWaitSemaphores = &waitSemaphore;
-                submitInfo.signalSemaphoreCount = 1;
-                submitInfo.pSignalSemaphores = &renderingFinishedSemaphore;
-                submitInfo.commandBufferCount = 1;
-                submitInfo.pCommandBuffers = &graphicsCommandBuffer;
+                submitInfo.commandBufferCount    =  1;
+                submitInfo.pCommandBuffers       =  &graphicsCommandBuffer;
+
+                // stop signals for the gpu [imageAvailableSemaphore will be signaled by vkAcquireNextImageKHR, it ensures gpu doesn't draw untill valid swapchain image in avaialble]
+                submitInfo.waitSemaphoreCount    =  2;
+                submitInfo.pWaitSemaphores       =  waitSemaphore;
+
+                // Instead of stopping entire gpu, it tells gpu the exact stage to wait at. Order of wait stages correspond to the order of wait semaphore array [VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT with imageAvaialable semaphore and VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT with compute finished semaphore]
+                submitInfo.pWaitDstStageMask     =  waitStages;
+
+                // Signal the presentation engine that it can safely present the swapchain image on the screen
+                submitInfo.signalSemaphoreCount  =  1;
+                submitInfo.pSignalSemaphores     =  &renderingFinishedSemaphore;
+
+                // Fence gives green signal to the cpu that it safe to use resources now as gpu is done
                 vkQueueSubmit(context.graphicsQueue,1,&submitInfo,frameResources[currentFrame].inFlightFence.GetHandle());
             }
+
+            void SubmitComputeQueue()
+            {
+
+                VkCommandBuffer& computeCommandBuffer = frameResources[currentFrame].computeCommandBuffer.GetHandle();
+                VkSemaphore&     computeFinishedSemaphore = frameResources[currentFrame].computeFinishedSemaphore.GetHandle();
+
+                VkSubmitInfo submitInfo{};
+                submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &computeCommandBuffer;
+                submitInfo.signalSemaphoreCount = 1;
+                submitInfo.pSignalSemaphores = &computeFinishedSemaphore;
+
+                vkQueueSubmit(context.computeQueue,1,&submitInfo,VK_NULL_HANDLE);
+            }
+
 
             void PresentImage()
             {
@@ -171,14 +206,29 @@ class Renderer
                 frameResources[currentFrame].graphicsCommandBuffer.Reset();
             }
 
+            void ResetComputeCommandBuffer()
+            {
+                frameResources[currentFrame].computeCommandBuffer.Reset();
+            }
+
             void BeginGraphicsCommandBuffer()
             {
                 frameResources[currentFrame].graphicsCommandBuffer.Begin();
             }
 
+            void BeginComputeCommandBuffer()
+            {
+                frameResources[currentFrame].computeCommandBuffer.Begin();
+            }
+
             void EndGraphicsCommandBuffer()
             {
                 frameResources[currentFrame].graphicsCommandBuffer.End();
+            }
+
+            void EndComputeCommandBuffer()
+            {
+                frameResources[currentFrame].computeCommandBuffer.End();
             }
 
             void SetViewportScissor()
@@ -232,9 +282,29 @@ class Renderer
                 frameResources[currentFrame].graphicsCommandBuffer.BindPipeline(VK_PIPELINE_BIND_POINT_GRAPHICS,pipeline);
             }
 
+            void BindComputePipeline(VkPipeline& pipeline)
+            {
+                frameResources[currentFrame].computeCommandBuffer.BindPipeline(VK_PIPELINE_BIND_POINT_COMPUTE,pipeline);
+            }
+
             void BindVertexBuffer(uint32_t firstBinding,uint32_t bindingCount,VkBuffer& buffer,VkDeviceSize& offset)
             {
                 frameResources[currentFrame].graphicsCommandBuffer.BindVertexBuffer(firstBinding,bindingCount,buffer,offset);
+            }
+
+            void BindDescriptorSetGraphics(VkPipelineLayout& pipelineLayout,VkDescriptorSet& descriptorSet)
+            {
+                vkCmdBindDescriptorSets(frameResources[currentFrame].graphicsCommandBuffer.GetHandle(),VK_PIPELINE_BIND_POINT_GRAPHICS,pipelineLayout,0,1,&descriptorSet,0,NULL);
+            }
+
+            void BindDescriptorSetCompute(VkPipelineLayout& pipelineLayout,VkDescriptorSet& descriptorSet)
+            {
+                vkCmdBindDescriptorSets(frameResources[currentFrame].computeCommandBuffer.GetHandle(),VK_PIPELINE_BIND_POINT_COMPUTE,pipelineLayout,0,1,&descriptorSet,0,NULL);
+            }
+
+            void DispatchComputeShader(uint32_t x,uint32_t y, uint32_t z)
+            {
+                vkCmdDispatch(frameResources[currentFrame].computeCommandBuffer.GetHandle(),x,y,z);
             }
 
             void Draw(uint32_t vertexCount,uint32_t instanceCount,uint32_t firstVertex,uint32_t firstInstance)
@@ -242,13 +312,41 @@ class Renderer
                 frameResources[currentFrame].graphicsCommandBuffer.Draw(vertexCount,instanceCount,firstVertex,firstInstance);
             }
 
+            void DrawIndirect(VkBuffer indirectBuffer,VkDeviceSize offset,uint32_t drawCount,uint32_t stride)
+            {
+                frameResources[currentFrame].graphicsCommandBuffer.DrawIndirect(indirectBuffer,offset,drawCount,stride);
+            }
+
             void NextSubpass()
             {
                 frameResources[currentFrame].graphicsCommandBuffer.NextSubpass();
             }
 
-            void BindDescriptorSet(VkPipelineLayout& pipelineLayout,VkDescriptorSet& descriptorSet)
+            void ComputeToIndirectBarrier(VkBuffer& indirectBuffer)
             {
-                vkCmdBindDescriptorSets(frameResources[currentFrame].graphicsCommandBuffer.GetHandle(),VK_PIPELINE_BIND_POINT_GRAPHICS,pipelineLayout,0,1,&descriptorSet,0,NULL);
+                VkBufferMemoryBarrier barrier{};
+                barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+                barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+                barrier.dstAccessMask = VK_ACCESS_INDIRECT_COMMAND_READ_BIT;
+                barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+                barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+                barrier.buffer = indirectBuffer;
+                barrier.offset = 0;
+                barrier.size = VK_WHOLE_SIZE;
+
+                vkCmdPipelineBarrier
+                (
+                                     frameResources[currentFrame].computeCommandBuffer.GetHandle(),
+                                     VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, //     source stage mask
+                                     VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT, //      destination stage mask
+                                     0, // dependency flags
+                                     0,nullptr, // memory barrier count, memory barrier
+                                     1,&barrier, // buffer memory cout, buffer barrier
+                                     0,nullptr // Image barrier count, Image barrier
+                );
+
+
             }
+
+
 };

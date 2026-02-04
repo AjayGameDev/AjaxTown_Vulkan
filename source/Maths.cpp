@@ -1,6 +1,6 @@
 #include "Maths.h"
 
-void GenerateIdentityMatrix(Matrix4 matrix)
+void GenerateIdentityMatrix(Matrix4& matrix)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -44,7 +44,7 @@ void VerticalFov(float& fovV, const float & fovH, const float & aspectRatio) // 
     fovV = 2 * atan((1 / aspectRatio) * tan(fovH / 2));
 }
 
-void GenerateProjectionMatrix(Matrix4 matrix, float fovV, const float aspectRatio, const float near, const float far)
+void GenerateProjectionMatrix(Matrix4& matrix, float fovV, const float aspectRatio, const float near, const float far)
 {
 
     fovV *= degreeToRadians;
@@ -83,7 +83,7 @@ void EulerAnglesToQuaternion(EulerAngles euler, Quaternion& quaternion)
 }
 
 
-void GenerateViewMatrix(Matrix4 matrix,float pitch,float yaw,float roll,float px,float py,float pz)
+void GenerateViewMatrix(Matrix4& matrix,float pitch,float yaw,float roll,float px,float py,float pz)
 {
     // -------------------------------------------- Converting degree to radians
     pitch *= degreeToRadians;
@@ -167,7 +167,7 @@ void GenerateViewMatrix(Matrix4 matrix,float pitch,float yaw,float roll,float px
 
 // -------------------------------------------- Calculating model matrix
 
-void GenerateModelMatrix(Matrix4 matrix, Vector3 position, Rotation rotation, Vector3 scale)
+void GenerateModelMatrix(Matrix4& matrix, Vector3 position, Rotation rotation, Vector3 scale)
 {
     EulerAnglesToQuaternion(rotation.eulerAngles, rotation.quaternion);
 

@@ -1,14 +1,14 @@
-#include "GraphicsPipeline.h"
+#include "ComputePipeline.h"
 
-GraphicsPipeline::GraphicsPipeline(Context &context, VkPipeline pipeline, VkPipelineLayout pipelineLayout) : context(context),pipeline(pipeline),pipelineLayout(pipelineLayout) {}
+ComputePipeline::ComputePipeline(Context &context, VkPipeline pipeline, VkPipelineLayout pipelineLayout):context(context),pipeline(pipeline),pipelineLayout(pipelineLayout) {}
 
-GraphicsPipeline::GraphicsPipeline(GraphicsPipeline &&other) noexcept :  context(other.context), pipeline(other.pipeline), pipelineLayout(other.pipelineLayout)
+ComputePipeline::ComputePipeline(ComputePipeline &&other) noexcept : context(other.context),pipeline(other.pipeline),pipelineLayout(other.pipelineLayout)
 {
     other.pipeline = nullptr;
     other.pipelineLayout = nullptr;
 }
 
-GraphicsPipeline& GraphicsPipeline::operator=(GraphicsPipeline &&other) noexcept
+ComputePipeline& ComputePipeline::operator=(ComputePipeline &&other) noexcept
 {
     if (this!=&other)
     {
@@ -29,7 +29,7 @@ GraphicsPipeline& GraphicsPipeline::operator=(GraphicsPipeline &&other) noexcept
 }
 
 
-GraphicsPipeline::~GraphicsPipeline()
+ComputePipeline::~ComputePipeline()
 {
     vkDeviceWaitIdle(context.device); // to be fixed
 
@@ -39,6 +39,3 @@ GraphicsPipeline::~GraphicsPipeline()
     if (pipelineLayout!=nullptr)
         vkDestroyPipelineLayout(context.device,pipelineLayout,nullptr);
 }
-
-
-

@@ -10,13 +10,15 @@ int main(int argc,char* argv[])
     ImageManager imageManager(context);
     BufferManager bufferManager(context); 
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
-    Shader triangleShader(context,"Triangle");
-    Shader postprocessingShader(context,"PostProcessing");
+
+    Shader triangleShader(context,"Triangle",ShaderType::vert);
+    Shader postprocessingShader(context,"PostProcessing",ShaderType::vert);
+    Shader cullingShader(context,"Culling",ShaderType::comp);
 
     std::vector<Vertex_Minimal> vertices;
-    vertices.push_back({  { 0.0,-0.5,0.0 },{ 0.0,-0.5 } });
-    vertices.push_back({  { 0.5,0.5,0.0  },{ 0.0,-0.5 } });
-    vertices.push_back({  { -0.5,0.5,0.0 },{ 0.0,-0.5 } });
+    vertices.push_back({  {  0.0,-0.5, 0.0 },{ 0.0,-0.5 } });
+    vertices.push_back({  {  0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
+    vertices.push_back({  { -0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
 
     const size_t vertexBufferSize = sizeof(Vertex_Minimal)  * vertices.size();
     Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
@@ -24,11 +26,16 @@ int main(int argc,char* argv[])
     Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
     bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
 
+    Buffer indirectBuffer = bufferManager.CreateBuffer(sizeof(VkDrawIndirectCommand),VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
     descriptor.CreateMemoryPool();
     descriptor.CreateGlobalSetLayout();
+    descriptor.CreateComputeSetLayout();
     descriptor.AllocateGlobalSet();
+    descriptor.AllocateComputeSet();
     descriptor.UpdateGlobalSet(vertexBuffer,framebuffer);
+    descriptor.UpdateComputeSet(indirectBuffer);
 
    Model model("Webley.obj");
 
@@ -58,6 +65,10 @@ int main(int argc,char* argv[])
                                             .Build(renderpass.GetHandle(),1,context);
 
 
+    ComputePipeline cullingComputePipeline = ComputePipelineBuilder()
+                                             .SetComputeShader(cullingShader.GetComputeShaderModule())
+                                             .AddDescriptorSetLayout(descriptor.GetComputeSetLayout())
+                                             .Build(context);
 
 
     GameTime time;
@@ -69,21 +80,35 @@ int main(int argc,char* argv[])
 
         renderer.AcquireImage();
 
-        renderer.ResetGraphicsCommandBuffer();
+        //renderer.ResetComputeCommandBuffer();  // not necessary as we are using VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
+        renderer.BeginComputeCommandBuffer();
+
+        renderer.BindComputePipeline(cullingComputePipeline.GetPipeline()); // Bind compute pipeline
+        renderer.BindDescriptorSetCompute(cullingComputePipeline.GetPipelineLayout(),descriptor.GetComputeSet()); // Bind compute descriptor set
+        renderer.DispatchComputeShader(1,1,1); // dispatch compute shader
+        renderer.ComputeToIndirectBarrier(indirectBuffer.GetHandle()); // it is a command so should be recorded within command buffer
+
+        renderer.EndComputeCommandBuffer();
+
+        renderer.SubmitComputeQueue();
+
+        //renderer.ResetGraphicsCommandBuffer(); // not necessary as we are using VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
 
         renderer.BeginGraphicsCommandBuffer();
         renderer.SetViewportScissor();
 
         renderer.BeginRenderpass(renderpass.GetHandle(),framebuffer.GetCurrentFramebuffer(renderer.GetCurrentImageIndex()));
 
-        renderer.BindDescriptorSet(forwardLightingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet());// This will only work if both pipelines have same layout
+        renderer.BindDescriptorSetGraphics(forwardLightingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet());// This will only work if both pipelines have same layout
+
 
         VkDeviceSize offset = 0;
         renderer.BindGraphicsPipeline(forwardLightingGraphicsPipeline.GetPipeline());
         //renderer.BindDescriptorSet(forwardLightingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind once
         renderer.BindVertexBuffer(0,1,vertexBuffer.handle,offset);
 
-        renderer.Draw(vertices.size(),1,0,0);
+        //renderer.Draw(vertices.size(),1,0,0);
+        renderer.DrawIndirect(indirectBuffer.GetHandle(),0,1,sizeof(VkDrawIndirectCommand));
 
         renderer.NextSubpass();
 

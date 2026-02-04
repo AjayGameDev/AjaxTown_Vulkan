@@ -12,6 +12,7 @@ Descriptor::~Descriptor()
     // This should be destroyed after pipeline and pipeline layout
     vkDeviceWaitIdle(context.device); // to be fixed
     vkDestroyDescriptorSetLayout(context.device,globalSetLayout,nullptr);
+    vkDestroyDescriptorSetLayout(context.device,computeSetLayout,nullptr);
     vkDestroyDescriptorPool(context.device,descriptorPool,nullptr);
 }
 
@@ -58,6 +59,22 @@ void Descriptor::CreateGlobalSetLayout()
     vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&globalSetLayout);
 }
 
+void Descriptor::CreateComputeSetLayout()
+{
+    std::array<VkDescriptorSetLayoutBinding,1> bindings;
+
+    bindings[0] = {0,VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,  1,VK_SHADER_STAGE_COMPUTE_BIT};
+
+    // Descriptor set layout
+    VkDescriptorSetLayoutCreateInfo layoutCreateInfo{};
+
+    layoutCreateInfo.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    layoutCreateInfo.bindingCount = bindings.size();
+    layoutCreateInfo.pBindings    = bindings.data();
+
+    vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&computeSetLayout);
+}
+
 void Descriptor::AllocateGlobalSet()
 {
     // Allocating Descriptor sets
@@ -70,6 +87,36 @@ void Descriptor::AllocateGlobalSet()
 
 
     vkAllocateDescriptorSets(context.device,&allocationInfo,&globalSet);
+}
+
+void Descriptor::AllocateComputeSet()
+{
+    // Allocating Descriptor sets
+    VkDescriptorSetAllocateInfo allocationInfo{};
+
+    allocationInfo.sType               =  VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    allocationInfo.descriptorPool      =  descriptorPool;
+    allocationInfo.descriptorSetCount  =  1;
+    allocationInfo.pSetLayouts         =  &computeSetLayout;
+
+
+    vkAllocateDescriptorSets(context.device,&allocationInfo,&computeSet);
+}
+
+void Descriptor::UpdateComputeSet(Buffer& indirectBuffer)
+{
+    VkDescriptorBufferInfo indirectBufferInfo{indirectBuffer.GetHandle(),0,VK_WHOLE_SIZE};
+
+    std::array<VkWriteDescriptorSet,1> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
+
+    writes[0].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writes[0].dstSet            =   computeSet;
+    writes[0].dstBinding        =   0;
+    writes[0].descriptorType    =   VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+    writes[0].descriptorCount   =   1;
+    writes[0].pBufferInfo       =   &indirectBufferInfo;
+
+    vkUpdateDescriptorSets(context.device,writes.size(),writes.data(),0,nullptr);
 }
 
 void Descriptor::UpdateGlobalSet(Buffer& vertexBuffer,Framebuffer& frameBuffer)
