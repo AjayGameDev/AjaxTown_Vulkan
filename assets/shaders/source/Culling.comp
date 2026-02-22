@@ -2,18 +2,33 @@
 
 layout(local_size_x = 1,local_size_y = 1,local_size_z = 1) in;
 
+struct DrawCommand
+{
+    uint indexCount;
+    uint instanceCount;
+    uint firstIndex;
+    int  vertexOffset;
+    uint firstInstance;
+};
+
 layout(set=0, binding=0, std430) buffer IndirectCommand
 {
-    uint vertexCount;
-    uint instanceCount;
-    uint firstVertex;
-    uint firstInstance;
+    DrawCommand[] drawCommands;
+};
+
+layout(set=0, binding=1, std430) buffer CountBuffer
+{
+    uint drawCount;
 };
 
 void main()
 {
-    vertexCount = 3;
-    instanceCount = 1;
-    firstVertex = 0;
-    firstInstance = 0;
+    drawCommands[0].indexCount     =  3;
+    drawCommands[0].instanceCount  =  2;
+    drawCommands[0].firstIndex     =  0;
+    drawCommands[0].vertexOffset   =  0;
+    drawCommands[0].firstInstance  =  0;
+
+
+    drawCount = 1;
 }
