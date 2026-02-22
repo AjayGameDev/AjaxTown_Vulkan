@@ -4,7 +4,7 @@ layout(location = 0) in vec2 uvInput;
 
 layout(location = 0) out vec4 finalColor;
 
-layout(input_attachment_index = 0,set = 0,binding = 1) uniform subpassInput hdrImage;
+layout(input_attachment_index = 0,set = 0,binding = 0) uniform subpassInput hdrImage;
 
 void main()
 {
