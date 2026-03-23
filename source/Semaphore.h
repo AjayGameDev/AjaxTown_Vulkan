@@ -16,7 +16,7 @@ class Semaphore
             Semaphore& operator=(const Semaphore&) = delete;
 
             // movable
-            Semaphore(Semaphore&& other) noexcept : context(other.context), handle(other.handle)
+            Semaphore(Semaphore&& other) noexcept : handle(other.handle), context(other.context)
             {
                 other.handle = VK_NULL_HANDLE;
             }

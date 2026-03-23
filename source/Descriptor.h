@@ -43,8 +43,8 @@ public:
     void AllocateGlobalSet();
     void AllocateComputeSet();
 
-    void UpdateGlobalSet(Buffer& vertexBuffer,Framebuffer& frameBuffer);
-    void UpdateComputeSet(Buffer& indirectBuffer);
+    void UpdateGlobalSet(Framebuffer& frameBuffer);
+    void UpdateComputeSet(Buffer& indirectBuffer,Buffer& countBuffer);
 
     VkDescriptorSet& GetGlobalSet() { return globalSet; }
     VkDescriptorSet& GetComputeSet() { return computeSet; }

@@ -251,7 +251,8 @@ struct Rotation
 
 //-----------------------------------------------------------------------  Helper Functions
 
-typedef float Matrix4[4][4];
+
+typedef float Matrix4[4][4]; // C++ and Direct X are row major while vulkan/opengl are column major
 
 void GenerateIdentityMatrix(Matrix4& matrix);
 

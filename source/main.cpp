@@ -11,6 +11,7 @@ int main(int argc,char* argv[])
     BufferManager bufferManager(context); 
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
 
+    // Shader handling
     Shader triangleShader(context,"Triangle",ShaderType::vert);
     Shader postprocessingShader(context,"PostProcessing",ShaderType::vert);
     Shader cullingShader(context,"Culling",ShaderType::comp);
@@ -20,23 +21,37 @@ int main(int argc,char* argv[])
     vertices.push_back({  {  0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
     vertices.push_back({  { -0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
 
+    std::vector<uint32_t> indices;
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
+
     const size_t vertexBufferSize = sizeof(Vertex_Minimal)  * vertices.size();
     Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
     stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
-    Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+    Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
     bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
 
-    Buffer indirectBuffer = bufferManager.CreateBuffer(sizeof(VkDrawIndirectCommand),VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+    const size_t indexBufferSize = sizeof(uint32_t)  * indices.size();
+    Buffer stagingIndexBuffer = bufferManager.CreateBuffer(indexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    stagingIndexBuffer.CopyData(indices.data(),indexBufferSize);
+    Buffer indexBuffer = bufferManager.CreateBuffer(stagingIndexBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+    bufferManager.CopyBuffer(&stagingIndexBuffer,&indexBuffer);
 
+    Buffer indirectBuffer = bufferManager.CreateBuffer(sizeof(VkDrawIndexedIndirectCommand) * 10000,VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+    Buffer countBuffer    = bufferManager.CreateBuffer(sizeof(uint32_t),VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
+
+    // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
     descriptor.CreateMemoryPool();
     descriptor.CreateGlobalSetLayout();
     descriptor.CreateComputeSetLayout();
     descriptor.AllocateGlobalSet();
     descriptor.AllocateComputeSet();
-    descriptor.UpdateGlobalSet(vertexBuffer,framebuffer);
-    descriptor.UpdateComputeSet(indirectBuffer);
-
+    descriptor.UpdateGlobalSet(framebuffer);
+    descriptor.UpdateComputeSet(indirectBuffer,countBuffer);
+    float verticalFov = 60;
+    float f = 1.0f  / tanf(verticalFov * .5f);
    Model model("Webley.obj");
 
     GraphicsPipeline forwardLightingGraphicsPipeline =  GraphicsPipelineBuilder()
@@ -106,16 +121,19 @@ int main(int argc,char* argv[])
         renderer.BindGraphicsPipeline(forwardLightingGraphicsPipeline.GetPipeline());
         //renderer.BindDescriptorSet(forwardLightingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind once
         renderer.BindVertexBuffer(0,1,vertexBuffer.handle,offset);
+        renderer.BindIndexBuffer(indexBuffer.handle,offset,VK_INDEX_TYPE_UINT32);
 
         //renderer.Draw(vertices.size(),1,0,0);
-        renderer.DrawIndirect(indirectBuffer.GetHandle(),0,1,sizeof(VkDrawIndirectCommand));
+        //renderer.DrawIndirect(indirectBuffer.GetHandle(),0,1,sizeof(VkDrawIndexedIndirectCommand));
+
+        renderer.DrawIndexedIndirectCount(indirectBuffer.GetHandle(),0,countBuffer.GetHandle(),0,10000,sizeof(VkDrawIndexedIndirectCommand)); // max draw might change
 
         renderer.NextSubpass();
 
         renderer.BindGraphicsPipeline(forwardPostprocessingGraphicsPipeline.GetPipeline());
         //renderer.BindDescriptorSet(forwardPostprocessingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind twice if layout is different
 
-        renderer.Draw(3,1,0,0);
+        renderer.Draw(3,1,0,0); // drawing fullscreen triangle instead of a quad
 
         renderer.EndRenderpass();
         renderer.EndGraphicsCommandBuffer();

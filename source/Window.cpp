@@ -12,6 +12,7 @@ Window::Window(const char *title, const int width, const int height)
   }
 
   handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE  | SDL_WINDOW_BORDERLESS | SDL_WINDOW_TRANSPARENT);
+  //handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
   if (handle == nullptr)
   {

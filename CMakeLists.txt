@@ -50,7 +50,7 @@
     # Ensure no ASSIMP_DLL is present anywhere
     target_compile_definitions(main PRIVATE ASSIMP_STATIC_LIB)
 
-        target_precompile_headers(main PRIVATE source/pch.h)
+    target_precompile_headers(main PRIVATE source/pch.h)
 
     # Include directories
     target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")

@@ -87,12 +87,12 @@ void Context ::CreateInstance()
     appInfo.applicationVersion = 1.0;
     appInfo.pEngineName = "Ajax";
     appInfo.engineVersion = 1.0;
-    appInfo.apiVersion = VK_MAKE_API_VERSION(0,1,1,0); // Vulkan version 1.1 supports most of the android
+    appInfo.apiVersion = VK_MAKE_API_VERSION(0,1,3,0); // Vulkan version 1.1 supports most of the android [ switched to 1.3 ]
 
     //---------------------------------------------------------------------------- Get all available extensions
 
     uint32_t extensionsCount;
-    const std::vector<const char *> validationLayers = { "VK_LAYER_KHRONOS_validation"};
+    const std::vector<const char *> validationLayers = { "VK_LAYER_KHRONOS_validation" };
     char const *const *extensions = window.GetExtensions(extensionsCount);
     std::vector<const char *> extensionsVector(extensions, extensions + extensionsCount);
 
@@ -132,7 +132,7 @@ void Context ::CreateInstance()
 #endif
 
     //----------------------------------------------------------------------------
-    //Vulkan instance creation
+    // Vulkan instance creation
 
     instance = nullptr;
 
@@ -227,6 +227,7 @@ void Context::PickPhysicalDevice()
 */
 
     VkPhysicalDeviceFeatures deviceFeatures;
+
     vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
     std::cout << "\n" << deviceProperties.deviceName;
@@ -273,6 +274,8 @@ void Context::CheckPhysicalDeviceForRequiredQueues()
       computeFamilyIndex = i;
     }
   }
+   // We can use separate compute queue for async compute so we can improve gpu utilization or dedicated transfer queue to not stutter while uploading data to vram
+   // but on android/ios we might only have 1 queue for all tasks so we need to keep that in mind
 
   if (graphicsFamilyIndex == -1)
     std::cout << "Selected device doesn't support graphics queue!";
@@ -339,11 +342,34 @@ void Context::CreteLogicalDevice()
     else
       computeFamilyIndex = -1;
 
+    VkPhysicalDeviceVulkan12Features features12{};
+    features12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+
+    features12.drawIndirectCount                              =   VK_TRUE;
+    features12.bufferDeviceAddress                            =   VK_TRUE;
+    features12.descriptorIndexing                             =   VK_TRUE;
+    features12.runtimeDescriptorArray                         =   VK_TRUE;
+    features12.descriptorBindingPartiallyBound                =   VK_TRUE;
+    features12.descriptorBindingVariableDescriptorCount       =   VK_TRUE;
+    features12.descriptorBindingUpdateUnusedWhilePending      =   VK_TRUE;
+    features12.descriptorBindingSampledImageUpdateAfterBind   =   VK_TRUE;
+    features12.descriptorBindingStorageBufferUpdateAfterBind  =   VK_TRUE;
+    features12.shaderSampledImageArrayNonUniformIndexing      =   VK_TRUE;
+    features12.shaderStorageBufferArrayNonUniformIndexing     =   VK_TRUE;
+    features12.descriptorBindingUniformBufferUpdateAfterBind  =   VK_TRUE;
+
+
+    VkPhysicalDeviceVulkan13Features features13{};
+    features13.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;
+    features13.synchronization2 = VK_TRUE;
+    features13.maintenance4     = VK_TRUE;
+    features13.pNext = &features12;
+
     VkDeviceCreateInfo deviceCreateInfo{};
     deviceCreateInfo.sType                    =   VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.queueCreateInfoCount     =   queueCreateInfos.size();
     deviceCreateInfo.pQueueCreateInfos        =   queueCreateInfos.data();
-    deviceCreateInfo.pNext                    =   nullptr;
+    deviceCreateInfo.pNext                    =   &features13;
     deviceCreateInfo.enabledExtensionCount    =   static_cast<uint32_t>(requiredDeviceExtensions.size());
     deviceCreateInfo.ppEnabledExtensionNames  =   requiredDeviceExtensions.data();
 

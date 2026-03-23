@@ -43,10 +43,10 @@ void Descriptor::CreateMemoryPool()
 
 void Descriptor::CreateGlobalSetLayout()
 {
-    std::array<VkDescriptorSetLayoutBinding,2> bindings;
+    std::array<VkDescriptorSetLayoutBinding,1> bindings;
 
-    bindings[0] = {0,VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,  1,VK_SHADER_STAGE_VERTEX_BIT};
-    bindings[1] = {1,VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,1,VK_SHADER_STAGE_FRAGMENT_BIT};
+    //bindings[0] = {0,VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,  1,VK_SHADER_STAGE_VERTEX_BIT};
+    bindings[0] = {0,VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,1,VK_SHADER_STAGE_FRAGMENT_BIT};
 
     // Descriptor set layout
     VkDescriptorSetLayoutCreateInfo layoutCreateInfo{};
@@ -57,22 +57,6 @@ void Descriptor::CreateGlobalSetLayout()
 
 
     vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&globalSetLayout);
-}
-
-void Descriptor::CreateComputeSetLayout()
-{
-    std::array<VkDescriptorSetLayoutBinding,1> bindings;
-
-    bindings[0] = {0,VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,  1,VK_SHADER_STAGE_COMPUTE_BIT};
-
-    // Descriptor set layout
-    VkDescriptorSetLayoutCreateInfo layoutCreateInfo{};
-
-    layoutCreateInfo.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    layoutCreateInfo.bindingCount = bindings.size();
-    layoutCreateInfo.pBindings    = bindings.data();
-
-    vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&computeSetLayout);
 }
 
 void Descriptor::AllocateGlobalSet()
@@ -89,6 +73,52 @@ void Descriptor::AllocateGlobalSet()
     vkAllocateDescriptorSets(context.device,&allocationInfo,&globalSet);
 }
 
+
+void Descriptor::UpdateGlobalSet(Framebuffer& frameBuffer)
+{
+    //VkDescriptorBufferInfo vertexBufferInfo{vertexBuffer.GetHandle(),0,VK_WHOLE_SIZE};
+    VkDescriptorImageInfo  hdrImageInfo{nullptr,frameBuffer.resolvedImage.imageView,VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL};
+
+    std::array<VkWriteDescriptorSet,1> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
+
+    //writes[0].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    //writes[0].dstSet            =   globalSet;
+    //writes[0].dstBinding        =   0;
+    //writes[0].descriptorType    =   VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    //writes[0].descriptorCount   =   1;
+    //writes[0].pBufferInfo       =   &vertexBufferInfo;
+
+    writes[0].sType             =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writes[0].dstSet            =  globalSet;
+    writes[0].dstBinding        =  0;
+    writes[0].descriptorType    =  VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+    writes[0].descriptorCount   =  1;
+    writes[0].pImageInfo        =  &hdrImageInfo;
+
+    vkUpdateDescriptorSets(context.device,writes.size(),writes.data(),0,nullptr);
+}
+
+
+
+void Descriptor::CreateComputeSetLayout()
+{
+    std::array<VkDescriptorSetLayoutBinding,2> bindings;
+
+    bindings[0] = {0,VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,  1,VK_SHADER_STAGE_COMPUTE_BIT};
+    bindings[1] = {1,VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,  1,VK_SHADER_STAGE_COMPUTE_BIT};
+
+    // Descriptor set layout
+    VkDescriptorSetLayoutCreateInfo layoutCreateInfo{};
+
+    layoutCreateInfo.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    layoutCreateInfo.bindingCount = bindings.size();
+    layoutCreateInfo.pBindings    = bindings.data();
+
+    vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&computeSetLayout);
+}
+
+
+
 void Descriptor::AllocateComputeSet()
 {
     // Allocating Descriptor sets
@@ -103,11 +133,12 @@ void Descriptor::AllocateComputeSet()
     vkAllocateDescriptorSets(context.device,&allocationInfo,&computeSet);
 }
 
-void Descriptor::UpdateComputeSet(Buffer& indirectBuffer)
+void Descriptor::UpdateComputeSet(Buffer& indirectBuffer, Buffer& countBuffer)
 {
-    VkDescriptorBufferInfo indirectBufferInfo{indirectBuffer.GetHandle(),0,VK_WHOLE_SIZE};
+    VkDescriptorBufferInfo indirectBufferInfo { indirectBuffer.GetHandle(), 0, VK_WHOLE_SIZE };
+    VkDescriptorBufferInfo countBufferInfo    { countBuffer.GetHandle(),    0, VK_WHOLE_SIZE };
 
-    std::array<VkWriteDescriptorSet,1> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
+    std::array<VkWriteDescriptorSet,2> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
 
     writes[0].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     writes[0].dstSet            =   computeSet;
@@ -116,32 +147,16 @@ void Descriptor::UpdateComputeSet(Buffer& indirectBuffer)
     writes[0].descriptorCount   =   1;
     writes[0].pBufferInfo       =   &indirectBufferInfo;
 
-    vkUpdateDescriptorSets(context.device,writes.size(),writes.data(),0,nullptr);
-}
-
-void Descriptor::UpdateGlobalSet(Buffer& vertexBuffer,Framebuffer& frameBuffer)
-{
-    VkDescriptorBufferInfo vertexBufferInfo{vertexBuffer.GetHandle(),0,VK_WHOLE_SIZE};
-    VkDescriptorImageInfo  hdrImageInfo{nullptr,frameBuffer.resolvedImage.imageView,VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL};
-
-    std::array<VkWriteDescriptorSet,2> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
-
-    writes[0].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    writes[0].dstSet            =   globalSet;
-    writes[0].dstBinding        =   0;
-    writes[0].descriptorType    =   VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    writes[0].descriptorCount   =   1;
-    writes[0].pBufferInfo       =   &vertexBufferInfo;
-
-    writes[1].sType             =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    writes[1].dstSet            =  globalSet;
-    writes[1].dstBinding        =  1;
-    writes[1].descriptorType    =  VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
-    writes[1].descriptorCount   =  1;
-    writes[1].pImageInfo        =  &hdrImageInfo;
+    writes[1].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writes[1].dstSet            =   computeSet;
+    writes[1].dstBinding        =   1;
+    writes[1].descriptorType    =   VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+    writes[1].descriptorCount   =   1;
+    writes[1].pBufferInfo       =   &countBufferInfo;
 
     vkUpdateDescriptorSets(context.device,writes.size(),writes.data(),0,nullptr);
 }
+
 
 
 void Descriptor::ReflectBindings(const std::vector<uint32_t>& spirvCode,ShaderType type)

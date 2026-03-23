@@ -56,15 +56,16 @@ class CommandBuffer
                 vkCmdDrawIndexed(handle,indexCount,instanceCount,firstIndex,vertexOffset,firstInstance);
             }
 
+            void DrawIndexedIndirect(VkBuffer buffer,VkDeviceSize offset,uint32_t drawCount,uint32_t stride)
+            {
+                vkCmdDrawIndexedIndirect(handle,buffer,offset,drawCount,stride);
+            }
+
             void DrawIndexedIndirectCount(VkBuffer buffer,VkDeviceSize offset,VkBuffer countBuffer,VkDeviceSize countBufferOffset,uint32_t maxDrawCount,uint32_t stride)
             {
                 vkCmdDrawIndexedIndirectCount(handle,buffer,offset,countBuffer,countBufferOffset,maxDrawCount,stride);
             }
 
-            void DrawIndexedIndirect(VkBuffer buffer,VkDeviceSize offset,uint32_t drawCount,uint32_t stride)
-            {
-                vkCmdDrawIndexedIndirect(handle,buffer,offset,drawCount,stride);
-            }
 
 
 

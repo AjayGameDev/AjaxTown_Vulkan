@@ -37,7 +37,7 @@ class Renderer
             bool shouldCloseWindow = false;
             std::vector<FrameResource> frameResources;
             VkViewport viewport{};
-            VkRect2D scissor{};
+            VkRect2D   scissor{};
             RendererType rendererType;
             VkSampleCountFlagBits samples;
     public:
@@ -292,6 +292,11 @@ class Renderer
                 frameResources[currentFrame].graphicsCommandBuffer.BindVertexBuffer(firstBinding,bindingCount,buffer,offset);
             }
 
+            void BindIndexBuffer(VkBuffer& buffer,VkDeviceSize& offset,VkIndexType indexType)
+            {
+                frameResources[currentFrame].graphicsCommandBuffer.BindIndexBuffer(buffer,offset,indexType);
+            }
+
             void BindDescriptorSetGraphics(VkPipelineLayout& pipelineLayout,VkDescriptorSet& descriptorSet)
             {
                 vkCmdBindDescriptorSets(frameResources[currentFrame].graphicsCommandBuffer.GetHandle(),VK_PIPELINE_BIND_POINT_GRAPHICS,pipelineLayout,0,1,&descriptorSet,0,NULL);
@@ -315,6 +320,16 @@ class Renderer
             void DrawIndirect(VkBuffer indirectBuffer,VkDeviceSize offset,uint32_t drawCount,uint32_t stride)
             {
                 frameResources[currentFrame].graphicsCommandBuffer.DrawIndirect(indirectBuffer,offset,drawCount,stride);
+            }
+
+            void DrawIndexedIndirect(VkBuffer indirectBuffer,VkDeviceSize offset,uint32_t drawCount,uint32_t stride)
+            {
+                frameResources[currentFrame].graphicsCommandBuffer.DrawIndexedIndirect(indirectBuffer,offset,drawCount,stride);
+            }
+
+            void DrawIndexedIndirectCount(VkBuffer indirectBuffer,VkDeviceSize offset,VkBuffer countBuffer,VkDeviceSize countOffset,uint32_t maxDrawCount,uint32_t stride)
+            {
+                frameResources[currentFrame].graphicsCommandBuffer.DrawIndexedIndirectCount(indirectBuffer,offset,countBuffer,countOffset,maxDrawCount,stride);
             }
 
             void NextSubpass()
