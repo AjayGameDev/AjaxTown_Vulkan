@@ -39,4 +39,6 @@ class Model
           ~Model();
           void Process(const aiScene* scene);
           void LoadModel(const std::string& modelName);
+          std::vector<Vertex_Standard>& GetVertices() {return vertices;}
+          std::vector<uint32_t>& GetIndices() {return indices;}
 };

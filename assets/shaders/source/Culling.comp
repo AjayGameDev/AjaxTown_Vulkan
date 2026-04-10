@@ -1,6 +1,8 @@
 #version 450
+#extension GL_EXT_buffer_reference : require
+#extension GL_ARB_gpu_shader_int64 : require
 
-layout(local_size_x = 1,local_size_y = 1,local_size_z = 1) in;
+
 
 struct DrawCommand
 {
@@ -11,18 +13,84 @@ struct DrawCommand
     uint firstInstance;
 };
 
-layout(set=0, binding=0, std430) buffer IndirectCommand
+struct Transform
 {
-    DrawCommand[] drawCommands;
+    vec4 posScale;
+    vec4 rotation;
 };
 
-layout(set=0, binding=1, std430) buffer CountBuffer
+struct Mesh
 {
-    uint drawCount;
+    uint32_t    indexCount;
+    uint32_t    instanceCount;
+    uint32_t    indexOffset;
+    int32_t     vertexOffset;
+    uint32_t    firstInstance;
 };
+
+
+layout(set=0, binding=0, std430) writeonly buffer IndirectCommand { DrawCommand drawCommands[]; };
+
+layout(set=0, binding=1, std430) writeonly buffer CountBuffer { uint drawCount; };
+
+layout(buffer_reference,std430) readonly buffer TransformBuffer { Transform transforms[]; };
+
+layout(buffer_reference,std430) writeonly buffer ModelMatricesBuffer { mat4 modelMatrices[]; };
+
+layout(buffer_reference,std430) writeonly buffer MeshesBuffer { Mesh meshes[]; };
+
+layout(push_constant) uniform pushConstant
+{
+    uint64_t transformsAddress;
+    uint64_t modelMatricesAddress;
+    uint64_t meshesAddress;
+}pc;
+
+
+
+layout(local_size_x = 1,local_size_y = 1,local_size_z = 1) in;
 
 void main()
 {
+    uint id = gl_GlobalInvocationID.x;
+
+
+    ModelMatricesBuffer modelMatricesBuffer = ModelMatricesBuffer(pc.modelMatricesAddress);
+    TransformBuffer transformBuffer = TransformBuffer(pc.transformsAddress);
+
+
+    mat4 modelMatrix;
+    Transform transform = transformBuffer.transforms[id];
+    vec4 positionScale  = transform.posScale;
+    vec4 rotation       = transform.rotation;
+
+    float x2 = rotation.x * rotation.x, y2 = rotation.y * rotation.y, z2 = rotation.z * rotation.z;
+    float xy = rotation.x * rotation.y, xz = rotation.x * rotation.z,wx = rotation.w * rotation.x, wz = rotation.w * rotation.z, wy = rotation.w * rotation.y, yz = rotation.y * rotation.z;
+    float s  = positionScale.w;
+
+    modelMatrix[0][0] = s * (1 - 2 * (y2+z2));
+    modelMatrix[0][1] = s * (2 * (xy+wz));
+    modelMatrix[0][2] = s * (2 * (xz-wy));
+    modelMatrix[0][3] = 0;
+
+    modelMatrix[1][0] = s * (2 * (xy-wz));
+    modelMatrix[1][1] = s * (1 - 2 * (x2+z2));
+    modelMatrix[1][2] = s * (2 * (yz+wx));
+    modelMatrix[1][3] = 0;
+
+    modelMatrix[2][0] = s * (2 * (xz+wy));
+    modelMatrix[2][1] = s * (2 * (yz-wx));
+    modelMatrix[2][2] = s * (1 - 2 * (x2+y2));
+    modelMatrix[2][3] = 0;
+
+    modelMatrix[3][0] = positionScale.x;
+    modelMatrix[3][1] = positionScale.y;
+    modelMatrix[3][2] = positionScale.z;
+    modelMatrix[3][3] = 1;
+
+    modelMatricesBuffer.modelMatrices[id] = modelMatrix;
+
+
     drawCommands[0].indexCount     =  3;
     drawCommands[0].instanceCount  =  2;
     drawCommands[0].firstIndex     =  0;

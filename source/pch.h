@@ -22,7 +22,8 @@ enum class ShaderType : uint8_t
     none,
     vert,
     frag,
-    comp
+    comp,
+    vertfrag
 
 };
 

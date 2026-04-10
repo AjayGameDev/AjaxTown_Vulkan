@@ -254,16 +254,18 @@ class Renderer
                     clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};       // Albedo
                     clearValues[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}};      // Normal
                     clearValues[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};     // RMAO
-                    clearValues[3].depthStencil = {1.0f, 0};              // Attachment 3: DEPTH - MUST use depthStencil, not color!
-                    clearValues[4].color = {{0.0f, 0.0f, 0.0f, 1.0f}};   // Attachment 4: HDR output
-                    clearValues[5].color = {{0.1f, 0.2f, 0.3f, 1.0f}};  // Attachment 5: Final output (what you see on screen)
+                    //clearValues[3].depthStencil = {1.0f, 0};            // Attachment 3: DEPTH - MUST use depthStencil, not color! [for standard z]
+                    clearValues[3].depthStencil = {0.0f, 0};             // Attachment 3: for reverse z depth
+                    clearValues[4].color = {{0.0f, 0.0f, 0.0f, 1.0f}};  // Attachment 4: HDR output
+                    clearValues[5].color = {{0.1f, 0.2f, 0.3f, 1.0f}}; // Attachment 5: Final output (what you see on screen)
                 }
                 else if (rendererType==RendererType::Forward)
                 {
                     clearValues.resize(4);
 
-                    clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};       // msaa hdr color
-                    clearValues[1].depthStencil = {1.0f, 0};                //  msaa DEPTH - MUST use depthStencil, not color!
+                    clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};        // msaa hdr color
+                    //clearValues[1].depthStencil = {1.0f, 0};               //  msaa DEPTH - MUST use depthStencil, not color! [for standard z]
+                    clearValues[1].depthStencil = {0.0f, 0};                //   for reverse z depth
                     clearValues[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};     //   resolved hdr
                     clearValues[3].color = {{0.1f, 0.2f, 0.3f, 1.0f}};    //    final output
                 }
@@ -285,6 +287,16 @@ class Renderer
             void BindComputePipeline(VkPipeline& pipeline)
             {
                 frameResources[currentFrame].computeCommandBuffer.BindPipeline(VK_PIPELINE_BIND_POINT_COMPUTE,pipeline);
+            }
+
+            void PushConstant_compute(VkPipelineLayout& pipelineLayout,VkShaderStageFlags shaderFlags,uint32_t offset,uint32_t size,const void* pushConstantData)
+            {
+                vkCmdPushConstants(frameResources[currentFrame].computeCommandBuffer.GetHandle(),pipelineLayout,shaderFlags,offset,size,pushConstantData);
+            }
+
+            void PushConstant_graphics(VkPipelineLayout& pipelineLayout,VkShaderStageFlags shaderFlags,uint32_t offset,uint32_t size,const void* pushConstantData)
+            {
+                vkCmdPushConstants(frameResources[currentFrame].graphicsCommandBuffer.GetHandle(),pipelineLayout,shaderFlags,offset,size,pushConstantData);
             }
 
             void BindVertexBuffer(uint32_t firstBinding,uint32_t bindingCount,VkBuffer& buffer,VkDeviceSize& offset)
@@ -335,6 +347,11 @@ class Renderer
             void NextSubpass()
             {
                 frameResources[currentFrame].graphicsCommandBuffer.NextSubpass();
+            }
+
+            void ResetDrawCountBuffer(VkBuffer& drawCountBuffer)
+            {
+                vkCmdFillBuffer(frameResources[currentFrame].computeCommandBuffer.GetHandle(),drawCountBuffer,0,sizeof(uint32_t),0);
             }
 
             void ComputeToIndirectBarrier(VkBuffer& indirectBuffer)

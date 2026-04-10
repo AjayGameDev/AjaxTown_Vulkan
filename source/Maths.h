@@ -252,7 +252,61 @@ struct Rotation
 //-----------------------------------------------------------------------  Helper Functions
 
 
-typedef float Matrix4[4][4]; // C++ and Direct X are row major while vulkan/opengl are column major
+typedef float Matrix4[4][4];
+/*
+		C++ and Direct X are row major while vulkan/opengl are column major
+		you need to mention in shader:
+
+		#version 450
+		layout(row_major) uniform; // All future uniform blocks are now row-major
+		layout(row_major) buffer;  // All future storage blocks (SSBOs) are now row-major
+
+		// This UBO is now row_major automatically
+		layout(set = 0, binding = 0) uniform Config
+		{
+			mat4 mvp;
+		} ubo;
+
+		// This BDA (pointer) layout is now row_major automatically
+		layout(buffer_reference, std430) buffer NodePtr
+		{
+			mat4 transform;
+		};
+
+		but sometimes compiler ignore it if it is inside the block
+
+		// Define the layout once at the struct level
+		layout(row_major) struct MeshData
+		{
+			mat4 model;
+			mat4 normal;
+		};
+
+		and
+
+		layout(row_major) struct Transform
+		{
+			mat4 mvp;
+		};
+
+		or it is a push constant [global qualifiers do not apply to push constants]
+
+		layout(push_constant, row_major) uniform PushConstants
+		{
+			mat4 modelMatrix;
+		} pc;
+
+
+
+
+
+		Order of multiplication also changes with row major
+
+															vec4 clip = P * V * M * position; [column major]
+
+															vec4 clip = position * M * V * P; [row major]
+
+*/
 
 void GenerateIdentityMatrix(Matrix4& matrix);
 

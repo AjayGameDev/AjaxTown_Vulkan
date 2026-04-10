@@ -5,11 +5,11 @@
 
 Shader::Shader(Context& context): context(context)
 {
-    shaderName = "";
-    shaderType = ShaderType::none;
-    vertexShaderModule   = nullptr;
-    fragmentShaderModule = nullptr;
-    computeShaderModule  = nullptr;
+    shaderName            =  "";
+    shaderType            =  ShaderType::none;
+    vertexShaderModule    =  nullptr;
+    fragmentShaderModule  =  nullptr;
+    computeShaderModule   =  nullptr;
 }
 
 Shader::Shader(Context& context,const char *shaderName,ShaderType shaderType): context(context),shaderName(shaderName),shaderType(shaderType)
@@ -24,7 +24,7 @@ void Shader::LoadShader(const char *shaderName, Context& context)
     //if (context==nullptr)
     //    this->context = context;
 
-    if (shaderType == ShaderType::vert || shaderType == ShaderType::frag)
+    if (shaderType == ShaderType::vertfrag)
     {
         auto vertexShaderCode    =  ReadShader(shaderName,ShaderType::vert);
         auto fragmentShaderCode  =  ReadShader(shaderName,ShaderType::frag);

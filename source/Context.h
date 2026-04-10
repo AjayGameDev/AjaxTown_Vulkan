@@ -29,7 +29,7 @@ class Context
           int computeFamilyIndex;
 
           VkSurfaceFormatKHR format;                        // selected format for the swapchain
-          VkPresentModeKHR presentMode;                    // FIFO or Mailbos basically double vs triple buffering
+          VkPresentModeKHR presentMode;                    // FIFO or Mailbox basically double vs triple buffering
           VkSurfaceCapabilitiesKHR surfaceCapabilities;   // we need to go throgh supported formats and present modes to select the right one
 
 
