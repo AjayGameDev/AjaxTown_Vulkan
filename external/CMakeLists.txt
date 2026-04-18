@@ -32,7 +32,7 @@ FetchContent_MakeAvailable(VMA)
 
 # Fetch SDL
 
-set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_SHARED ON CACHE BOOL "" FORCE)
 set(SDL_STATIC ON CACHE BOOL "" FORCE)
 set(SDL_INSTALL ON CACHE BOOL "" FORCE)
 FetchContent_Declare(

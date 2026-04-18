@@ -1,9 +1,0 @@
-libdir=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib
-includedir=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include
-
-Name: External
-Description: Import various well-known 3D model formats in an uniform manner.
-Version: 6.0.2
-Libs: -L${libdir} -lassimp
-Libs.private:  
-Cflags: -I${includedir}
