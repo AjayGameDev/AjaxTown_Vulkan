@@ -16,9 +16,9 @@ class Shader
     public:
             Shader(Context& context);
             Shader(Context& context,const char *shaderName,ShaderType shaderType);
-            VkShaderModule& GetVertexShaderModule() { return vertexShaderModule; }
-            VkShaderModule& GetFragmentShaderModule() { return fragmentShaderModule; }
-            VkShaderModule& GetComputeShaderModule() { return computeShaderModule; }
+            VkShaderModule& GetVertexShaderModule()   {  return vertexShaderModule;   }
+            VkShaderModule& GetFragmentShaderModule() {  return fragmentShaderModule; }
+            VkShaderModule& GetComputeShaderModule()  {  return computeShaderModule;  }
             std::vector<uint32_t> ReadShader(const std::string& shaderName, ShaderType shaderType);
             void LoadShader(const char *shaderName, Context& context);
             ~Shader();

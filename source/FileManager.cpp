@@ -19,17 +19,24 @@ string FileManager::GetLocation(Location location)
 
 void FileManager::Initialize()
 {
-	locations[Model] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\model\\";
 
-	locations[Shader] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\shaders\\compiled\\";
+#ifdef __ANDROID__
+	string base = "";
+#else
+	string base = "C:/Users/dubey/CLionProjects/AjaxTown/assets/";
+#endif
 
-	locations[Texture] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\textures\\";
+	locations[Model]   = base + "model/";
 
-	locations[Skybox] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\textures\\HDRI\\";
+	locations[Shader]  = base + "shaders/compiled/";
 
-	locations[Fonts] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\fonts\\";
+	locations[Texture] = base + "textures/";
 
-	locations[Config] = "C:\\Users\\dubey\\CLionProjects\\AjaxTown\\assets\\configuration\\";
+	locations[Skybox]  = base + "textures/HDRI/";
+
+	locations[Fonts]   = base + "fonts/";
+
+	locations[Config]  = base + "configuration/";
 
 
 }

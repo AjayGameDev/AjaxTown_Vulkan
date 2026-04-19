@@ -354,17 +354,47 @@ class Renderer
                 vkCmdFillBuffer(frameResources[currentFrame].computeCommandBuffer.GetHandle(),drawCountBuffer,0,sizeof(uint32_t),0);
             }
 
-            void ComputeToIndirectBarrier(VkBuffer& indirectBuffer)
+            void ResetDrawCountBarrier(VkBuffer& buffer_drawCount)
             {
                 VkBufferMemoryBarrier barrier{};
-                barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
-                barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-                barrier.dstAccessMask = VK_ACCESS_INDIRECT_COMMAND_READ_BIT;
-                barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-                barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-                barrier.buffer = indirectBuffer;
-                barrier.offset = 0;
-                barrier.size = VK_WHOLE_SIZE;
+
+                barrier.sType                =  VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+                barrier.srcAccessMask        =  VK_ACCESS_TRANSFER_WRITE_BIT;
+                barrier.dstAccessMask        =  VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+                barrier.srcQueueFamilyIndex  =  VK_QUEUE_FAMILY_IGNORED;
+                barrier.dstQueueFamilyIndex  =  VK_QUEUE_FAMILY_IGNORED;
+                barrier.buffer               =  buffer_drawCount;
+                barrier.offset               =  0;
+                barrier.size                 =  VK_WHOLE_SIZE;
+
+                vkCmdPipelineBarrier
+                (
+                                     frameResources[currentFrame].computeCommandBuffer.GetHandle(),
+                                     VK_PIPELINE_STAGE_TRANSFER_BIT,        //     source stage mask
+                                     VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, //      destination stage mask
+                                     0, // dependency flags
+                                     0,nullptr, // memory barrier count, memory barrier
+                                     1,&barrier, // buffer memory cout, buffer barrier
+                                     0,nullptr // Image barrier count, Image barrier
+                );
+
+
+            }
+            void ComputeToIndirectBarrier(VkBuffer& buffer_drawCommands,VkBuffer& buffer_drawCount)
+            {
+                VkBufferMemoryBarrier barriers[2]{};
+
+                barriers[0].sType                =  VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+                barriers[0].srcAccessMask        =  VK_ACCESS_SHADER_WRITE_BIT;
+                barriers[0].dstAccessMask        =  VK_ACCESS_INDIRECT_COMMAND_READ_BIT;
+                barriers[0].srcQueueFamilyIndex  =  VK_QUEUE_FAMILY_IGNORED;
+                barriers[0].dstQueueFamilyIndex  =  VK_QUEUE_FAMILY_IGNORED;
+                barriers[0].buffer               =  buffer_drawCommands;
+                barriers[0].offset               =  0;
+                barriers[0].size                 =  VK_WHOLE_SIZE;
+
+                barriers[1] = barriers[0];
+                barriers[1].buffer = buffer_drawCount;
 
                 vkCmdPipelineBarrier
                 (
@@ -373,7 +403,7 @@ class Renderer
                                      VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT, //      destination stage mask
                                      0, // dependency flags
                                      0,nullptr, // memory barrier count, memory barrier
-                                     1,&barrier, // buffer memory cout, buffer barrier
+                                     2,barriers, // buffer memory cout, buffer barrier
                                      0,nullptr // Image barrier count, Image barrier
                 );
 

@@ -3,7 +3,7 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-
+#include "AssimpSDLIOSystem.h"
 
 
 Model::Model(const std::string& modelName)
@@ -21,9 +21,10 @@ Model::~Model()
 void Model::LoadModel(const std::string& modelName)
 {
     Assimp::Importer importer;
+    importer.SetIOHandler(new AssimpSDLIOSystem());
     std::string filePath = FileManager::GetLocation(FileManager::Model) + modelName;
 
-    const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
+    const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace); // | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
 
     if (scene == nullptr || !scene->mRootNode || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
     {
@@ -33,7 +34,7 @@ void Model::LoadModel(const std::string& modelName)
     }
 
     Process(scene);
-    std::cout << "\nVertices: " + std::to_string(vertices.size()) + " \nIndices: " + std::to_string(indices.size());
+    std::cout << "\nVertices: " + std::to_string(vertices.size()) + " \nIndices: " + std::to_string(indices.size()) + "\n";
 }
 
 void Model::Process(const aiScene* scene)

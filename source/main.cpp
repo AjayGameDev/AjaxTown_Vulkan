@@ -2,7 +2,7 @@
 
 int main(int argc,char* argv[])
 {
-    Window window("Ajax Town",640*3,480*3);
+    Window window("Ajax Town",1920,1080);
     Context context(window);
     Swapchain swapchain(context);
     Renderer renderer(context,swapchain,swapchain.imageCount,RendererType::Forward,VK_SAMPLE_COUNT_8_BIT);
@@ -14,21 +14,11 @@ int main(int argc,char* argv[])
     // Shader handling
     Shader triangleShader(context,"Triangle",ShaderType::vertfrag);
     Shader standardShader(context,"standard",ShaderType::vertfrag);
-    Shader postprocessingShader(context,"PostProcessing",ShaderType::vertfrag);
-    Shader cullingShader(context,"Culling",ShaderType::comp);
+    Shader postprocessingShader(context,"postProcessing",ShaderType::vertfrag);
+    Shader cullingShader(context,"culling",ShaderType::comp);
 
-    const uint32_t maxDrawCount = 10000;
-/*
-    std::vector<Vertex_Minimal> vertices;
-    vertices.push_back({  {  0.0,-0.5, 0.0 },{ 0.0,-0.5 } });
-    vertices.push_back({  {  0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
-    vertices.push_back({  { -0.5, 0.5, 0.0 },{ 0.0,-0.5 } });
+    constexpr uint32_t maxDrawCount = 10000;
 
-    std::vector<uint32_t> indices;
-    indices.push_back(0);
-    indices.push_back(1);
-    indices.push_back(2);
-*/
     struct Mesh
     {
         uint32_t    indexCount;
@@ -60,66 +50,26 @@ int main(int argc,char* argv[])
     mesh_shotgun.indexOffset   = indices.size();
     mesh_shotgun.vertexOffset  = vertices.size();
     mesh_shotgun.instanceCount = 1;
-    mesh_shotgun.firstInstance = 0;
+    mesh_shotgun.firstInstance = 1;
 
     meshes.push_back(mesh_shotgun);
     vertices.insert(vertices.end(),model_shotgun.GetVertices().begin(),model_shotgun.GetVertices().end());
     indices.insert(indices.end(),model_shotgun.GetIndices().begin(),model_shotgun.GetIndices().end());
 
 
-/*
-    uint32_t indexOffset;
-
-    indexOffset = vertices.size();
-    for (int i = 0; i < model_revolver.GetIndices().size(); ++i)
-    {
-        indices.push_back(model_revolver.GetIndices()[i] + indexOffset);
-    }
-    vertices.insert(vertices.end(),model_revolver.GetVertices().begin(),model_revolver.GetVertices().end());
-    mesh_revolver.indexCount = model_revolver.GetIndices().size();
-    mesh_revolver.instanceCount = 1;
-    mesh_revolver.firstIndex = indexOffset;
-    mesh_revolver.vertexOffset = vertices.size();
-    mesh_revolver.firstInstance = 0;
-
-    indexOffset = vertices.size();
-    for (int i = 0; i < model_shotgun.GetIndices().size(); ++i)
-    {
-        indices.push_back(model_shotgun.GetIndices()[i] + indexOffset);
-    }
-    vertices.insert(vertices.end(),model_shotgun.GetVertices().begin(),model_shotgun.GetVertices().end());
-
-    mesh_shotgun.indexCount = model_shotgun.GetIndices().size();
-    mesh_shotgun.instanceCount = 1;
-    mesh_shotgun.firstIndex = indexOffset;
-    mesh_shotgun.vertexOffset = vertices.size();
-    mesh_shotgun.firstInstance = 0;
-*/
 
     Camera camera; // main camera
-    Transform transform_camera;
+    float deltaX = 0,deltaY = 0,targetDistance = -1.0f;
+    float yaw = 0,pitch = 0,sensitivity = .25f;
+    Transform transform_camera(0,0,-1.0f);
+
     camera.GenerateViewProjectionMatrix(transform_camera);
 
     std::vector<Transform> transforms;
-    Transform transform_revolver,transform_shotgun; // object transform
+    Transform transform_revolver(0,0,0,0),transform_shotgun(0,0,0,1); // object transform
     transforms.push_back(transform_revolver);
     transforms.push_back(transform_shotgun);
 
-
-
-/*
-    const size_t vertexBufferSize = sizeof(Vertex_Minimal)  * vertices.size();
-    Buffer stagingBuffer = bufferManager.CreateBuffer(vertexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
-    stagingBuffer.CopyData(vertices.data(),vertexBufferSize);
-    Buffer vertexBuffer = bufferManager.CreateBuffer(stagingBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
-    bufferManager.CopyBuffer(&stagingBuffer,&vertexBuffer);
-
-        const size_t indexBufferSize = sizeof(uint32_t)  * indices.size();
-        Buffer stagingIndexBuffer = bufferManager.CreateBuffer(indexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
-        stagingIndexBuffer.CopyData(indices.data(),indexBufferSize);
-        Buffer indexBuffer = bufferManager.CreateBuffer(stagingIndexBuffer.bufferCreateInfo.size,VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,VMA_MEMORY_USAGE_GPU_ONLY);
-        bufferManager.CopyBuffer(&stagingIndexBuffer,&indexBuffer);
-*/
 
     const size_t vertexBufferSize                =    sizeof(Vertex_Standard)  * vertices.size();
     const size_t indexBufferSize                 =    sizeof(uint32_t)  * indices.size();
@@ -232,19 +182,41 @@ int main(int argc,char* argv[])
     {
         time.Update();
 
+        window.GetInput(deltaX,deltaY,targetDistance);
+        yaw   += deltaX * sensitivity;
+        pitch -= deltaY * sensitivity;
+
+        //std::cout << "Delta X " << deltaX << "  Delta Y " << deltaY << "  yaw " << yaw << "  pitch  " << pitch << std::endl;
+
+        transform_shotgun.SetRotationEuler(yaw,pitch,0);
+        transform_revolver.SetRotationEuler(yaw,pitch,0);
+        transforms[0] = transform_revolver;
+        transforms[1] = transform_shotgun;
+        //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
+        transform_camera.SetPosition(0,0,targetDistance);
+        camera.GenerateViewProjectionMatrix(transform_camera);
+
+        memcpy(pushConstantData_forwardRendering.viewProjectionMatrix,camera.viewProjectionMatrix,sizeof(Matrix4)); // bcz it is decalred as typedef float model[4][4] instead of a struct Matrix4 { float[4][4] model };
+        stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
+        bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
+
         renderer.AcquireImage();
 
-        renderer.ResetDrawCountBuffer(buffer_drawCount.GetHandle());
 
         //renderer.ResetComputeCommandBuffer();  // not necessary as we are using VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
         renderer.BeginComputeCommandBuffer();
 
+        renderer.ResetDrawCountBuffer(buffer_drawCount.GetHandle()); // it's a command so record it inside a command buffer
+        renderer.ResetDrawCountBarrier(buffer_drawCount.GetHandle()); // reset drawcount to 0 before using it
+
         renderer.BindComputePipeline(cullingComputePipeline.GetPipeline()); // Bind compute pipeline
         renderer.BindDescriptorSetCompute(cullingComputePipeline.GetPipelineLayout(), descriptor.GetComputeSet()); // Bind compute descriptor set
         renderer.PushConstant_compute(cullingComputePipeline.GetPipelineLayout(),VK_SHADER_STAGE_COMPUTE_BIT,0,sizeof(PushConstantData_Compute),&pushConstantData_compute); // push constant data
-        renderer.DispatchComputeShader(1, 1, 1); // dispatch compute shader
-        renderer.ComputeToIndirectBarrier(buffer_drawCommands.GetHandle()); // it is a command so should be recorded within command buffer
 
+        // should change to different value
+        renderer.DispatchComputeShader(meshes.size(), 1, 1); // dispatch compute shader
+
+        renderer.ComputeToIndirectBarrier(buffer_drawCommands.GetHandle(),buffer_drawCount.GetHandle()); // it is a command so should be recorded within command buffer
         renderer.EndComputeCommandBuffer();
 
         renderer.SubmitComputeQueue();
@@ -256,25 +228,23 @@ int main(int argc,char* argv[])
 
         renderer.BeginRenderpass(renderpass.GetHandle(), framebuffer.GetCurrentFramebuffer(renderer.GetCurrentImageIndex()));
 
-        renderer.BindDescriptorSetGraphics(forwardLightingGraphicsPipeline.GetPipelineLayout(), descriptor.GetGlobalSet()); // This will only work if both pipelines have same layout
 
 
         VkDeviceSize offset = 0;
         renderer.BindGraphicsPipeline(forwardLightingGraphicsPipeline.GetPipeline());
-        //renderer.BindDescriptorSet(forwardLightingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind once
+        renderer.BindDescriptorSetGraphics(forwardLightingGraphicsPipeline.GetPipelineLayout(), descriptor.GetGlobalSet()); // This will only work if both pipelines have same layout
         renderer.BindVertexBuffer(0, 1, buffer_vertex.handle, offset);
         renderer.BindIndexBuffer(buffer_index.handle, offset, VK_INDEX_TYPE_UINT32);
 
         renderer.PushConstant_graphics(forwardLightingGraphicsPipeline.GetPipelineLayout(),VK_SHADER_STAGE_VERTEX_BIT,0,sizeof(PushConstantData_ForwardRendering),&pushConstantData_forwardRendering); // push constant data
-        //renderer.Draw(vertices.size(),1,0,0);
-        //renderer.DrawIndirect(indirectBuffer.GetHandle(),0,1,sizeof(VkDrawIndexedIndirectCommand));
+
 
         renderer.DrawIndexedIndirectCount(buffer_drawCommands.GetHandle(), 0, buffer_drawCount.GetHandle(), 0, maxDrawCount, sizeof(VkDrawIndexedIndirectCommand)); // max draw might change
 
         renderer.NextSubpass();
 
         renderer.BindGraphicsPipeline(forwardPostprocessingGraphicsPipeline.GetPipeline());
-        //renderer.BindDescriptorSet(forwardPostprocessingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind twice if layout is different
+        renderer.BindDescriptorSetGraphics(forwardPostprocessingGraphicsPipeline.GetPipelineLayout(),descriptor.GetGlobalSet()); // bind twice if layout is different
 
         renderer.Draw(3, 1, 0, 0); // drawing fullscreen triangle instead of a quad
 
@@ -285,5 +255,6 @@ int main(int argc,char* argv[])
         renderer.PresentImage();
         renderer.AdvanceFrame();
     }
+    return 0;
 }
 

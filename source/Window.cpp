@@ -10,8 +10,8 @@ Window::Window(const char *title, const int width, const int height)
     error = SDL_GetError();
     throw std::runtime_error("Can't Initialize SDL \n" + error);
   }
-
-  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE  | SDL_WINDOW_BORDERLESS | SDL_WINDOW_TRANSPARENT);
+  SDL_SetHint(SDL_HINT_ORIENTATIONS,"LandscapeLeft"); // otherwise game will open in potrait mode at system level even if you set landscape mode in manifest file
+  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN ); //  | SDL_WINDOW_BORDERLESS| SDL_WINDOW_TRANSPARENT);
   //handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
   if (handle == nullptr)
@@ -22,6 +22,8 @@ Window::Window(const char *title, const int width, const int height)
     throw std::runtime_error("Can't create SDL window \n" + error);
 
   }
+
+  SDL_SetWindowRelativeMouseMode(handle,true); // Lock cursor
 }
 
 char const *const *Window::GetExtensions(uint32_t &extensionCount)
@@ -36,17 +38,50 @@ void Window::CreateSurface(VkInstance instance, VkSurfaceKHR& surface)
   }
 }
 
-bool Window::ShouldCloseWindow()
+void Window::GetInput(float& deltaX,float& deltaY,float& targetDistance)
 {
+ deltaX = deltaY = 0;
+
   SDL_Event e;
   while (SDL_PollEvent(&e))
   {
     if (e.type == SDL_EVENT_QUIT)
       shouldCloseWindow = true;
+
+    if (e.type == SDL_EVENT_MOUSE_MOTION)
+    {
+      deltaX += e.motion.xrel;
+      deltaY += e.motion.yrel;
+    }
+    else if (e.type == SDL_EVENT_FINGER_MOTION)
+    {
+      deltaX += e.tfinger.dx * 2500.0f; // [-1,1]
+      deltaY += e.tfinger.dy * 2500.0f;
+    }
+    //else
+    //  deltaX = deltaY = 0;
+
+    if (e.type == SDL_EVENT_MOUSE_WHEEL)
+    {
+      if      (e.wheel.y > 0)      targetDistance += .1f;
+      else if (e.wheel.y < 0)      targetDistance -= .1f;
+
+    }
+
+
   }
 
-  return shouldCloseWindow;
 }
+
+bool Window::ShouldCloseWindow()
+{
+
+
+  return shouldCloseWindow;
+
+
+}
+
 
 Window::~Window()
 {

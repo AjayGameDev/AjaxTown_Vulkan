@@ -27,6 +27,9 @@ void GameTime::Update()
 	deltaTime     = static_cast<double>(currentTicks - previousTicks) / frequency;
 	previousTicks = currentTicks;
 
+	//uint32_t fps = 1.0/deltaTime;
+	//std::cout << "\r" << fps << "  " << std::flush;
+
 	if (deltaTime > maxDeltaTime)
 		deltaTime = maxDeltaTime;
 

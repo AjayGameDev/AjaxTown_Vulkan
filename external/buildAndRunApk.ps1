@@ -1,5 +1,7 @@
 $currentLocation = $pwd
 
+cp "D:\Github\Ajax Town Builds\android_arm64\libmain.so" "C:\Users\dubey\CLionProjects\AjaxTown\build\deps_android_arm64\_deps\sdl-src\android-project\app\src\main\jniLibs\arm64-v8a" -Force
+
 cd C:\Users\dubey\CLionProjects\AjaxTown\build\deps_android_arm64\_deps\sdl-src\android-project
 
 .\gradlew assembleDebug

@@ -61,6 +61,7 @@ std::vector<uint32_t> Shader::ReadShader(const std::string &shaderName, ShaderTy
     //std::string filePath = R"(C:\Users\dubey\CLionProjects\AjaxTown\assets\shaders\compiled\)" + shaderName + shaderTypeName;
     std::string filePath = FileManager::GetLocation(FileManager::Shader) + shaderName + shaderTypeName;
 
+    /*
     std::ifstream file(filePath,std::ios::binary | std::ios::ate);
     if (!file.is_open())
     {
@@ -73,6 +74,18 @@ std::vector<uint32_t> Shader::ReadShader(const std::string &shaderName, ShaderTy
     file.seekg(0);
     file.read(reinterpret_cast<char *>(buffer.data()),fileSize);
     file.close();
+*/
+    SDL_IOStream* io = SDL_IOFromFile(filePath.c_str(),"rb");
+
+    if (!io)
+    {
+        std::cout << "\nCan't open shader file!" << shaderName;
+    }
+
+    Sint64 fileSize = SDL_GetIOSize(io);
+    std::vector<uint32_t> buffer(fileSize/sizeof(uint32_t));
+    SDL_ReadIO(io,buffer.data(),fileSize);
+    SDL_CloseIO(io);
 
     return buffer;
 }

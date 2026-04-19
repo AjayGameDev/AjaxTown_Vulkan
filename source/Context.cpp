@@ -3,7 +3,7 @@
 
 #pragma region Debugging Helper Functions
 
-#ifdef NDEBUG
+#if defined NDEBUG || defined(__ANDROID__)
 
 //std::cout << "\n" << "Not Debug Mode "; // Disable validation layers for better optimization
 const bool enableValidationLayers = false;
@@ -177,7 +177,12 @@ void Context::CheckSurfaceCapabilities()
     format = surfaceFormats[0];
     for (int i=0; i<surfaceFormatCount; i++)
     {
-      if (surfaceFormats[i].format == VK_FORMAT_B8G8R8A8_SRGB && surfaceFormats[i].colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+      if (surfaceFormats[i].format == VK_FORMAT_R8G8B8A8_SRGB && surfaceFormats[i].colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+      {
+        format = surfaceFormats[i];
+        break;
+      }
+      else if (surfaceFormats[i].format == VK_FORMAT_B8G8R8A8_SRGB && surfaceFormats[i].colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
       {
         format = surfaceFormats[i];
         break;
@@ -236,6 +241,11 @@ void Context::PickPhysicalDevice()
     if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
     {
       physicalDevice = device;
+      break;
+    }
+    else if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)
+    {
+      physicalDevice = device; // it will cause crash on mobile as they use integrated gpus and not discrete ones
       break;
     }
   }
@@ -342,6 +352,43 @@ void Context::CreteLogicalDevice()
     else
       computeFamilyIndex = -1;
 
+    // Check supported features before requesting it
+VkPhysicalDeviceVulkan12Features supported12{};
+supported12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+
+VkPhysicalDeviceVulkan13Features supported13{};
+supported13.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;
+supported13.pNext = &supported12;
+
+VkPhysicalDeviceFeatures2 supported2{};
+supported2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+supported2.pNext = &supported13;
+
+vkGetPhysicalDeviceFeatures2(physicalDevice, &supported2);
+
+// Now log what the GPU actually has:
+  spdlog::info("=== Vulkan 1.2 Feature Support ===");
+  spdlog::info("drawIndirectCount:                           {}", (bool)supported12.drawIndirectCount);
+  spdlog::info("bufferDeviceAddress:                         {}", (bool)supported12.bufferDeviceAddress);
+  spdlog::info("descriptorIndexing:                          {}", (bool)supported12.descriptorIndexing);
+  spdlog::info("runtimeDescriptorArray:                      {}", (bool)supported12.runtimeDescriptorArray);
+  spdlog::info("descriptorBindingPartiallyBound:             {}", (bool)supported12.descriptorBindingPartiallyBound);
+  spdlog::info("descriptorBindingVariableDescriptorCount:    {}", (bool)supported12.descriptorBindingVariableDescriptorCount);
+  spdlog::info("descriptorBindingUpdateUnusedWhilePending:   {}", (bool)supported12.descriptorBindingUpdateUnusedWhilePending);
+  spdlog::info("descriptorBindingSampledImageUpdateAfterBind:{}", (bool)supported12.descriptorBindingSampledImageUpdateAfterBind);
+  spdlog::info("descriptorBindingStorageBufferUpdateAfterBind:{}",(bool)supported12.descriptorBindingStorageBufferUpdateAfterBind);
+  spdlog::info("shaderSampledImageArrayNonUniformIndexing:   {}", (bool)supported12.shaderSampledImageArrayNonUniformIndexing);
+  spdlog::info("shaderStorageBufferArrayNonUniformIndexing:  {}", (bool)supported12.shaderStorageBufferArrayNonUniformIndexing);
+  spdlog::info("descriptorBindingUniformBufferUpdateAfterBind:{}",(bool)supported12.descriptorBindingUniformBufferUpdateAfterBind);
+
+  spdlog::info("=== Vulkan 1.3 Feature Support ===");
+  spdlog::info("synchronization2: {}", (bool)supported13.synchronization2);
+  spdlog::info("maintenance4:     {}", (bool)supported13.maintenance4);
+
+  spdlog::info("=== Core Feature Support ===");
+  spdlog::info("shaderInt64: {}", (bool)supported2.features.shaderInt64);
+// done checking all required features
+
     VkPhysicalDeviceVulkan12Features features12{};
     features12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
 
@@ -365,13 +412,20 @@ void Context::CreteLogicalDevice()
     features13.maintenance4     = VK_TRUE;
     features13.pNext = &features12;
 
+    VkPhysicalDeviceFeatures2 features2{};
+    features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+    features2.features.shaderInt64 = true;
+    features2.pNext = &features13;
+
     VkDeviceCreateInfo deviceCreateInfo{};
     deviceCreateInfo.sType                    =   VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.queueCreateInfoCount     =   queueCreateInfos.size();
     deviceCreateInfo.pQueueCreateInfos        =   queueCreateInfos.data();
-    deviceCreateInfo.pNext                    =   &features13;
+    deviceCreateInfo.pNext                    =   &features2;
+    //deviceCreateInfo.pEnabledFeatures         =   &features;
     deviceCreateInfo.enabledExtensionCount    =   static_cast<uint32_t>(requiredDeviceExtensions.size());
     deviceCreateInfo.ppEnabledExtensionNames  =   requiredDeviceExtensions.data();
+
 
     if (vkCreateDevice(physicalDevice,&deviceCreateInfo,nullptr,&device) != VK_SUCCESS)
     {
@@ -386,12 +440,18 @@ void Context::CreteLogicalDevice()
     if (transferFamilyIndex!=-1)
       vkGetDeviceQueue(device,transferFamilyIndex,0,&transferQueue);
     else
+    {
       transferFamilyIndex = graphicsFamilyIndex; // mobile or integrated gpu's only expose one family queue
+      transferQueue = graphicsQueue;
+    }
 
     if (computeFamilyIndex!=-1)
       vkGetDeviceQueue(device,computeFamilyIndex,0,&computeQueue);
     else
+    {
       computeFamilyIndex = graphicsFamilyIndex;
+      computeQueue = graphicsQueue;
+    }
 
 }
 
@@ -402,9 +462,11 @@ void Context::CreateGlobalAllocator()
     //functions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
     //functions.vkGetDeviceProcAddr   = vkGetDeviceProcAddr;
 
-    allocatorCreateInfo.device          =  device;
-    allocatorCreateInfo.instance        =  instance;
-    allocatorCreateInfo.physicalDevice  =  physicalDevice;
+    allocatorCreateInfo.device           =  device;
+    allocatorCreateInfo.instance         =  instance;
+    allocatorCreateInfo.physicalDevice   =  physicalDevice;
+    allocatorCreateInfo.vulkanApiVersion =  VK_API_VERSION_1_3;
+    allocatorCreateInfo.flags            =  VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT; // for BDA
     //allocatorCreateInfo.pVulkanFunctions = &functions;
 
     if (vmaCreateAllocator(&allocatorCreateInfo, &allocator) != VK_SUCCESS)

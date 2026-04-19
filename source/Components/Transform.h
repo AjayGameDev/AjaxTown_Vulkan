@@ -14,19 +14,20 @@ struct Transform
 	//Vector3   scale;
 	//Matrix4   modelMatrix;
 
-	Transform()
-	{
-		positionScale.x = 0;
-		positionScale.y = 0;
-		positionScale.z = 0;
-		positionScale.w = 1; // by default scale is 1
+	//Transform()
+	//{
+	//	positionScale.x = 0;
+	//	positionScale.y = 0;
+	//	positionScale.z = 0;
+	//	positionScale.w = 1; // by default scale is 1
+//
+	//	rotation.x = 0;
+	//	rotation.y = 0;
+	//	rotation.z = 0;
+	//	rotation.w = 1;
+//
+	//}
 
-		rotation.x = 0;
-		rotation.y = 0;
-		rotation.z = 0;
-		rotation.w = 1;
-
-	}
 	explicit Transform(float positionX = 0.0f, float positionY = 0.0f, float positionZ = 0.0f,float scale = 1.0f, float RotationX = 0.0f, float RotationY = 0.0f, float RotationZ = 0.0f,float RotationW = 1.0f)
 	{
 		this->positionScale.x = positionX;
@@ -42,6 +43,34 @@ struct Transform
 
 	}
 
+	void SetRotationEuler(float yaw,float pitch,float roll)
+	{
+
+		float hy =  yaw    * 0.5f * degreeToRadians;
+		float hp = -pitch  * 0.5f * degreeToRadians;  // negated for +Z forward
+		float hr =  roll   * 0.5f * degreeToRadians;
+
+		float sy = sinf(hy), cy = cosf(hy);
+		float sp = sinf(hp), cp = cosf(hp);
+		float sr = sinf(hr), cr = cosf(hr);
+
+		rotation.x = cy*sp*cr + sy*cp*sr;
+		rotation.y = sy*cp*cr - cy*sp*sr;
+		rotation.z = cy*cp*sr - sy*sp*cr;
+		rotation.w = cy*cp*cr + sy*sp*sr;
+	}
+
+	void SetPosition(float x,float y,float z)
+	{
+		positionScale.x = x;
+		positionScale.y = y;
+		positionScale.z = z;
+	}
+
+	void SetScale(float scale)
+	{
+		positionScale.w = scale;
+	}
 	/*
 	void GenerateModelMatrix()
 	{
