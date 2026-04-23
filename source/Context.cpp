@@ -3,7 +3,8 @@
 
 #pragma region Debugging Helper Functions
 
-#if defined NDEBUG || defined(__ANDROID__)
+#if defined NDEBUG || defined(__ANDROID__) // Android gpu inspector wants validation layers but snapdragon profiler might complain
+//#if defined NDEBUG
 
 //std::cout << "\n" << "Not Debug Mode "; // Disable validation layers for better optimization
 const bool enableValidationLayers = false;
@@ -458,16 +459,16 @@ vkGetPhysicalDeviceFeatures2(physicalDevice, &supported2);
 void Context::CreateGlobalAllocator()
 {
     VmaAllocatorCreateInfo allocatorCreateInfo{};
-    //VmaVulkanFunctions functions{};
-    //functions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
-    //functions.vkGetDeviceProcAddr   = vkGetDeviceProcAddr;
+    VmaVulkanFunctions functions{};
+    functions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
+    functions.vkGetDeviceProcAddr   = vkGetDeviceProcAddr;
 
     allocatorCreateInfo.device           =  device;
     allocatorCreateInfo.instance         =  instance;
     allocatorCreateInfo.physicalDevice   =  physicalDevice;
     allocatorCreateInfo.vulkanApiVersion =  VK_API_VERSION_1_3;
     allocatorCreateInfo.flags            =  VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT; // for BDA
-    //allocatorCreateInfo.pVulkanFunctions = &functions;
+    allocatorCreateInfo.pVulkanFunctions =  &functions;
 
     if (vmaCreateAllocator(&allocatorCreateInfo, &allocator) != VK_SUCCESS)
     {

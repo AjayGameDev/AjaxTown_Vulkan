@@ -16,7 +16,7 @@ void Swapchain::CreateSwapchain()
 
     swapChainCreateInfo.sType               =     VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     swapChainCreateInfo.surface             =     context.surface;
-    swapChainCreateInfo.minImageCount       =     context.surfaceCapabilities.minImageCount + 1;
+    swapChainCreateInfo.minImageCount       =     context.surfaceCapabilities.minImageCount + 1; // usually 2 on android with +1 you get 3 [FIFO with 3 images is the best option on android]
     swapChainCreateInfo.imageFormat         =     context.format.format;
     swapChainCreateInfo.imageColorSpace     =     context.format.colorSpace;
     swapChainCreateInfo.imageExtent         =     context.surfaceCapabilities.currentExtent;
@@ -25,6 +25,7 @@ void Swapchain::CreateSwapchain()
     swapChainCreateInfo.imageSharingMode    =     VK_SHARING_MODE_EXCLUSIVE;
     swapChainCreateInfo.preTransform        =     context.surfaceCapabilities.currentTransform;
     swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // this works with transparency too
+    //swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR; // testing for android as it was complaining
     swapChainCreateInfo.presentMode         =     context.presentMode;
     swapChainCreateInfo.clipped             =     VK_TRUE;
     swapChainCreateInfo.oldSwapchain        =     VK_NULL_HANDLE;

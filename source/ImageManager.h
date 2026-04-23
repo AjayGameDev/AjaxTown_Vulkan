@@ -6,7 +6,7 @@
 #define RMAOFormat                  VK_FORMAT_R8G8B8A8_UNORM
 #define depthFormat                 VK_FORMAT_D32_SFLOAT
 #define hdrFormat                   VK_FORMAT_R16G16B16A16_SFLOAT
-#define finalImageFormat            VK_FORMAT_B8G8R8A8_SRGB // Final output [Change later TO DO ]
+//#define finalImageFormat            VK_FORMAT_B8G8R8A8_SRGB // Final output [Change later TO DO ]
 
 
 class Image

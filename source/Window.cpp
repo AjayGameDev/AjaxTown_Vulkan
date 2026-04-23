@@ -4,14 +4,15 @@ Window::Window(const char *title, const int width, const int height)
 {
 
   std::string error;
+  // set hint before initialization
+  SDL_SetHint(SDL_HINT_ORIENTATIONS,"LandscapeLeft"); // otherwise game will open in potrait mode at system level even if you set landscape mode in manifest file
 
   if (!SDL_Init(SDL_INIT_VIDEO))
   {
     error = SDL_GetError();
     throw std::runtime_error("Can't Initialize SDL \n" + error);
   }
-  SDL_SetHint(SDL_HINT_ORIENTATIONS,"LandscapeLeft"); // otherwise game will open in potrait mode at system level even if you set landscape mode in manifest file
-  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN ); //  | SDL_WINDOW_BORDERLESS| SDL_WINDOW_TRANSPARENT);
+  handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN);// | SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN ); //  | SDL_WINDOW_BORDERLESS| SDL_WINDOW_TRANSPARENT);
   //handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
   if (handle == nullptr)

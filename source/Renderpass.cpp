@@ -98,7 +98,7 @@ void Renderpass::CreateForwardAttachments()
     attachments.push_back(resolvedColorAttachment);
 
     VkAttachmentDescription finalOutput{};
-    finalOutput.format          =  finalImageFormat;
+    finalOutput.format          =  context.format.format;
     finalOutput.samples         =  VK_SAMPLE_COUNT_1_BIT;
     finalOutput.loadOp          =  VK_ATTACHMENT_LOAD_OP_CLEAR;
     finalOutput.storeOp         =  VK_ATTACHMENT_STORE_OP_STORE; // store to display on screen through swapchain
@@ -177,7 +177,7 @@ void Renderpass::CreateDeferredAttachments()
 
     // Final output [Index 5]
     VkAttachmentDescription finalOutput{};
-    finalOutput.format          =  finalImageFormat;
+    finalOutput.format          =  context.format.format;
     finalOutput.samples         =  VK_SAMPLE_COUNT_1_BIT;
     finalOutput.loadOp          =  VK_ATTACHMENT_LOAD_OP_CLEAR;
     finalOutput.storeOp         =  VK_ATTACHMENT_STORE_OP_STORE; // store to display on screen through swapchain

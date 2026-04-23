@@ -44,16 +44,19 @@ layout(push_constant) uniform pushConstant
     uint64_t transformsAddress;
     uint64_t modelMatricesAddress;
     uint64_t meshesAddress;
+    uint     meshCount;
 }pc;
 
 
 
-layout(local_size_x = 1,local_size_y = 1,local_size_z = 1) in;
+layout(local_size_x = 64,local_size_y = 1,local_size_z = 1) in;
 
 void main()
 {
     uint id = gl_GlobalInvocationID.x;
 
+    if(id>=pc.meshCount)
+        return;
 
     ModelMatricesBuffer modelMatricesBuffer = ModelMatricesBuffer(pc.modelMatricesAddress);
     TransformBuffer transformBuffer = TransformBuffer(pc.transformsAddress);

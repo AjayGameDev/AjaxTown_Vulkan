@@ -30,4 +30,3 @@ Buffer::~Buffer()
   vkDeviceWaitIdle(context.device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
   vmaDestroyBuffer(context.allocator,handle,allocation);
 }
-

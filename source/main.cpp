@@ -2,17 +2,18 @@
 
 int main(int argc,char* argv[])
 {
-    Window window("Ajax Town",1920,1080);
+    Window window("Ajax Town",640,480);
     Context context(window);
     Swapchain swapchain(context);
-    Renderer renderer(context,swapchain,swapchain.imageCount,RendererType::Forward,VK_SAMPLE_COUNT_8_BIT);
+    const uint8_t maxFramesInFlight = swapchain.imageCount; // imageCount is 3 so you want 2 frames in flight to avoid latency and gpu utilization benifit
+    Renderer renderer(context,swapchain,maxFramesInFlight,RendererType::Forward,VK_SAMPLE_COUNT_8_BIT);
     Renderpass renderpass(context,renderer.GetRendererType(),renderer.GetSamplesCount());
     ImageManager imageManager(context);
-    BufferManager bufferManager(context); 
+    BufferManager bufferManager(context);
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
 
     // Shader handling
-    Shader triangleShader(context,"Triangle",ShaderType::vertfrag);
+    //Shader triangleShader(context,"triangle",ShaderType::vertfrag);
     Shader standardShader(context,"standard",ShaderType::vertfrag);
     Shader postprocessingShader(context,"postProcessing",ShaderType::vertfrag);
     Shader cullingShader(context,"culling",ShaderType::comp);
@@ -84,8 +85,9 @@ int main(int argc,char* argv[])
     Buffer buffer_drawCommands     =   bufferManager.CreateBuffer( drawCommandsBufferSize   , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT                                          ,  VMA_MEMORY_USAGE_GPU_ONLY);
     Buffer buffer_drawCount        =   bufferManager.CreateBuffer( drawCountBufferSize      , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT       ,  VMA_MEMORY_USAGE_GPU_ONLY); // dst is used for vkCmdFillBuffer to reset count before starting new frame
     Buffer buffer_modelMatrices    =   bufferManager.CreateBuffer( modelMatricesBufferSize  , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT                                    ,  VMA_MEMORY_USAGE_GPU_ONLY);
-    Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
     Buffer buffer_meshes           =   bufferManager.CreateBuffer( meshesBufferSize         , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
+    //Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
+    Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT  ,  VMA_MEMORY_USAGE_CPU_TO_GPU);
 
     // transfer data to buffers
 
@@ -97,15 +99,17 @@ int main(int argc,char* argv[])
     stagingBuffer_index.CopyData(indices.data(),indexBufferSize);
     bufferManager.CopyBuffer(&stagingBuffer_index,&buffer_index);
 
-    Buffer stagingBuffer_transforms = bufferManager.CreateBuffer(transformsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
-    stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
-    bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
-
     Buffer stagingBuffer_meshes   = bufferManager.CreateBuffer(meshesBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
     stagingBuffer_meshes.CopyData(meshes.data(),meshesBufferSize);
     bufferManager.CopyBuffer(&stagingBuffer_meshes,&buffer_meshes);
 
+    //Buffer stagingBuffer_transforms = bufferManager.CreateBuffer(transformsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    //stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
+    //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
 
+    void* mappedPointer_transforms;
+    vmaMapMemory(context.allocator,buffer_transforms.allocation,&mappedPointer_transforms);
+    Transform* bufferReference_transforms = static_cast<Transform*>(mappedPointer_transforms);
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -123,12 +127,13 @@ int main(int argc,char* argv[])
         uint64_t transformsAddress;
         uint64_t modelMatricesAddress;
         uint64_t meshesAddress;
+        uint32_t meshCount;
     }pushConstantData_compute;
 
     pushConstantData_compute.transformsAddress    = buffer_transforms.GetAddress();
     pushConstantData_compute.modelMatricesAddress = buffer_modelMatrices.GetAddress();
     pushConstantData_compute.meshesAddress        = buffer_meshes.GetAddress();
-
+    pushConstantData_compute.meshCount            = meshes.size();
     PushConstant pushConstant_compute(VK_SHADER_STAGE_COMPUTE_BIT,0,sizeof(PushConstantData_Compute));
 
     struct PushConstantData_ForwardRendering
@@ -190,15 +195,20 @@ int main(int argc,char* argv[])
 
         transform_shotgun.SetRotationEuler(yaw,pitch,0);
         transform_revolver.SetRotationEuler(yaw,pitch,0);
-        transforms[0] = transform_revolver;
-        transforms[1] = transform_shotgun;
+
+        transforms[0].SetRotationEuler(yaw,pitch,0);
+        transforms[1].SetRotationEuler(yaw,pitch,0);
+
         //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
         transform_camera.SetPosition(0,0,targetDistance);
         camera.GenerateViewProjectionMatrix(transform_camera);
-
         memcpy(pushConstantData_forwardRendering.viewProjectionMatrix,camera.viewProjectionMatrix,sizeof(Matrix4)); // bcz it is decalred as typedef float model[4][4] instead of a struct Matrix4 { float[4][4] model };
-        stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
-        bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
+
+        //stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
+        //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
+        //memcpy(bufferReference_transforms,transforms.data(),transformsBufferSize);
+        bufferReference_transforms[0] = transforms[0];
+        bufferReference_transforms[1] = transforms[1];
 
         renderer.AcquireImage();
 
@@ -214,9 +224,9 @@ int main(int argc,char* argv[])
         renderer.PushConstant_compute(cullingComputePipeline.GetPipelineLayout(),VK_SHADER_STAGE_COMPUTE_BIT,0,sizeof(PushConstantData_Compute),&pushConstantData_compute); // push constant data
 
         // should change to different value
-        renderer.DispatchComputeShader(meshes.size(), 1, 1); // dispatch compute shader
+        renderer.DispatchComputeShader((meshes.size() + 63) / 64, 1, 1); // dispatch compute shader in batches of 32 or 64 and keep it in numThreads of compute shader too
 
-        renderer.ComputeToIndirectBarrier(buffer_drawCommands.GetHandle(),buffer_drawCount.GetHandle()); // it is a command so should be recorded within command buffer
+        //renderer.ComputeToIndirectBarrier(buffer_drawCommands.GetHandle(),buffer_drawCount.GetHandle()); // it is a command so should be recorded within command buffer
         renderer.EndComputeCommandBuffer();
 
         renderer.SubmitComputeQueue();
@@ -255,6 +265,7 @@ int main(int argc,char* argv[])
         renderer.PresentImage();
         renderer.AdvanceFrame();
     }
+    vmaUnmapMemory(context.allocator,buffer_transforms.allocation);
+
     return 0;
 }
-
