@@ -1,8 +1,7 @@
 #include "Descriptor.h"
-//#include "spirv_glsl.hpp"
 #include "array"
 #include "Buffer.h"
-#include "Framebuffer.h"
+
 
 
 Descriptor::Descriptor(Context &context) : context(context) {}
@@ -22,17 +21,18 @@ void Descriptor::CreateMemoryPool()
     // Descriptor pool
     std::array<VkDescriptorPoolSize,6> poolSizes;
 
-    poolSizes[0] = {VK_DESCRIPTOR_TYPE_SAMPLER,20};
-    poolSizes[1] = {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,20};
+    poolSizes[0] = {VK_DESCRIPTOR_TYPE_SAMPLER,30};
+    poolSizes[1] = {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,4096}; // max texture array size, samplers will be assigned separately
     poolSizes[2] = {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,20};
     poolSizes[3] = {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,20};
-    poolSizes[4] = {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,20};
+    poolSizes[4] = {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,40};
     poolSizes[5] = {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,20};
 
 
-    VkDescriptorPoolCreateInfo poolCreateInfo{};
+    VkDescriptorPoolCreateInfo poolCreateInfo{}; // use {} so it doesn't contain garbage for values not assigned by you
 
     poolCreateInfo.sType          =  VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolCreateInfo.flags          =  VK_DESCRIPTOR_POOL_CREATE_UPDATE_AFTER_BIND_BIT; // important for bindless design
     poolCreateInfo.maxSets        =  16;
     poolCreateInfo.poolSizeCount  =  poolSizes.size();
     poolCreateInfo.pPoolSizes     =  poolSizes.data();
@@ -43,10 +43,22 @@ void Descriptor::CreateMemoryPool()
 
 void Descriptor::CreateGlobalSetLayout()
 {
-    std::array<VkDescriptorSetLayoutBinding,1> bindings;
+    std::vector<VkDescriptorSetLayoutBinding> bindings;
+    std::vector<VkDescriptorBindingFlags> bindingFlags;
 
-    //bindings[0] = {0,VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,  1,VK_SHADER_STAGE_VERTEX_BIT};
-    bindings[0] = {0,VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,1,VK_SHADER_STAGE_FRAGMENT_BIT};
+    bindings.push_back ( { 0, VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1   ,  VK_SHADER_STAGE_FRAGMENT_BIT } );
+    bindings.push_back ( { 1, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,    2048,  VK_SHADER_STAGE_FRAGMENT_BIT } );
+    bindings.push_back ( { 2, VK_DESCRIPTOR_TYPE_SAMPLER,          16,    VK_SHADER_STAGE_FRAGMENT_BIT } );
+
+    bindingFlags.push_back(0);
+    bindingFlags.push_back(VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT | VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT); // don't need to fill all 2048 texture slots and can be updated after binding
+    bindingFlags.push_back(VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT | VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT); // same is true for samplers
+
+    VkDescriptorSetLayoutBindingFlagsCreateInfo flagsCreateInfo{};
+
+    flagsCreateInfo.sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO;
+    flagsCreateInfo.bindingCount  = bindingFlags.size();
+    flagsCreateInfo.pBindingFlags = bindingFlags.data();
 
     // Descriptor set layout
     VkDescriptorSetLayoutCreateInfo layoutCreateInfo{};
@@ -54,7 +66,8 @@ void Descriptor::CreateGlobalSetLayout()
     layoutCreateInfo.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
     layoutCreateInfo.bindingCount = bindings.size();
     layoutCreateInfo.pBindings    = bindings.data();
-
+    layoutCreateInfo.flags        = VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT; // important
+    layoutCreateInfo.pNext        = &flagsCreateInfo;
 
     vkCreateDescriptorSetLayout(context.device,&layoutCreateInfo,nullptr,&globalSetLayout);
 }
@@ -73,31 +86,82 @@ void Descriptor::AllocateGlobalSet()
     vkAllocateDescriptorSets(context.device,&allocationInfo,&globalSet);
 }
 
-
-void Descriptor::UpdateGlobalSet(Framebuffer& frameBuffer)
+uint32_t Descriptor::RegisterImage_Global_InputAttachment(VkImageView& imageview) // update count in CreateGlobalSetLayout() function
 {
-    //VkDescriptorBufferInfo vertexBufferInfo{vertexBuffer.GetHandle(),0,VK_WHOLE_SIZE};
-    VkDescriptorImageInfo  hdrImageInfo{nullptr,frameBuffer.resolvedImage.imageView,VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL};
+    slot_global_inputAttachment++;
 
-    std::array<VkWriteDescriptorSet,1> writes{}; // use {} to get default values otherwise uninitialized memory will cause crash
+    VkDescriptorImageInfo imageInfo{};
 
-    //writes[0].sType             =   VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    //writes[0].dstSet            =   globalSet;
-    //writes[0].dstBinding        =   0;
-    //writes[0].descriptorType    =   VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    //writes[0].descriptorCount   =   1;
-    //writes[0].pBufferInfo       =   &vertexBufferInfo;
+    imageInfo.sampler     = nullptr; // provided separately, this is just for texture array
+    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    imageInfo.imageView   = imageview;
 
-    writes[0].sType             =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    writes[0].dstSet            =  globalSet;
-    writes[0].dstBinding        =  0;
-    writes[0].descriptorType    =  VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
-    writes[0].descriptorCount   =  1;
-    writes[0].pImageInfo        =  &hdrImageInfo;
+    VkWriteDescriptorSet write{};
 
-    vkUpdateDescriptorSets(context.device,writes.size(),writes.data(),0,nullptr);
+    write.sType            =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write.dstSet           =  globalSet;
+    write.dstBinding       =  0;
+    write.dstArrayElement  =  slot_global_inputAttachment;
+    write.descriptorCount  =  1;
+    write.descriptorType   =  VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+    write.pImageInfo       =  &imageInfo;
+
+
+    vkUpdateDescriptorSets(context.device,1,&write,0,nullptr);
+
+    return slot_global_inputAttachment;
 }
 
+
+
+uint32_t Descriptor::RegisterImage_Global_TextureArray(VkImageView& imageview)
+{
+    slot_global_textureArray++;
+
+    VkDescriptorImageInfo imageInfo{};
+
+    imageInfo.sampler     = nullptr; // provided separately, this is just for texture array
+    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    imageInfo.imageView   = imageview;
+
+    VkWriteDescriptorSet write{};
+
+    write.sType            =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write.dstSet           =  globalSet;
+    write.dstBinding       =  1;
+    write.dstArrayElement  =  slot_global_textureArray;
+    write.descriptorCount  =  1;
+    write.descriptorType   =  VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+    write.pImageInfo       =  &imageInfo;
+
+
+    vkUpdateDescriptorSets(context.device,1,&write,0,nullptr);
+
+    return slot_global_textureArray;
+}
+
+
+uint32_t Descriptor::RegisterSampler_Global(VkSampler& sampler)
+{
+    slot_global_samplers++;
+
+    VkDescriptorImageInfo imageInfo{};
+    imageInfo.sampler = sampler;
+
+    VkWriteDescriptorSet write{};
+    write.sType            =  VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write.dstSet           =  globalSet;
+    write.dstBinding       =  2;
+    write.dstArrayElement  =  slot_global_samplers;
+    write.descriptorCount  =  1;
+    write.descriptorType   =  VK_DESCRIPTOR_TYPE_SAMPLER;
+    write.pImageInfo       =  &imageInfo;
+
+
+    vkUpdateDescriptorSets(context.device,1,&write,0,nullptr);
+
+    return slot_global_samplers;
+}
 
 
 void Descriptor::CreateComputeSetLayout()

@@ -27,6 +27,9 @@ void Buffer::CopyData(const void *dataSource, const size_t size)
 
 Buffer::~Buffer()
 {
-  vkDeviceWaitIdle(context.device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
-  vmaDestroyBuffer(context.allocator,handle,allocation);
+  if (handle!=VK_NULL_HANDLE)
+  {
+    //vkDeviceWaitIdle(context.device); // only use for cleaning resources during closing of the program as it stalls cpu to wait for gpu to go idle before proceeding
+    vmaDestroyBuffer(context.allocator,handle,allocation);
+  }
 }

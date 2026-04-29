@@ -1,7 +1,6 @@
 #pragma once
 
 class Buffer; // forward declaration
-class Framebuffer;
 
 struct BindingInfo
 {
@@ -16,7 +15,7 @@ struct BindingInfo
 class Descriptor 
 {
     Context& context;
-
+    uint32_t slot_global_textureArray = -1, slot_global_inputAttachment = -1, slot_global_samplers = -1; // update first then return the value as id
     VkDescriptorPool descriptorPool{};
 
     VkDescriptorSetLayout globalSetLayout{};
@@ -43,8 +42,11 @@ public:
     void AllocateGlobalSet();
     void AllocateComputeSet();
 
-    void UpdateGlobalSet(Framebuffer& frameBuffer);
     void UpdateComputeSet(Buffer& indirectBuffer,Buffer& countBuffer);
+
+    uint32_t RegisterImage_Global_TextureArray(VkImageView& imageview);
+    uint32_t RegisterImage_Global_InputAttachment(VkImageView& imageview);
+    uint32_t RegisterSampler_Global(VkSampler& sampler);
 
     VkDescriptorSet& GetGlobalSet() { return globalSet; }
     VkDescriptorSet& GetComputeSet() { return computeSet; }

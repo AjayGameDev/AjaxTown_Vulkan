@@ -15,10 +15,10 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     image.imageInfo.format          =   format;
     image.imageInfo.mipLevels       =   1;
     image.imageInfo.arrayLayers     =   1;
-    image.imageInfo.imageType       =   VK_IMAGE_TYPE_2D;
+    image.imageInfo.imageType       =   VK_IMAGE_TYPE_2D; // [1D] for luts [2d] for textures [3d] for volumetric/advanced post processing
     image.imageInfo.samples         =   samples;
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
-    image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE;
+    image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE; // [exclusive] means only one queue family can access it at a time, use barrier for transferring ownership [VK_SHARING_MODE_CONCURRENT] means it can be shared with other queues that you specify at time of creation, tradeoff is performance for simplicity
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
     image.imageInfo.usage           =   VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // Important for frame buffer attachments
 

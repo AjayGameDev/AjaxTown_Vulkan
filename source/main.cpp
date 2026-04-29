@@ -2,10 +2,11 @@
 
 int main(int argc,char* argv[])
 {
-    Window window("Ajax Town",640,480);
+    Window window("Ajax Town",1920,1080);
     Context context(window);
     Swapchain swapchain(context);
-    const uint8_t maxFramesInFlight = swapchain.imageCount; // imageCount is 3 so you want 2 frames in flight to avoid latency and gpu utilization benifit
+    uint8_t maxFramesInFlight = swapchain.imageCount; // imageCount is 3 so you want 2 frames in flight to avoid latency and gpu utilization benifit
+    uint8_t currentFrameIndex = 0;
     Renderer renderer(context,swapchain,maxFramesInFlight,RendererType::Forward,VK_SAMPLE_COUNT_8_BIT);
     Renderpass renderpass(context,renderer.GetRendererType(),renderer.GetSamplesCount());
     ImageManager imageManager(context);
@@ -29,8 +30,10 @@ int main(int argc,char* argv[])
         uint32_t    firstInstance;
     };
 
-    Model model_revolver("Webley.obj");
-    Model model_shotgun("Shotgun.obj");
+    //Model model_revolver("Webley.obj");
+    //Model model_shotgun("Shotgun.obj");
+    Model model_revolver("webley.glb");
+    Model model_shotgun("shotgun.glb");
     Mesh mesh_revolver,mesh_shotgun;
 
     std::vector<Vertex_Standard> vertices;
@@ -61,6 +64,7 @@ int main(int argc,char* argv[])
 
     Camera camera; // main camera
     float deltaX = 0,deltaY = 0,targetDistance = -1.0f;
+    float x = 0 ,y = 0,z = 0;
     float yaw = 0,pitch = 0,sensitivity = .25f;
     Transform transform_camera(0,0,-1.0f);
 
@@ -87,9 +91,31 @@ int main(int argc,char* argv[])
     Buffer buffer_modelMatrices    =   bufferManager.CreateBuffer( modelMatricesBufferSize  , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT                                    ,  VMA_MEMORY_USAGE_GPU_ONLY);
     Buffer buffer_meshes           =   bufferManager.CreateBuffer( meshesBufferSize         , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
     //Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
-    Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT  ,  VMA_MEMORY_USAGE_CPU_TO_GPU);
+    //Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT  ,  VMA_MEMORY_USAGE_CPU_TO_GPU);
+    std::vector<Buffer> buffer_transforms;
+    std::vector<void*> mappedPointer_transforms;
+    std::vector<Transform*> bufferReference_transforms;
+
+    buffer_transforms.reserve(maxFramesInFlight);
+    mappedPointer_transforms.reserve(maxFramesInFlight);
+    bufferReference_transforms.reserve(maxFramesInFlight);
 
     // transfer data to buffers
+
+    for (int i = 0; i < maxFramesInFlight; ++i)
+    {
+        buffer_transforms.push_back(bufferManager.CreateBuffer(transformsBufferSize,VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT, VMA_MEMORY_USAGE_CPU_TO_GPU));
+
+        void* mappedPointer = nullptr;
+        vmaMapMemory(context.allocator,buffer_transforms[i].allocation,&mappedPointer);
+        mappedPointer_transforms.push_back(mappedPointer);
+
+        bufferReference_transforms.push_back(static_cast<Transform*>(mappedPointer_transforms[i]));
+    }
+
+    //void* mappedPointer_transforms;
+    //vmaMapMemory(context.allocator,buffer_transforms.allocation,&mappedPointer_transforms);
+    //Transform* bufferReference_transforms = static_cast<Transform*>(mappedPointer_transforms);
 
     Buffer stagingBuffer_vertex = bufferManager.CreateBuffer(vertexBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
     stagingBuffer_vertex.CopyData(vertices.data(),vertexBufferSize);
@@ -107,9 +133,7 @@ int main(int argc,char* argv[])
     //stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
     //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
 
-    void* mappedPointer_transforms;
-    vmaMapMemory(context.allocator,buffer_transforms.allocation,&mappedPointer_transforms);
-    Transform* bufferReference_transforms = static_cast<Transform*>(mappedPointer_transforms);
+
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -118,7 +142,8 @@ int main(int argc,char* argv[])
     descriptor.CreateComputeSetLayout();
     descriptor.AllocateGlobalSet();
     descriptor.AllocateComputeSet();
-    descriptor.UpdateGlobalSet(framebuffer);
+    //descriptor.UpdateGlobalSet(framebuffer);
+    descriptor.RegisterImage_Global_InputAttachment(framebuffer.resolvedImage.imageView);
     descriptor.UpdateComputeSet(buffer_drawCommands,buffer_drawCount);
 
     // 128 bytes are widely supported but some devices support upto 256 bytes so check hardware capabilities
@@ -130,7 +155,7 @@ int main(int argc,char* argv[])
         uint32_t meshCount;
     }pushConstantData_compute;
 
-    pushConstantData_compute.transformsAddress    = buffer_transforms.GetAddress();
+    pushConstantData_compute.transformsAddress    = buffer_transforms[currentFrameIndex].GetAddress();
     pushConstantData_compute.modelMatricesAddress = buffer_modelMatrices.GetAddress();
     pushConstantData_compute.meshesAddress        = buffer_meshes.GetAddress();
     pushConstantData_compute.meshCount            = meshes.size();
@@ -186,18 +211,20 @@ int main(int argc,char* argv[])
     while (!window.ShouldCloseWindow())
     {
         time.Update();
-
-        window.GetInput(deltaX,deltaY,targetDistance);
+        currentFrameIndex = renderer.GetCurrentFrameIndex();
+        window.GetInput(deltaX,deltaY,targetDistance,x,y,z);
         yaw   += deltaX * sensitivity;
         pitch -= deltaY * sensitivity;
 
         //std::cout << "Delta X " << deltaX << "  Delta Y " << deltaY << "  yaw " << yaw << "  pitch  " << pitch << std::endl;
 
-        transform_shotgun.SetRotationEuler(yaw,pitch,0);
-        transform_revolver.SetRotationEuler(yaw,pitch,0);
+        //transform_shotgun.SetRotationEuler(yaw,pitch,0);
+        //transform_revolver.SetRotationEuler(yaw,pitch,0);
 
         transforms[0].SetRotationEuler(yaw,pitch,0);
         transforms[1].SetRotationEuler(yaw,pitch,0);
+        transforms[1].SetPosition(x,y,z);
+        spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
 
         //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
         transform_camera.SetPosition(0,0,targetDistance);
@@ -207,8 +234,8 @@ int main(int argc,char* argv[])
         //stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
         //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
         //memcpy(bufferReference_transforms,transforms.data(),transformsBufferSize);
-        bufferReference_transforms[0] = transforms[0];
-        bufferReference_transforms[1] = transforms[1];
+        bufferReference_transforms[currentFrameIndex][0] = transforms[0];
+        bufferReference_transforms[currentFrameIndex][1] = transforms[1];
 
         renderer.AcquireImage();
 
@@ -221,6 +248,7 @@ int main(int argc,char* argv[])
 
         renderer.BindComputePipeline(cullingComputePipeline.GetPipeline()); // Bind compute pipeline
         renderer.BindDescriptorSetCompute(cullingComputePipeline.GetPipelineLayout(), descriptor.GetComputeSet()); // Bind compute descriptor set
+        pushConstantData_compute.transformsAddress = buffer_transforms[currentFrameIndex].GetAddress();
         renderer.PushConstant_compute(cullingComputePipeline.GetPipelineLayout(),VK_SHADER_STAGE_COMPUTE_BIT,0,sizeof(PushConstantData_Compute),&pushConstantData_compute); // push constant data
 
         // should change to different value
@@ -265,7 +293,10 @@ int main(int argc,char* argv[])
         renderer.PresentImage();
         renderer.AdvanceFrame();
     }
-    vmaUnmapMemory(context.allocator,buffer_transforms.allocation);
+    for (int i = 0; i < maxFramesInFlight; ++i)
+    {
+        vmaUnmapMemory(context.allocator,buffer_transforms[i].allocation);
+    }
 
     return 0;
 }

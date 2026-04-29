@@ -23,6 +23,32 @@ public:
     }
     ~Buffer();
 
+    Buffer(Buffer&& other) noexcept:handle(other.handle),context(other.context),allocation(other.allocation),allocationCreateInfo(other.allocationCreateInfo),bufferCreateInfo(other.bufferCreateInfo),bufferAddress(other.bufferAddress)
+    {
+        other.handle = VK_NULL_HANDLE;
+        other.allocation = VK_NULL_HANDLE;
+    }
+
+    Buffer& operator=(Buffer&& other)
+    {
+        if (this!=&other)
+        {
+            if (handle!= VK_NULL_HANDLE)
+            {
+                vmaDestroyBuffer(context.allocator,handle,allocation);
+            }
+            handle = other.handle;
+            allocation = other.allocation;
+            allocationCreateInfo = other.allocationCreateInfo;
+            bufferCreateInfo = other.bufferCreateInfo;
+            bufferAddress = other.bufferAddress;
+
+            other.handle = VK_NULL_HANDLE;
+            other.allocation = VK_NULL_HANDLE;
+
+        }
+        return *this;
+    }
 
     VkBuffer handle = nullptr;
     Context& context;

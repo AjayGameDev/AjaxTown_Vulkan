@@ -23,12 +23,17 @@ void Swapchain::CreateSwapchain()
     swapChainCreateInfo.imageArrayLayers    =     1;
     swapChainCreateInfo.imageUsage          =     VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     swapChainCreateInfo.imageSharingMode    =     VK_SHARING_MODE_EXCLUSIVE;
-    swapChainCreateInfo.preTransform        =     context.surfaceCapabilities.currentTransform;
     swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // this works with transparency too
     //swapChainCreateInfo.compositeAlpha      =     VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR; // testing for android as it was complaining
     swapChainCreateInfo.presentMode         =     context.presentMode;
     swapChainCreateInfo.clipped             =     VK_TRUE;
     swapChainCreateInfo.oldSwapchain        =     VK_NULL_HANDLE;
+
+    // handling rotation on android[without this game will open in landscape but render in portrait because of android applied rotation]
+    if (context.surfaceCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
+        swapChainCreateInfo.preTransform        =     VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+    else
+        swapChainCreateInfo.preTransform        =     context.surfaceCapabilities.currentTransform;
 
 
     if (vkCreateSwapchainKHR(context.device,&swapChainCreateInfo,nullptr,&handle) != VK_SUCCESS)
