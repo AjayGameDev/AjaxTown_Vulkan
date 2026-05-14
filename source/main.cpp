@@ -1,5 +1,6 @@
 #include "Headers.h"
 
+
 int main(int argc,char* argv[])
 {
     Window window("Ajax Town",1920,1080);
@@ -12,7 +13,6 @@ int main(int argc,char* argv[])
     ImageManager imageManager(context);
     BufferManager bufferManager(context);
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
-
     // Shader handling
     //Shader triangleShader(context,"triangle",ShaderType::vertfrag);
     Shader standardShader(context,"standard",ShaderType::vertfrag);
@@ -28,25 +28,40 @@ int main(int argc,char* argv[])
         uint32_t    indexOffset;
         int32_t     vertexOffset;
         uint32_t    firstInstance;
+        uint32_t    materialIndex;
+    };
+
+    struct Material
+    {
+        uint32_t albedoIndex;
+        uint32_t normalIndex;
+        uint32_t rmaoIndex;
+        uint32_t samplerIndex;
     };
 
     //Model model_revolver("Webley.obj");
     //Model model_shotgun("Shotgun.obj");
     Model model_revolver("webley.glb");
-    Model model_shotgun("shotgun.glb");
+    Model model_shotgun ("shotgun.glb");
     Mesh mesh_revolver,mesh_shotgun;
-
+    Material material_revolver{},material_shotgun{};
+    Sampler sampler(context);
+ 
     std::vector<Vertex_Standard> vertices;
     std::vector<uint32_t> indices;
     std::vector<Mesh> meshes;
+    std::vector<Material> materials;
+    std::vector<Sampler> samplers;
 
     mesh_revolver.indexCount    = model_revolver.GetIndices().size();
     mesh_revolver.indexOffset   = indices.size();
     mesh_revolver.vertexOffset  = vertices.size();
     mesh_revolver.instanceCount = 1;
     mesh_revolver.firstInstance = 0;
+    mesh_revolver.materialIndex = 0;
 
     meshes.push_back(mesh_revolver);
+    materials.push_back(material_revolver);
     vertices.insert(vertices.end(),model_revolver.GetVertices().begin(),model_revolver.GetVertices().end());
     indices.insert(indices.end(),model_revolver.GetIndices().begin(),model_revolver.GetIndices().end());
 
@@ -55,12 +70,13 @@ int main(int argc,char* argv[])
     mesh_shotgun.vertexOffset  = vertices.size();
     mesh_shotgun.instanceCount = 1;
     mesh_shotgun.firstInstance = 1;
+    mesh_shotgun.materialIndex = 0;
 
     meshes.push_back(mesh_shotgun);
     vertices.insert(vertices.end(),model_shotgun.GetVertices().begin(),model_shotgun.GetVertices().end());
     indices.insert(indices.end(),model_shotgun.GetIndices().begin(),model_shotgun.GetIndices().end());
-
-
+    materials.push_back(material_shotgun);
+    samplers.push_back(sampler);
 
     Camera camera; // main camera
     float deltaX = 0,deltaY = 0,targetDistance = -1.0f;
@@ -83,6 +99,8 @@ int main(int argc,char* argv[])
     const size_t modelMatricesBufferSize         =    sizeof(Matrix4) * transforms.size();
     constexpr size_t drawCommandsBufferSize      =    sizeof(VkDrawIndexedIndirectCommand) * maxDrawCount;
     constexpr size_t drawCountBufferSize         =    sizeof(uint32_t);
+    const size_t materialsBufferSize             =    sizeof(Material) * materials.size();
+    //const size_t samplersBufferSize              =    sizeof(Sampler) * samplers.size();
 
     Buffer buffer_vertex           =   bufferManager.CreateBuffer( vertexBufferSize         , VK_BUFFER_USAGE_VERTEX_BUFFER_BIT    |  VK_BUFFER_USAGE_TRANSFER_DST_BIT                                             ,  VMA_MEMORY_USAGE_GPU_ONLY);
     Buffer buffer_index            =   bufferManager.CreateBuffer( indexBufferSize          , VK_BUFFER_USAGE_INDEX_BUFFER_BIT     |  VK_BUFFER_USAGE_TRANSFER_DST_BIT                                             ,  VMA_MEMORY_USAGE_GPU_ONLY);
@@ -90,6 +108,8 @@ int main(int argc,char* argv[])
     Buffer buffer_drawCount        =   bufferManager.CreateBuffer( drawCountBufferSize      , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT       ,  VMA_MEMORY_USAGE_GPU_ONLY); // dst is used for vkCmdFillBuffer to reset count before starting new frame
     Buffer buffer_modelMatrices    =   bufferManager.CreateBuffer( modelMatricesBufferSize  , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT                                    ,  VMA_MEMORY_USAGE_GPU_ONLY);
     Buffer buffer_meshes           =   bufferManager.CreateBuffer( meshesBufferSize         , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
+    Buffer buffer_materials        =   bufferManager.CreateBuffer( materialsBufferSize      , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |   VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,  VMA_MEMORY_USAGE_GPU_ONLY);
+    //Buffer buffer_samplers         =   bufferManager.CreateBuffer( samplersBufferSize       , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT  ,  VMA_MEMORY_USAGE_GPU_ONLY);
     //Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT ,  VMA_MEMORY_USAGE_GPU_ONLY);
     //Buffer buffer_transforms       =   bufferManager.CreateBuffer( transformsBufferSize     , VK_BUFFER_USAGE_STORAGE_BUFFER_BIT   |  VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT  ,  VMA_MEMORY_USAGE_CPU_TO_GPU);
     std::vector<Buffer> buffer_transforms;
@@ -129,11 +149,21 @@ int main(int argc,char* argv[])
     stagingBuffer_meshes.CopyData(meshes.data(),meshesBufferSize);
     bufferManager.CopyBuffer(&stagingBuffer_meshes,&buffer_meshes);
 
+    Buffer stagingBuffer_materials = bufferManager.CreateBuffer(materialsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    stagingBuffer_materials.CopyData(materials.data(),materialsBufferSize);
+    bufferManager.CopyBuffer(&stagingBuffer_materials,&buffer_materials);
+
+    //Buffer stagingBuffer_samplers = bufferManager.CreateBuffer(samplersBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    //stagingBuffer_samplers.CopyData(samplers.data(),samplersBufferSize);
+    //bufferManager.CopyBuffer(&stagingBuffer_samplers,&buffer_samplers);
+
     //Buffer stagingBuffer_transforms = bufferManager.CreateBuffer(transformsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
     //stagingBuffer_transforms.CopyData(transforms.data(),transformsBufferSize);
     //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
 
-
+    Image texture_diffuse_shotgun(context);
+    //imageManager.Create2DImage(texture_diffuse_shotgun,1024,1024,VK_FORMAT_R8G8B8A8_SRGB,VMA_MEMORY_USAGE_GPU_ONLY);
+    imageManager.UploadImageDataToGPU(texture_diffuse_shotgun,"Shotgun_Shotgun_diffuse",bufferManager,context);
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -143,6 +173,8 @@ int main(int argc,char* argv[])
     descriptor.AllocateGlobalSet();
     descriptor.AllocateComputeSet();
     //descriptor.UpdateGlobalSet(framebuffer);
+    material_shotgun.albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
+    material_shotgun.samplerIndex = descriptor.RegisterSampler_Global(sampler.GetHandle());
     descriptor.RegisterImage_Global_InputAttachment(framebuffer.resolvedImage.imageView);
     descriptor.UpdateComputeSet(buffer_drawCommands,buffer_drawCount);
 
@@ -165,12 +197,14 @@ int main(int argc,char* argv[])
     {
         Matrix4  viewProjectionMatrix;
         uint64_t modelMatricesAddress;
+        uint64_t materialsAddress;
     }pushConstantData_forwardRendering;
 
     memcpy(pushConstantData_forwardRendering.viewProjectionMatrix,camera.viewProjectionMatrix,sizeof(Matrix4)); // bcz it is decalred as typedef float model[4][4] instead of a struct Matrix4 { float[4][4] model };
     pushConstantData_forwardRendering.modelMatricesAddress = buffer_modelMatrices.GetAddress();
+    pushConstantData_forwardRendering.materialsAddress = buffer_materials.GetAddress();
 
-    PushConstant pushConstant_forwardRendering(VK_SHADER_STAGE_VERTEX_BIT,0,sizeof(PushConstantData_ForwardRendering));
+    PushConstant pushConstant_forwardRendering(VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,0,sizeof(PushConstantData_ForwardRendering));
 
     GraphicsPipeline forwardLightingGraphicsPipeline =  GraphicsPipelineBuilder()
                                             .InputAssembly(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST)
@@ -179,7 +213,8 @@ int main(int argc,char* argv[])
                                             .SetVertexShader(standardShader.GetVertexShaderModule())
                                             .SetFragmentShader(standardShader.GetFragmentShaderModule())
                                             .SetDepth(true,true,VK_COMPARE_OP_GREATER)
-                                            .SetRasterizationCullMode(VK_CULL_MODE_BACK_BIT)
+                                            .SetRasterizationCullMode(VK_CULL_MODE_BACK_BIT) // for some reason cull mode front looks normal than cull mode back
+                                            .SetRasterizationFrontFace(VK_FRONT_FACE_CLOCKWISE) // y-axis flip in projection matrix reversed the winding order so use clockwise face so you can use cull mode back properly
                                             .SetMultiSampling(renderer.GetSamplesCount(),false,false)
                                             .AddColorblendAttachment(4,GraphicsPipelineBuilder::BlendingType::OPAQUE,1) // 4 attachments to write directly to final image
                                             .AddPushConstant(pushConstant_forwardRendering.GetHandle())
@@ -224,7 +259,7 @@ int main(int argc,char* argv[])
         transforms[0].SetRotationEuler(yaw,pitch,0);
         transforms[1].SetRotationEuler(yaw,pitch,0);
         transforms[1].SetPosition(x,y,z);
-        spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
+        //spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
 
         //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
         transform_camera.SetPosition(0,0,targetDistance);
@@ -274,7 +309,7 @@ int main(int argc,char* argv[])
         renderer.BindVertexBuffer(0, 1, buffer_vertex.handle, offset);
         renderer.BindIndexBuffer(buffer_index.handle, offset, VK_INDEX_TYPE_UINT32);
 
-        renderer.PushConstant_graphics(forwardLightingGraphicsPipeline.GetPipelineLayout(),VK_SHADER_STAGE_VERTEX_BIT,0,sizeof(PushConstantData_ForwardRendering),&pushConstantData_forwardRendering); // push constant data
+        renderer.PushConstant_graphics(forwardLightingGraphicsPipeline.GetPipelineLayout(),VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,0,sizeof(PushConstantData_ForwardRendering),&pushConstantData_forwardRendering); // push constant data
 
 
         renderer.DrawIndexedIndirectCount(buffer_drawCommands.GetHandle(), 0, buffer_drawCount.GetHandle(), 0, maxDrawCount, sizeof(VkDrawIndexedIndirectCommand)); // max draw might change

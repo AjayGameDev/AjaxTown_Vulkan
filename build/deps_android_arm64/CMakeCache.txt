@@ -137,6 +137,42 @@ ASSIMP_UBSAN:BOOL=OFF
 //Treat all warnings as errors.
 ASSIMP_WARNINGS_AS_ERRORS:BOOL=OFF
 
+//Enable astcenc builds with address sanitizer
+ASTCENC_ASAN:BOOL=OFF
+
+//Enable astcenc big-endian support
+ASTCENC_BIG_ENDIAN:BOOL=OFF
+
+//Enable astcenc builds with diagnostic trace
+ASTCENC_DIAGNOSTICS:BOOL=OFF
+
+//Enable astcenc floating point invariance
+ASTCENC_INVARIANCE:BOOL=ON
+
+//Enable astcenc builds for no SIMD
+ASTCENC_ISA_NONE:BOOL=OFF
+
+//Enable astcenc builds for 128-bit SVE SIMD
+ASTCENC_ISA_SVE_128:BOOL=OFF
+
+//Enable astcenc builds for 256-bit SVE SIMD
+ASTCENC_ISA_SVE_256:BOOL=OFF
+
+//Enable astcenc builds with core library shared objects
+ASTCENC_SHAREDLIB:BOOL=OFF
+
+//Enable astcenc builds with undefined behavior sanitizer
+ASTCENC_UBSAN:BOOL=OFF
+
+//Enable astcenc builds with unit tests
+ASTCENC_UNITTEST:BOOL=OFF
+
+//Force builds to treat warnings as errors
+ASTCENC_WERROR:BOOL=ON
+
+//Enable use of native x86 gathers
+ASTCENC_X86_GATHERS:BOOL=ON
+
 //Value Computed by CMake
 Assimp_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/assimp-build
 
@@ -146,8 +182,14 @@ Assimp_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 Assimp_SOURCE_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/assimp-src
 
+//Path to a program.
+BASH_EXECUTABLE:FILEPATH=C:/Program Files/Git/bin/bash.exe
+
 //Build package with shared libraries.
 BUILD_SHARED_LIBS:BOOL=OFF
+
+//Build the testing tree.
+BUILD_TESTING:BOOL=ON
 
 //Path to a program.
 CCACHE_PATH:FILEPATH=CCACHE_PATH-NOTFOUND
@@ -436,6 +478,13 @@ CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=C:\Users\dubey\AppData\Local\Android\Sdk\ndk\
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to the coverage program that CTest uses for performing coverage
+// inspection
+COVERAGE_COMMAND:FILEPATH=C:/MinGW/bin/gcov.exe
+
+//Extra command line flags to pass to the coverage tool
+COVERAGE_EXTRA_FLAGS:STRING=-l
+
 //Semicolon separated list of generators
 CPACK_GENERATOR:STRING=TGZ;ZIP
 
@@ -459,6 +508,15 @@ CPACK_SOURCE_TZ:BOOL=ON
 
 //Enable to build ZIP source packages
 CPACK_SOURCE_ZIP:BOOL=OFF
+
+//How many times to retry timed-out CTest submissions.
+CTEST_SUBMIT_RETRY_COUNT:STRING=3
+
+//How long to wait between timed-out CTest submissions.
+CTEST_SUBMIT_RETRY_DELAY:STRING=5
+
+//Maximum time allowed before CTest will kill the test.
+DART_TESTING_TIMEOUT:STRING=1500
 
 //Value Computed by CMake
 External_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64
@@ -484,6 +542,10 @@ FETCHCONTENT_QUIET:BOOL=ON
 FETCHCONTENT_SOURCE_DIR_ASSIMP:PATH=
 
 //When not empty, overrides where to find pre-populated content
+// for ktx2
+FETCHCONTENT_SOURCE_DIR_KTX2:PATH=
+
+//When not empty, overrides where to find pre-populated content
 // for sdl
 FETCHCONTENT_SOURCE_DIR_SDL:PATH=
 
@@ -501,6 +563,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 //Enables UPDATE_DISCONNECTED behavior just for population of assimp
 FETCHCONTENT_UPDATES_DISCONNECTED_ASSIMP:BOOL=OFF
 
+//Enables UPDATE_DISCONNECTED behavior just for population of ktx2
+FETCHCONTENT_UPDATES_DISCONNECTED_KTX2:BOOL=OFF
+
 //Enables UPDATE_DISCONNECTED behavior just for population of sdl
 FETCHCONTENT_UPDATES_DISCONNECTED_SDL:BOOL=OFF
 
@@ -510,8 +575,61 @@ FETCHCONTENT_UPDATES_DISCONNECTED_SPDLOG:BOOL=OFF
 //Enables UPDATE_DISCONNECTED behavior just for population of VMA
 FETCHCONTENT_UPDATES_DISCONNECTED_VMA:BOOL=OFF
 
+//Path to a program.
+GITCOMMAND:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
 //Git command line client
 GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
+//Value Computed by CMake
+KTX-Software_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build
+
+//Value Computed by CMake
+KTX-Software_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+KTX-Software_SOURCE_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-src
+
+//Create KTX documentation.
+KTX_FEATURE_DOC:BOOL=OFF
+
+//ETC decoding support.
+KTX_FEATURE_ETC_UNPACK:BOOL=ON
+
+//Enable OpenGL texture upload.
+KTX_FEATURE_GL_UPLOAD:BOOL=ON
+
+//Create Java bindings for libktx.
+KTX_FEATURE_JNI:BOOL=OFF
+
+//Enable KTX 1 support.
+KTX_FEATURE_KTX1:BOOL=ON
+
+//Enable KTX 2 support.
+KTX_FEATURE_KTX2:BOOL=ON
+
+KTX_FEATURE_LOADTEST_APPS:BOOL=OFF
+
+//Create Python source distribution.
+KTX_FEATURE_PY:BOOL=OFF
+
+//Create unit tests.
+KTX_FEATURE_TESTS:BOOL=OFF
+
+//Enable KTX CLI Tools CTS tests (requires CTS submodule).
+KTX_FEATURE_TOOLS_CTS:BOOL=OFF
+
+//Enable Vulkan texture upload.
+KTX_FEATURE_VK_UPLOAD:BOOL=ON
+
+//Include targets for generating VkFormat related files. For project
+// developers only.
+KTX_GENERATE_VK_FILES:BOOL=OFF
+
+KTX_INSTALL:BOOL=ON
+
+//Make all warnings in KTX code into errors.
+KTX_WERROR:BOOL=OFF
 
 //Extra compile options of LibUSB
 LibUSB_COMPILE_OPTIONS:STRING=
@@ -527,6 +645,15 @@ LibUSB_LINK_FLAGS:STRING=
 
 //Extra link libraries of LibUSB
 LibUSB_LINK_LIBRARIES:STRING=
+
+//Command to build the project
+MAKECOMMAND:STRING="C:\Program Files\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
+
+//Path to the memory checking command, used for memory error detection.
+MEMORYCHECK_COMMAND:FILEPATH=MEMORYCHECK_COMMAND-NOTFOUND
+
+//File that contains suppressions for the memory checker
+MEMORYCHECK_SUPPRESSIONS_FILE:FILEPATH=
 
 //Arguments to supply to pkg-config
 PKG_CONFIG_ARGN:STRING=
@@ -802,6 +929,9 @@ SDL_WERROR:BOOL=OFF
 //Use X11 video driver
 SDL_X11:BOOL=OFF
 
+//Name of the computer/site where compile is being run
+SITE:STRING=DESKTOP-08MJ749
+
 //Build all artifacts
 SPDLOG_BUILD_ALL:BOOL=OFF
 
@@ -909,6 +1039,24 @@ VMA_IS_TOP_LEVEL:STATIC=OFF
 VMA_SOURCE_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/vma-src
 
 //Value Computed by CMake
+astcenc-neon_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build/external/astc-encoder/Source
+
+//Value Computed by CMake
+astcenc-neon_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+astcenc-neon_SOURCE_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-src/external/astc-encoder/Source
+
+//Value Computed by CMake
+astcencoder_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build/external/astc-encoder
+
+//Value Computed by CMake
+astcencoder_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+astcencoder_SOURCE_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-src/external/astc-encoder
+
+//Value Computed by CMake
 spdlog_BINARY_DIR:STATIC=C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/spdlog-build
 
 //Value Computed by CMake
@@ -939,6 +1087,10 @@ ASM686:INTERNAL=FALSE
 ASSIMP_BUILD_ARCHITECTURE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ASSIMP_BUILD_COMPILER
 ASSIMP_BUILD_COMPILER-ADVANCED:INTERNAL=1
+//Enable astcenc builds for decompression only
+ASTCENC_DECOMPRESSOR:INTERNAL=OFF
+//ADVANCED property for variable: BASH_EXECUTABLE
+BASH_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -955,6 +1107,8 @@ CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
 CMAKE_COMMAND:INTERNAL=C:/Program Files/CMake/bin/cmake.exe
 //Path to cpack program executable.
 CMAKE_CPACK_COMMAND:INTERNAL=C:/Program Files/CMake/bin/cpack.exe
+//ADVANCED property for variable: CMAKE_CTEST_COMMAND
+CMAKE_CTEST_COMMAND-ADVANCED:INTERNAL=1
 //Path to ctest program executable.
 CMAKE_CTEST_COMMAND:INTERNAL=C:/Program Files/CMake/bin/ctest.exe
 //ADVANCED property for variable: CMAKE_CXX_COMPILER_AR
@@ -1085,7 +1239,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=12
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1136,6 +1290,10 @@ COMPILER_SUPPORTS_ARMNEON:INTERNAL=1
 COMPILER_SUPPORTS_FCOLOR_DIAGNOSTICS:INTERNAL=1
 //Test COMPILER_SUPPORTS_GCC_ATOMICS
 COMPILER_SUPPORTS_GCC_ATOMICS:INTERNAL=1
+//ADVANCED property for variable: COVERAGE_COMMAND
+COVERAGE_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: COVERAGE_EXTRA_FLAGS
+COVERAGE_EXTRA_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CPACK_SOURCE_RPM
 CPACK_SOURCE_RPM-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CPACK_SOURCE_TBZ2
@@ -1148,8 +1306,18 @@ CPACK_SOURCE_TXZ-ADVANCED:INTERNAL=1
 CPACK_SOURCE_TZ-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CPACK_SOURCE_ZIP
 CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CTEST_SUBMIT_RETRY_COUNT
+CTEST_SUBMIT_RETRY_COUNT-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CTEST_SUBMIT_RETRY_DELAY
+CTEST_SUBMIT_RETRY_DELAY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DART_TESTING_TIMEOUT
+DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
+//Details about finding Bash
+FIND_PACKAGE_MESSAGE_DETAILS_Bash:INTERNAL=[C:/Program Files/Git/bin/bash.exe][v()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: GITCOMMAND
+GITCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include alloca.h
@@ -1260,6 +1428,12 @@ HAVE_WL_VERSION_SCRIPT:INTERNAL=1
 ICONV_IN_LIBC:INTERNAL=1
 //Test ICONV_IN_LIBICONV
 ICONV_IN_LIBICONV:INTERNAL=
+//STRINGS property for variable: KTX_FEATURE_LOADTEST_APPS
+KTX_FEATURE_LOADTEST_APPS-STRINGS:INTERNAL=OFF;OpenGL;Vulkan;OpenGL+Vulkan
+//Create KTX tools
+KTX_FEATURE_TOOLS:INTERNAL=OFF
+//ADVANCED property for variable: KTX_GENERATE_VK_FILES
+KTX_GENERATE_VK_FILES-ADVANCED:INTERNAL=1
 //Have symbol abs
 LIBC_HAS_ABS:INTERNAL=1
 //Have symbol acos
@@ -1508,6 +1682,12 @@ LIBC_ISNAN_HANDLES_FLOAT:INTERNAL=1
 LIBC_IS_GLIBC:INTERNAL=
 //Test LINKER_SUPPORTS_WL_NO_UNDEFINED
 LINKER_SUPPORTS_WL_NO_UNDEFINED:INTERNAL=1
+//ADVANCED property for variable: MAKECOMMAND
+MAKECOMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MEMORYCHECK_COMMAND
+MEMORYCHECK_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MEMORYCHECK_SUPPRESSIONS_FILE
+MEMORYCHECK_SUPPRESSIONS_FILE-ADVANCED:INTERNAL=1
 //CHECK_TYPE_SIZE: sizeof(off64_t)
 OFF64_T:INTERNAL=8
 //ADVANCED property for variable: PKG_CONFIG_ARGN
@@ -1522,6 +1702,8 @@ SDL_CHECK_REQUIRED_INCLUDES-ADVANCED:INTERNAL=1
 SDL_CHECK_REQUIRED_LINK_OPTIONS-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
 SDL_CPU_CHECK_ALL:INTERNAL=TRUE
+//ADVANCED property for variable: SITE
+SITE-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
 THREADS_HAVE_PTHREAD_ARG:INTERNAL=TRUE
 //Test VULKAN_PASSED_ANDROID_CHECKS

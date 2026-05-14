@@ -29,6 +29,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(VMA)
 
+set(KTX_INSTALL ON CACHE BOOL "" FORCE)
+set(KTX_FEATURE_TOOLS OFF CACHE BOOL "" FORCE)
+set(KTX_FEATURE_TESTS OFF CACHE BOOL "" FORCE)
+set(KTX_FEATURE_LOADTEST_APPS OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(
+        ktx2
+        GIT_REPOSITORY "https://github.com/KhronosGroup/KTX-Software"
+        GIT_TAG "v4.4.2"
+        GIT_SHALLOW TRUE
+)
+FETCHCONTENT_MAKEAVAILABLE(ktx2)
 
 # Fetch SDL
 
@@ -73,11 +84,14 @@ if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(assimp INTERFACE ASSIMP_STATIC_LIB)
 endif()
 
+
+
 install( TARGETS
 
         spdlog
         VulkanMemoryAllocator
-
+        ktx
+        astcenc-neon-static
         EXPORT External
 )
 

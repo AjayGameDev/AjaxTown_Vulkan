@@ -21,10 +21,14 @@ Model::~Model()
 void Model::LoadModel(const std::string& modelName)
 {
     Assimp::Importer importer;
-    importer.SetIOHandler(new AssimpSDLIOSystem());
+    //importer.SetIOHandler(new AssimpSDLIOSystem()); // may need later when you want obj + mtl or gltf + bin
     std::string filePath = FileManager::GetLocation(FileManager::Model) + modelName;
 
-    const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace); // | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
+    //const aiScene* scene = importer.ReadFile(filePath.c_str(),aiProcess_Triangulate | aiProcess_CalcTangentSpace); // | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
+    std::vector<uint8_t> buffer = FileManager::LoadBytes_8bit(filePath);
+    const std::string hint = modelName.substr(modelName.find_last_of(".")); //extension as a format hint hint
+    const aiScene* scene = importer.ReadFileFromMemory(buffer.data(),buffer.size(),aiProcess_Triangulate | aiProcess_CalcTangentSpace,hint.c_str());
+
 
     if (scene == nullptr || !scene->mRootNode || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
     {

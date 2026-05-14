@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\src\basisu_c_binding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\inc\basisu_c_binding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{491785A8-2F4C-3DE7-84F3-A61A0E6AFAD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{F2ECDA7F-43B4-3D37-8918-E77861F5C3BC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

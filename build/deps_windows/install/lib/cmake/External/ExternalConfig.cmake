@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS External::spdlog External::VulkanMemoryAllocator)
+foreach(_cmake_expected_target IN ITEMS External::spdlog External::VulkanMemoryAllocator External::ktx)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -67,6 +67,15 @@ set_target_properties(External::spdlog PROPERTIES
 
 # Create imported target External::VulkanMemoryAllocator
 add_library(External::VulkanMemoryAllocator INTERFACE IMPORTED)
+
+# Create imported target External::ktx
+add_library(External::ktx SHARED IMPORTED)
+
+set_target_properties(External::ktx PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "\$<\$<CONFIG:Debug>:_DEBUG;DEBUG>;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE"
+  INTERFACE_COMPILE_FEATURES "c_std_11;cxx_std_11"
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+)
 
 # Load information for each installed configuration.
 file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/ExternalConfig-*.cmake")

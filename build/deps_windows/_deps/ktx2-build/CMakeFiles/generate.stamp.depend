@@ -1,0 +1,26 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-4.2/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDependentOption.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CMakePrintHelpers.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CTest.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CTestTargets.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CTestUseLaunchers.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/DartConfiguration.tcl.in
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindGit.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/WriteBasicConfigVersionFile.cmake
+C:/Program Files/CMake/share/cmake-4.2/Templates/CPackConfig.cmake.in
+C:/Program Files/CMake/share/cmake-4.2/Templates/CTestScript.cmake.in
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/CMakeFiles/cmake.verify_globs
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/CMakeLists.txt
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/codesign.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/cputypetest.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/modules/FindBash.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/modules/GetGitRevisionDescription.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/modules/KtxDependentVariable.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/cmake/version.cmake

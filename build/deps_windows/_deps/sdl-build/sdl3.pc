@@ -9,5 +9,6 @@ URL: https://www.libsdl.org/
 Version: 3.4.0
 Requires.private: 
 Conflicts:
-Libs: -L${libdir}  -lSDL3-static   -lkernel32 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid -ladvapi32 -lsetupapi -lshell32 -ldinput8
+Libs: -L${libdir}  -lSDL3 
+Libs.private: -lkernel32 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid -ladvapi32 -lsetupapi -lshell32 -ldinput8
 Cflags: -I${includedir} 

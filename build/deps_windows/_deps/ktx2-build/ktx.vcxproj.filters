@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\astc_codec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\basis_transcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\miniz_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_transcoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd\zstd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\checkheader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\createdfd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\colourspaces.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\interpretdfd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\printdfd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\queries.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\vk2dfd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\etcunpack.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\filestream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\glformat_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\hashlist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\info.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\memstream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\strings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\swap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkformat_check.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkformat_check_variant.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkformat_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkformat_typesize.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\etcdec\etcdec.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\gl_funcs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\glloader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vk_funcs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkloader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\basis_encode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_backend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_basis_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_bc7enc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_comp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_enc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_etc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_frontend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_gpu_texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_kernels_sse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_opencl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_pvrtc1_4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_resample_filters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_resampler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_ssim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_uastc_enc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\writer1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\writer2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include\KHR\khr_df.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include\ktx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\basis_sgd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_containers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_containers_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_file_headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_transcoder_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_transcoder_uastc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu_transcoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder\basisu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\dfd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\vk2dfd.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\vulkan\vk_platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils\vulkan\vulkan_core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\filestream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\formatsize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\gl_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\ktxint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\memstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture_funcs.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\uthash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vk2gl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vk_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkFormat2glFormat.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkFormat2glInternalFormat.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkFormat2glType.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vkformat_enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\gl_funclist.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\gl_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\texture1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include\ktxvulkan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\vk_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_backend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_basis_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_bc7enc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_comp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_enc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_etc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_frontend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_gpu_texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_kernels_declares.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_kernels_imp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_miniz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_opencl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_pvrtc1_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_resampler_filters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_resampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_ssim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\basisu_uastc_enc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\cppspmd_flow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\cppspmd_math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\cppspmd_math_declares.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\cppspmd_sse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\encoder\cppspmd_type_aliases.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\internalexport.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\lib\internalexport_write.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C2F67D78-1A9D-3ED3-A243-78BA4CDAA34D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{491785A8-2F4C-3DE7-84F3-A61A0E6AFAD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{F2ECDA7F-43B4-3D37-8918-E77861F5C3BC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

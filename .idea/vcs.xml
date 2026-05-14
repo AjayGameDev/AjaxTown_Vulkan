@@ -3,10 +3,14 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/ktx2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/ktx2-src/tests/cts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/sdl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/spdlog-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_android_arm64/_deps/vma-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/ktx2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/ktx2-src/tests/cts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/sdl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/spdlog-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/deps_windows/_deps/vma-src" vcs="Git" />

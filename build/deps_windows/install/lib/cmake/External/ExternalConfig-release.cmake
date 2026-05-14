@@ -15,5 +15,15 @@ set_target_properties(External::spdlog PROPERTIES
 list(APPEND _cmake_import_check_targets External::spdlog )
 list(APPEND _cmake_import_check_files_for_External::spdlog "${_IMPORT_PREFIX}/lib/spdlog.lib" )
 
+# Import target "External::ktx" for configuration "Release"
+set_property(TARGET External::ktx APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(External::ktx PROPERTIES
+  IMPORTED_IMPLIB_RELEASE "${_IMPORT_PREFIX}/lib/ktx.lib"
+  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/bin/ktx.dll"
+  )
+
+list(APPEND _cmake_import_check_targets External::ktx )
+list(APPEND _cmake_import_check_files_for_External::ktx "${_IMPORT_PREFIX}/lib/ktx.lib" "${_IMPORT_PREFIX}/bin/ktx.dll" )
+
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)

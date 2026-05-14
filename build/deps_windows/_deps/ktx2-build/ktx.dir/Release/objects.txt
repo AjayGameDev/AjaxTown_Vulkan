@@ -1,0 +1,2 @@
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/lib/internalexport.def
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-src/lib/internalexport_write.def

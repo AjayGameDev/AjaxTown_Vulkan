@@ -391,6 +391,12 @@ class GraphicsPipelineBuilder
                 return *this;
             }
 
+            GraphicsPipelineBuilder& SetRasterizationFrontFace(VkFrontFace frontFace)
+            {
+                rasterizationInfo.frontFace = frontFace;
+                return *this;
+            }
+
             GraphicsPipelineBuilder& SetRasterizationPolygonMode(bool depthClampEnable = false,bool depthBiasEnable = false,float depthBiasConstantFactor = 0, float depthBiasSlopeFactor = 0,float depthBiasClamp = 0)
             {
                 rasterizationInfo.depthClampEnable         =  depthClampEnable;

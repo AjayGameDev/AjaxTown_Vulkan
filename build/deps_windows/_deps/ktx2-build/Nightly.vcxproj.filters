@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\CMakeFiles\7986d8d2e2a53b42206aca1772cc61cc\Nightly.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\CMakeFiles\Nightly" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C2F67D78-1A9D-3ED3-A243-78BA4CDAA34D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

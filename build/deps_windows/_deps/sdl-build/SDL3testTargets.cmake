@@ -59,7 +59,7 @@ set_target_properties(SDL3::SDL3_test PROPERTIES
 set_property(TARGET SDL3::SDL3_test APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(SDL3::SDL3_test PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
-  IMPORTED_LOCATION_DEBUG "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/Debug/SDL3_testd.lib"
+  IMPORTED_LOCATION_DEBUG "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/sdl-build/Debug/SDL3_test.lib"
   )
 
 # Import target "SDL3::SDL3_test" for configuration "Release"

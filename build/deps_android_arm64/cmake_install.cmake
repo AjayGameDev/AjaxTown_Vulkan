@@ -54,6 +54,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/sdl-build/cmake_install.cmake")
 endif()
 
@@ -64,6 +69,21 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/spdlog-build/libspdlog.a")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build/libktx.a")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES
+    "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-src/include/ktx.h"
+    "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-src/include/ktxvulkan.h"
+    )
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/_deps/ktx2-build/external/astc-encoder/Source/libastcenc-neon-static.a")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

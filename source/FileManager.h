@@ -19,9 +19,10 @@ class FileManager
 			};
 
 
-
+			static std::vector<uint8_t>  LoadBytes_8bit(const std::string& filePath);
+			static std::vector<uint32_t> LoadBytes_32bit(const std::string& filePath);
 			static string GetLocation(Location location);
-			
+
 
     private:
 			// only declare here, will be defined in cpp file 

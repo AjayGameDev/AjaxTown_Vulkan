@@ -18,6 +18,7 @@
 #include "Descriptor.h"
 #include "PushConstant.h"
 #include "Model.h"
+#include "Sampler.h"
 
 // Components
 #include "Components/Camera.h"

@@ -14,6 +14,7 @@ Window::Window(const char *title, const int width, const int height)
 #if defined(__ANDROID__)
         // SDL_WINDOW_FULLSCREEN locks fps to 60 for some reason SDL_WINDOW_MAXIMIZED can push to 120
         handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN  | SDL_WINDOW_MAXIMIZED);//SDL_WINDOW_RESIZABLE ); //  | SDL_WINDOW_BORDERLESS| SDL_WINDOW_TRANSPARENT);
+
   #else
         handle = SDL_CreateWindow(title, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);// | SDL_WINDOW_FULLSCREEN ); //  | SDL_WINDOW_BORDERLESS| SDL_WINDOW_TRANSPARENT);
 #endif

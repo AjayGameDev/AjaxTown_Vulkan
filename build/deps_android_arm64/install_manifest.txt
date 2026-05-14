@@ -109,6 +109,15 @@ C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/spdlog/spdlogConfigTargets-release.cmake
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/spdlog/spdlogConfig.cmake
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/spdlog/spdlogConfigVersion.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libktx.a
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/ktx.h
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/ktxvulkan.h
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libastcenc-neon-static.a
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/KHR/khr_df.h
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/ktx/KtxTargets.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/ktx/KtxTargets-release.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/ktx/KtxConfig.cmake
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/ktx/KtxConfigVersion.cmake
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/pkgconfig/sdl3.pc
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libSDL3.so
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libSDL3.a
@@ -306,5 +315,9 @@ C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/a
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/assimp/Compiler/pstdint.h
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/pkgconfig/assimp.pc
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libspdlog.a
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libktx.a
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/ktx.h
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/include/ktxvulkan.h
+C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/libastcenc-neon-static.a
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/External/ExternalConfig.cmake
 C:/Users/dubey/CLionProjects/AjaxTown/build/deps_android_arm64/install/lib/cmake/External/ExternalConfig-release.cmake
