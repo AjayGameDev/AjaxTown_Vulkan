@@ -87,7 +87,7 @@ int main(int argc,char* argv[])
     camera.GenerateViewProjectionMatrix(transform_camera);
 
     std::vector<Transform> transforms;
-    Transform transform_revolver(0,0,0,0),transform_shotgun(0,0,0,1); // object transform
+    Transform transform_revolver(-.5f,0,0,1),transform_shotgun(.5f,0,0,1); // object transform
     transforms.push_back(transform_revolver);
     transforms.push_back(transform_shotgun);
 
@@ -162,8 +162,10 @@ int main(int argc,char* argv[])
     //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
 
     Image texture_diffuse_shotgun(context);
+    //Image texture_diffuse_revolver(context);
     //imageManager.Create2DImage(texture_diffuse_shotgun,1024,1024,VK_FORMAT_R8G8B8A8_SRGB,VMA_MEMORY_USAGE_GPU_ONLY);
-    imageManager.UploadImageDataToGPU(texture_diffuse_shotgun,"Shotgun_Shotgun_diffuse",bufferManager,context);
+    imageManager.UploadImageDataToGPU(texture_diffuse_shotgun,"Shotgun_Shotgun_diffuse",bufferManager);
+    //imageManager.UploadImageDataToGPU(texture_diffuse_revolver,"revolver",bufferManager);
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -173,9 +175,13 @@ int main(int argc,char* argv[])
     descriptor.AllocateGlobalSet();
     descriptor.AllocateComputeSet();
     //descriptor.UpdateGlobalSet(framebuffer);
-    material_shotgun.albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
-    material_shotgun.samplerIndex = descriptor.RegisterSampler_Global(sampler.GetHandle());
+
+    material_shotgun.albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
+    //material_revolver.albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_revolver.imageView);
+    //material_revolver.samplerIndex = descriptor.RegisterSampler_Global(sampler.GetHandle());
+    material_shotgun.samplerIndex  = descriptor.RegisterSampler_Global(sampler.GetHandle());
     descriptor.RegisterImage_Global_InputAttachment(framebuffer.resolvedImage.imageView);
+
     descriptor.UpdateComputeSet(buffer_drawCommands,buffer_drawCount);
 
     // 128 bytes are widely supported but some devices support upto 256 bytes so check hardware capabilities

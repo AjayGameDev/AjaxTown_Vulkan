@@ -44,6 +44,6 @@ class ImageManager
             void Create2DImage(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage, bool renderTarget = false,VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT,VkImageUsageFlags imageUsageFlags = 0,uint32_t mips = 1);
             void Create2DImageDepth(Image& image,uint32_t width, uint32_t height, VkFormat format, VmaMemoryUsage vmaMemoryUsage,VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT);
 
-            void UploadImageDataToGPU(Image& image,std::string name,BufferManager& bufferManager,Context& context);
+            void UploadImageDataToGPU(Image& image,std::string name,BufferManager& bufferManager);
 
 };

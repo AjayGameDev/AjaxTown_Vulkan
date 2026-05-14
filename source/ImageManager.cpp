@@ -128,7 +128,7 @@ These contain both depth AND stencil information in the same image.
 
 }
 
-void ImageManager::UploadImageDataToGPU(Image& image,std::string name,BufferManager& bufferManager,Context& context)
+void ImageManager::UploadImageDataToGPU(Image& image,std::string name,BufferManager& bufferManager)
 {
     // load texture from disk
 
