@@ -86,14 +86,27 @@ endif()
 
 
 
-install( TARGETS
+if(ANDROID)
 
-        spdlog
-        VulkanMemoryAllocator
-        ktx
-        astcenc-neon-static
-        EXPORT External
-)
+    install(TARGETS
+            spdlog
+            VulkanMemoryAllocator
+            ktx
+            astcenc-neon-static
+            EXPORT External
+    )
+
+elseif(WIN32)
+
+    install(TARGETS
+            spdlog
+            VulkanMemoryAllocator
+            ktx
+            astcenc-avx2-static
+            EXPORT External
+    )
+
+endif()
 
 install(EXPORT External
         FILE ExternalConfig.cmake

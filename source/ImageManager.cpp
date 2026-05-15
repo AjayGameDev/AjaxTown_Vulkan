@@ -23,6 +23,8 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     image.imageInfo.tiling          =   VK_IMAGE_TILING_OPTIMAL;
     image.imageInfo.sharingMode     =   VK_SHARING_MODE_EXCLUSIVE; // [exclusive] means only one queue family can access it at a time, use barrier for transferring ownership [VK_SHARING_MODE_CONCURRENT] means it can be shared with other queues that you specify at time of creation, tradeoff is performance for simplicity
     image.imageInfo.initialLayout   =   VK_IMAGE_LAYOUT_UNDEFINED;
+    image.imageInfo.usage           =   imageUsageFlags;
+    /*
     image.imageInfo.usage           =   VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // Important for frame buffer attachments
 
     if (samples>VK_SAMPLE_COUNT_1_BIT)
@@ -35,6 +37,7 @@ void ImageManager::Create2DImage(Image& image,uint32_t width, uint32_t height, V
     }
     if (imageUsageFlags!=0)
         image.imageInfo.usage |= imageUsageFlags;
+    */
 
     image.allocationCreateInfo.usage = vmaMemoryUsage;
 
@@ -151,7 +154,8 @@ void ImageManager::UploadImageDataToGPU(Image& image,std::string name,BufferMana
     ktx_size_t dataSize  =  texture->dataSize;
     VkFormat format      =  ktxTexture2_GetVkFormat(texture);
 
-    Create2DImage(image,width,height,format,VMA_MEMORY_USAGE_GPU_ONLY,false,VK_SAMPLE_COUNT_1_BIT,VK_IMAGE_USAGE_TRANSFER_DST_BIT,mipLevels);
+    //Create2DImage(image,width,height,format,VMA_MEMORY_USAGE_GPU_ONLY,false,VK_SAMPLE_COUNT_1_BIT,VK_IMAGE_USAGE_TRANSFER_DST_BIT,mipLevels);
+    Create2DImage(image,width,height,format,VMA_MEMORY_USAGE_GPU_ONLY,false,VK_SAMPLE_COUNT_1_BIT,VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,mipLevels);
 
     // Create staging buffer
 
@@ -180,7 +184,8 @@ void ImageManager::UploadImageDataToGPU(Image& image,std::string name,BufferMana
     VkCommandPool commandPool;
     VkCommandPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-    poolInfo.queueFamilyIndex = context.transferFamilyIndex;     // If same as graphics then fine otherwise you have to transfer ownership between queues
+    //poolInfo.queueFamilyIndex = context.transferFamilyIndex;     // If same as graphics then fine otherwise you have to transfer ownership between queues
+    poolInfo.queueFamilyIndex = context.graphicsFamilyIndex;     // If same as graphics then fine otherwise you have to transfer ownership between queues
     poolInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
 
     vkCreateCommandPool(context.device,&poolInfo,nullptr,&commandPool);
@@ -220,7 +225,8 @@ void ImageManager::UploadImageDataToGPU(Image& image,std::string name,BufferMana
 
     vkCmdPipelineBarrier(commandBuffer,VK_PIPELINE_STAGE_TRANSFER_BIT,VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,0,0,nullptr,0,nullptr,1,&transfer_dst_to_shader_read_barrier);
 
-    bufferManager.EndOneTimeCommandBuffer(commandBuffer,context.transferQueue,context.device,commandPool);
+    //bufferManager.EndOneTimeCommandBuffer(commandBuffer,context.transferQueue,context.device,commandPool);
+    bufferManager.EndOneTimeCommandBuffer(commandBuffer,context.graphicsQueue,context.device,commandPool);
 
     ktxTexture2_Destroy(texture);
 

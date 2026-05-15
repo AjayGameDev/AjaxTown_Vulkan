@@ -11,6 +11,21 @@ Sampler::Sampler(Context& context):context(context)
 
     if (vkCreateSampler(context.device,&samplerCreateInfo,nullptr,&handle) != VK_SUCCESS)
     {
+        spdlog::error("Can't create sampler!");
         throw std::runtime_error("Can't create sampler!");
     }
+}
+
+void Sampler::Destroy()
+{
+    if (handle != VK_NULL_HANDLE)
+    {
+        vkDestroySampler(context.device,handle,nullptr);
+        handle = VK_NULL_HANDLE;
+    }
+}
+
+Sampler::~Sampler()
+{
+  Destroy();
 }

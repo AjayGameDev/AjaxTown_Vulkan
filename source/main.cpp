@@ -76,7 +76,7 @@ int main(int argc,char* argv[])
     vertices.insert(vertices.end(),model_shotgun.GetVertices().begin(),model_shotgun.GetVertices().end());
     indices.insert(indices.end(),model_shotgun.GetIndices().begin(),model_shotgun.GetIndices().end());
     materials.push_back(material_shotgun);
-    samplers.push_back(sampler);
+    samplers.push_back(std::move(sampler));
 
     Camera camera; // main camera
     float deltaX = 0,deltaY = 0,targetDistance = -1.0f;
@@ -165,7 +165,7 @@ int main(int argc,char* argv[])
     //Image texture_diffuse_revolver(context);
     //imageManager.Create2DImage(texture_diffuse_shotgun,1024,1024,VK_FORMAT_R8G8B8A8_SRGB,VMA_MEMORY_USAGE_GPU_ONLY);
     imageManager.UploadImageDataToGPU(texture_diffuse_shotgun,"Shotgun_Shotgun_diffuse",bufferManager);
-    //imageManager.UploadImageDataToGPU(texture_diffuse_revolver,"revolver",bufferManager);
+    //imageManager.UploadImageDataToGPU(texture_diffuse_revolver,"revolver_diffuse",bufferManager);
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -179,7 +179,7 @@ int main(int argc,char* argv[])
     material_shotgun.albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
     //material_revolver.albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_revolver.imageView);
     //material_revolver.samplerIndex = descriptor.RegisterSampler_Global(sampler.GetHandle());
-    material_shotgun.samplerIndex  = descriptor.RegisterSampler_Global(sampler.GetHandle());
+    material_shotgun.samplerIndex  = descriptor.RegisterSampler_Global(samplers[0].GetHandle());
     descriptor.RegisterImage_Global_InputAttachment(framebuffer.resolvedImage.imageView);
 
     descriptor.UpdateComputeSet(buffer_drawCommands,buffer_drawCount);

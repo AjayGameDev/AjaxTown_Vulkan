@@ -1,0 +1,10 @@
+^C:\USERS\DUBEY\CLIONPROJECTS\AJAXTOWN\BUILD\DEPS_WINDOWS\_DEPS\KTX2-SRC\EXTERNAL\ASTC-ENCODER\SOURCE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/dubey/CLionProjects/AjaxTown/external -BC:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows --check-stamp-file C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/external/astc-encoder/Source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

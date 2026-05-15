@@ -61,7 +61,7 @@
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\interface\basisu_c_binding\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">obj_basisu_cbind.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">obj_basisu_cbind</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">obj_basisu_cbindd</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\interface\basisu_c_binding\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">obj_basisu_cbind.dir\Release\</IntDir>
@@ -99,12 +99,12 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;KTX_BASISU_C_BINDINGS;_DEBUG;DEBUG;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;KTX_BASISU_C_BINDINGS;_DEBUG;DEBUG;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;KTX_BASISU_C_BINDINGS;DEBUG;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;KTX_BASISU_C_BINDINGS;DEBUG;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\inc;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -141,14 +141,14 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\inc;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -185,14 +185,14 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\inc;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -230,12 +230,12 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;KHRONOS_STATIC;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;KTX_BASISU_C_BINDINGS;KHRONOS_STATIC;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=0;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\interface\basisu_c_binding\inc;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

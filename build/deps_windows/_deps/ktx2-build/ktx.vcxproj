@@ -31,22 +31,22 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
@@ -59,32 +59,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ktx.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ktx</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\Release\</OutDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ktxd</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ktx.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ktx</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\MinSizeRel\</OutDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ktx.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ktx</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\RelWithDebInfo\</OutDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ktx.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ktx</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
   </PropertyGroup>
-  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -109,12 +100,12 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;DEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="Debug";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;DEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;DEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"Debug\";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;DEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -125,42 +116,9 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PreLinkEvent>
-      <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Auto build dll exports</Message>
-      <Command>setlocal
-cd C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build
-if %errorlevel% neq 0 goto :cmEnd
-C:
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Debug/exports.def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Debug//objects.txt
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PreLinkEvent>
-    <Link>
-      <AdditionalDependencies>external\astc-encoder\Source\Debug\astcenc-avx2-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <Lib>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention></DataExecutionPrevention>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/Debug/ktx.lib</ImportLibrary>
-      <LinkErrorReporting></LinkErrorReporting>
-      <ModuleDefinitionFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Debug/exports.def</ModuleDefinitionFile>
-      <ProgramDataBaseFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/Debug/ktx.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem></SubSystem>
-      <Version>4.4</Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -185,14 +143,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="Release";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"Release\";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -203,42 +161,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PreLinkEvent>
-      <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Auto build dll exports</Message>
-      <Command>setlocal
-cd C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build
-if %errorlevel% neq 0 goto :cmEnd
-C:
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Release/exports.def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Release//objects.txt
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PreLinkEvent>
-    <Link>
-      <AdditionalDependencies>external\astc-encoder\Source\Release\astcenc-avx2-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <Lib>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention></DataExecutionPrevention>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/Release/ktx.lib</ImportLibrary>
-      <LinkErrorReporting></LinkErrorReporting>
-      <ModuleDefinitionFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/Release/exports.def</ModuleDefinitionFile>
-      <ProgramDataBaseFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/Release/ktx.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem></SubSystem>
-      <Version>4.4</Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
@@ -263,14 +188,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="MinSizeRel";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"MinSizeRel\";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -281,42 +206,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PreLinkEvent>
-      <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Auto build dll exports</Message>
-      <Command>setlocal
-cd C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build
-if %errorlevel% neq 0 goto :cmEnd
-C:
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/MinSizeRel/exports.def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/MinSizeRel//objects.txt
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PreLinkEvent>
-    <Link>
-      <AdditionalDependencies>external\astc-encoder\Source\MinSizeRel\astcenc-avx2-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <Lib>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention></DataExecutionPrevention>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/MinSizeRel/ktx.lib</ImportLibrary>
-      <LinkErrorReporting></LinkErrorReporting>
-      <ModuleDefinitionFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/MinSizeRel/exports.def</ModuleDefinitionFile>
-      <ProgramDataBaseFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/MinSizeRel/ktx.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem></SubSystem>
-      <Version>4.4</Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
@@ -342,12 +234,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="RelWithDebInfo";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;BASISD_SUPPORT_FXT1=0;KTX_API=__declspec(dllexport);_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"RelWithDebInfo\";ktx_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBKTX;SUPPORT_SOFTWARE_ETC_UNPACK=1;KHRONOS_STATIC;BASISD_SUPPORT_FXT1=0;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;BASISU_NO_ITERATOR_DEBUG_LEVEL;KTX_FEATURE_KTX1;KTX_FEATURE_KTX2;KTX_FEATURE_WRITE;BASISD_SUPPORT_KTX2_ZSTD=0;BASISD_SUPPORT_KTX2=1;BASISU_SUPPORT_SSE=1;BASISU_SUPPORT_OPENCL=0;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\include;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\transcoder;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu\zstd;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\utils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\dfdutils;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\basisu;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\external\astc-encoder\Source;C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\other_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -358,42 +250,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PreLinkEvent>
-      <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Auto build dll exports</Message>
-      <Command>setlocal
-cd C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-build
-if %errorlevel% neq 0 goto :cmEnd
-C:
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/RelWithDebInfo/exports.def C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/RelWithDebInfo//objects.txt
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PreLinkEvent>
-    <Link>
-      <AdditionalDependencies>external\astc-encoder\Source\RelWithDebInfo\astcenc-avx2-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <Lib>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <DataExecutionPrevention></DataExecutionPrevention>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/RelWithDebInfo/ktx.lib</ImportLibrary>
-      <LinkErrorReporting></LinkErrorReporting>
-      <ModuleDefinitionFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/_deps/ktx2-build/ktx.dir/RelWithDebInfo/exports.def</ModuleDefinitionFile>
-      <ProgramDataBaseFile>C:/Users/dubey/CLionProjects/AjaxTown/build/deps_windows/RelWithDebInfo/ktx.pdb</ProgramDataBaseFile>
-      <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem></SubSystem>
-      <Version>4.4</Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\dubey\CLionProjects\AjaxTown\build\deps_windows\_deps\ktx2-src\CMakeLists.txt">

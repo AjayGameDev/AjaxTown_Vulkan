@@ -50,7 +50,10 @@ std::vector<uint8_t> FileManager::LoadBytes_8bit(const std::string& filePath)
 	SDL_IOStream* io = SDL_IOFromFile(filePath.c_str(),"rb");
 
 	if (!io)
+	{
+		spdlog::error("file manager can't open file: " + filePath);
 		throw std::runtime_error("file manager can't open file: " + filePath);
+	}
 
 	Sint64 size = SDL_GetIOSize(io);      // Get the size
 	std::vector<uint8_t> buffer(size);   //  Create buffer of that size
@@ -65,7 +68,10 @@ std::vector<uint32_t> FileManager::LoadBytes_32bit(const std::string& filePath)
 	SDL_IOStream* io = SDL_IOFromFile(filePath.c_str(),"rb");
 
 	if (!io)
+	{
+		spdlog::error("file manager can't open file: " + filePath);
 		throw std::runtime_error("file manager can't open file: " + filePath);
+	}
 
 	Sint64 size = SDL_GetIOSize(io);      // Get the size
 	std::vector<uint32_t> buffer(size / sizeof(uint32_t));   //  Create buffer of that size

@@ -5,7 +5,7 @@
 
 class Buffer
 {
-    uint64_t bufferAddress = 0;
+
 
 public:
     Buffer(Context& context,const uint64_t& size, const VkBufferUsageFlags& usage,const VmaMemoryUsage& memoryUsageType);
@@ -51,6 +51,7 @@ public:
     }
 
     VkBuffer handle = nullptr;
+    uint64_t bufferAddress = 0;
     Context& context;
     VmaAllocation allocation = nullptr;
     VmaAllocationCreateInfo allocationCreateInfo{};
