@@ -37,14 +37,15 @@ int main(int argc,char* argv[])
         uint32_t normalIndex;
         uint32_t rmaoIndex;
         uint32_t samplerIndex;
+
     };
 
     //Model model_revolver("Webley.obj");
     //Model model_shotgun("Shotgun.obj");
-    Model model_revolver("webley.glb");
     Model model_shotgun ("shotgun.glb");
-    Mesh mesh_revolver,mesh_shotgun;
-    Material material_revolver{},material_shotgun{};
+    Model model_revolver("webley.glb");
+    Mesh mesh_shotgun{},mesh_revolver{};
+    Material material_shotgun{},material_revolver{};
     Sampler sampler(context);
  
     std::vector<Vertex_Standard> vertices;
@@ -53,29 +54,32 @@ int main(int argc,char* argv[])
     std::vector<Material> materials;
     std::vector<Sampler> samplers;
 
-    mesh_revolver.indexCount    = model_revolver.GetIndices().size();
-    mesh_revolver.indexOffset   = indices.size();
-    mesh_revolver.vertexOffset  = vertices.size();
-    mesh_revolver.instanceCount = 1;
-    mesh_revolver.firstInstance = 0;
-    mesh_revolver.materialIndex = 0;
 
-    meshes.push_back(mesh_revolver);
-    materials.push_back(material_revolver);
-    vertices.insert(vertices.end(),model_revolver.GetVertices().begin(),model_revolver.GetVertices().end());
-    indices.insert(indices.end(),model_revolver.GetIndices().begin(),model_revolver.GetIndices().end());
 
     mesh_shotgun.indexCount    = model_shotgun.GetIndices().size();
     mesh_shotgun.indexOffset   = indices.size();
     mesh_shotgun.vertexOffset  = vertices.size();
     mesh_shotgun.instanceCount = 1;
-    mesh_shotgun.firstInstance = 1;
+    mesh_shotgun.firstInstance = 0;
     mesh_shotgun.materialIndex = 0;
 
     meshes.push_back(mesh_shotgun);
     vertices.insert(vertices.end(),model_shotgun.GetVertices().begin(),model_shotgun.GetVertices().end());
     indices.insert(indices.end(),model_shotgun.GetIndices().begin(),model_shotgun.GetIndices().end());
-    materials.push_back(material_shotgun);
+    materials.push_back(std::move(material_shotgun));
+
+    mesh_revolver.indexCount    = model_revolver.GetIndices().size();
+    mesh_revolver.indexOffset   = indices.size();
+    mesh_revolver.vertexOffset  = vertices.size();
+    mesh_revolver.instanceCount = 1;
+    mesh_revolver.firstInstance = 1;
+    mesh_revolver.materialIndex = 1;
+
+    meshes.push_back(mesh_revolver);
+    materials.push_back(std::move(material_revolver));
+    vertices.insert(vertices.end(),model_revolver.GetVertices().begin(),model_revolver.GetVertices().end());
+    indices.insert(indices.end(),model_revolver.GetIndices().begin(),model_revolver.GetIndices().end());
+
     samplers.push_back(std::move(sampler));
 
     Camera camera; // main camera
@@ -87,9 +91,9 @@ int main(int argc,char* argv[])
     camera.GenerateViewProjectionMatrix(transform_camera);
 
     std::vector<Transform> transforms;
-    Transform transform_revolver(-.5f,0,0,1),transform_shotgun(.5f,0,0,1); // object transform
-    transforms.push_back(transform_revolver);
+    Transform transform_shotgun(0,0,0,1),transform_revolver(0,0,0,0); // object transform
     transforms.push_back(transform_shotgun);
+    transforms.push_back(transform_revolver);
 
 
     const size_t vertexBufferSize                =    sizeof(Vertex_Standard)  * vertices.size();
@@ -149,9 +153,8 @@ int main(int argc,char* argv[])
     stagingBuffer_meshes.CopyData(meshes.data(),meshesBufferSize);
     bufferManager.CopyBuffer(&stagingBuffer_meshes,&buffer_meshes);
 
-    Buffer stagingBuffer_materials = bufferManager.CreateBuffer(materialsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
-    stagingBuffer_materials.CopyData(materials.data(),materialsBufferSize);
-    bufferManager.CopyBuffer(&stagingBuffer_materials,&buffer_materials);
+
+
 
     //Buffer stagingBuffer_samplers = bufferManager.CreateBuffer(samplersBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
     //stagingBuffer_samplers.CopyData(samplers.data(),samplersBufferSize);
@@ -162,10 +165,15 @@ int main(int argc,char* argv[])
     //bufferManager.CopyBuffer(&stagingBuffer_transforms,&buffer_transforms);
 
     Image texture_diffuse_shotgun(context);
-    //Image texture_diffuse_revolver(context);
+    Image texture_normal_shotgun(context);
+    Image texture_rmao_shotgun(context);
+    Image texture_diffuse_revolver(context);
     //imageManager.Create2DImage(texture_diffuse_shotgun,1024,1024,VK_FORMAT_R8G8B8A8_SRGB,VMA_MEMORY_USAGE_GPU_ONLY);
     imageManager.UploadImageDataToGPU(texture_diffuse_shotgun,"Shotgun_Shotgun_diffuse",bufferManager);
-    //imageManager.UploadImageDataToGPU(texture_diffuse_revolver,"revolver_diffuse",bufferManager);
+    imageManager.UploadImageDataToGPU(texture_normal_shotgun,"Shotgun_Shotgun_normal",bufferManager);
+    imageManager.UploadImageDataToGPU(texture_rmao_shotgun,"Shotgun_Shotgun_rmao",bufferManager);
+
+    imageManager.UploadImageDataToGPU(texture_diffuse_revolver,"revolver_diffuse",bufferManager);
 
     // Descriptor Management
     Descriptor descriptor(context); // This should be destroyed after pipeline and pipeline layout
@@ -176,13 +184,26 @@ int main(int argc,char* argv[])
     descriptor.AllocateComputeSet();
     //descriptor.UpdateGlobalSet(framebuffer);
 
-    material_shotgun.albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
-    //material_revolver.albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_revolver.imageView);
-    //material_revolver.samplerIndex = descriptor.RegisterSampler_Global(sampler.GetHandle());
-    material_shotgun.samplerIndex  = descriptor.RegisterSampler_Global(samplers[0].GetHandle());
+    //materials[0].albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
+    //materials[0].samplerIndex  = descriptor.RegisterSampler_Global(samplers[0].GetHandle());
+    //materials[1].albedoIndex  = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_revolver.imageView);
+    //materials[1].samplerIndex = descriptor.RegisterSampler_Global(samplers[0].GetHandle());
+    uint32_t samplerIndex = descriptor.RegisterSampler_Global(samplers[0].GetHandle());
+
+    materials[0].albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_shotgun.imageView);
+    materials[0].normalIndex   = descriptor.RegisterImage_Global_TextureArray(texture_normal_shotgun.imageView);
+    materials[0].rmaoIndex     = descriptor.RegisterImage_Global_TextureArray(texture_rmao_shotgun.imageView);
+    materials[0].samplerIndex  = samplerIndex;
+    materials[1].albedoIndex   = descriptor.RegisterImage_Global_TextureArray(texture_diffuse_revolver.imageView);
+    materials[1].samplerIndex  = samplerIndex;
     descriptor.RegisterImage_Global_InputAttachment(framebuffer.resolvedImage.imageView);
 
     descriptor.UpdateComputeSet(buffer_drawCommands,buffer_drawCount);
+
+
+    Buffer stagingBuffer_materials = bufferManager.CreateBuffer(materialsBufferSize,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VMA_MEMORY_USAGE_CPU_ONLY);
+    stagingBuffer_materials.CopyData(materials.data(),materialsBufferSize);
+    bufferManager.CopyBuffer(&stagingBuffer_materials,&buffer_materials);
 
     // 128 bytes are widely supported but some devices support upto 256 bytes so check hardware capabilities
     struct PushConstantData_Compute
@@ -264,6 +285,7 @@ int main(int argc,char* argv[])
 
         transforms[0].SetRotationEuler(yaw,pitch,0);
         transforms[1].SetRotationEuler(yaw,pitch,0);
+        transforms[0].SetPosition(x,y,z);
         transforms[1].SetPosition(x,y,z);
         //spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
 

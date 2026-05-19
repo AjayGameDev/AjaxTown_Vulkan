@@ -4,6 +4,8 @@
 
     set(CMAKE_CXX_STANDARD 20)
 
+
+
     if(ANDROID)
         set(External_Source "${CMAKE_CURRENT_LIST_DIR}/build/deps_android_arm64/install")
     else()
@@ -31,6 +33,20 @@
     else()
         add_executable(main ${AjaxTownSourceFiles})
     endif()
+
+    if(DEFINED TARGET_PLATFORM)
+        target_compile_definitions(main PRIVATE TARGET_PLATFORM_${TARGET_PLATFORM})
+        message(STATUS "Target platform : ${TARGET_PLATFORM}")
+    else()
+        message(FATAL_ERROR "Add target platform in cmake profile! ")
+    endif()
+
+    if(DEFINED TARGET_PLATFORM_MODE)
+        target_compile_definitions(main PRIVATE TARGET_PLATFORM_MODE_${TARGET_PLATFORM_MODE})
+        message(STATUS "Target platform mode: ${TARGET_PLATFORM_MODE}")
+    else ()
+        message(FATAL_ERROR "Add target platform mode in cmake profile! ")
+    endif ()
 
     find_package(SDL3 CONFIG REQUIRED)
     find_package(Threads REQUIRED)
@@ -74,4 +90,3 @@
         target_link_libraries(main PRIVATE ${VULKAN_LIB} log android)
 
     endif()
-

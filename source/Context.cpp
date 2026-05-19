@@ -3,7 +3,8 @@
 
 #pragma region Debugging Helper Functions
 
-#if defined NDEBUG || defined(__ANDROID__) // Android gpu inspector wants validation layers but snapdragon profiler might complain
+//#if defined NDEBUG || defined(__ANDROID__) // Android gpu inspector wants validation layers but snapdragon profiler might complain
+#if defined(TARGET_PLATFORM_MODE_RELEASE) || defined(TARGET_PLATFORM_ANDROID)
 //#if defined NDEBUG
 
 //std::cout << "\n" << "Not Debug Mode "; // Disable validation layers for better optimization
@@ -16,8 +17,8 @@ constexpr bool enableValidationLayers = true;
 
 #endif
 
-#ifndef NDEBUG  // ndef means NDEBUG(No Debug) is not defined so it is a debug mode
-
+//#ifndef NDEBUG  // ndef means NDEBUG(No Debug) is not defined so it is a debug mode
+#if defined(TARGET_PLATFORM_MODE_DEBUG)
   // These are macros used by vulkan to ensure cross-platform compatibility
  //  On windows VKAPI_CALL will be __declspec(dllexport) and VKAPI_CALL will be __stdcall
 
@@ -114,7 +115,8 @@ void Context ::CreateInstance()
     createInfo.enabledExtensionCount = extensionsVector.size();
     createInfo.ppEnabledExtensionNames = extensionsVector.data();
 
-#ifndef NDEBUG
+//#ifndef NDEBUG
+#if defined(TARGET_PLATFORM_MODE_DEBUG)
     if (enableValidationLayers)
     {
       createInfo.enabledLayerCount   = validationLayers.size();
@@ -145,7 +147,8 @@ void Context ::CreateInstance()
     if (enableValidationLayers)
     {
       // Create a message only if validation layers are enabled
-#ifndef NDEBUG
+//#ifndef NDEBUG
+#if defined(TARGET_PLATFORM_MODE_DEBUG)
       if (CreateDebugUtilsMessengerEXT(instance, &debugCreateInfo, nullptr, &debugMessenger) != VK_SUCCESS)
         throw std::runtime_error("\nCan't create debug messenger");
 #endif
@@ -175,6 +178,8 @@ void Context::CheckSurfaceCapabilities()
     vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice,surface,&presentModesCount,presentModes.data());
 
     // Selecting surface format
+    // Mobile devices prefer RGBA8 while destop use BGRA8 and different for other devices but they are sorted most of the times by preference
+    // Select based on macros like if(defined __ANDROID__)
     format = surfaceFormats[0];
     for (int i=0; i<surfaceFormatCount; i++)
     {
@@ -189,6 +194,8 @@ void Context::CheckSurfaceCapabilities()
         break;
       }
     }
+    spdlog::info("Got preferred format " + std::to_string(format.format) + " and color space " + std::to_string(format.colorSpace));
+
 
     // Selecting present mode
     presentMode = VK_PRESENT_MODE_FIFO_KHR; // Present as fast as possible | tearing-high chance | latency-low
@@ -489,7 +496,8 @@ void Context::CreateGlobalAllocator()
 Context::~Context()
 {
 
-#ifndef NDEBUG
+//#ifndef NDEBUG
+#if defined(TARGET_PLATFORM_MODE_DEBUG)
     if (enableValidationLayers)
       DestroyDebugUtilsMessengerEXT(instance,debugMessenger,nullptr);
 #endif

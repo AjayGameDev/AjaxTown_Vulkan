@@ -21,11 +21,12 @@ string FileManager::GetLocation(Location location)
 void FileManager::Initialize()
 {
 
-#ifdef __ANDROID__
+//#ifdef __ANDROID__
+#if defined(TARGET_PLATFORM_ANDROID)
 	string base = "";
 	locations[Texture] = base + "textures/astc/";
 	locations[Skybox]  = base + "textures/astc/hdri/";
-#else
+#elif defined(TARGET_PLATFORM_WIN32)
 	//string base = "C:/Users/dubey/CLionProjects/AjaxTown/assets/";
 	std::string base   = std::string(SDL_GetBasePath()) + "assets/";
 	locations[Texture] = base + "textures/bc/";

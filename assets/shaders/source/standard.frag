@@ -6,7 +6,7 @@
 #extension GL_EXT_shader_explicit_arithmetic_types : require
 
 layout(location=0) out vec4 finalColor;
-layout(location=0) in vec2 UV;
+layout(location=0) in vec2 uv;
 layout(location=1) in flat int materialIndex;
 
 struct Material
@@ -35,9 +35,9 @@ void main()
     Material material = materialBuffer.materials[materialIndex];
 
     //finalColor = vec4(1.0f,.5f,.25f,1.0f);
-    finalColor = texture(sampler2D( textures[nonuniformEXT(material.albedoIndex)],
-                                    samplers[nonuniformEXT(material.samplerIndex)]),
-                                    UV
-                                   );
+    vec4 diffuseColor = texture(sampler2D ( textures[nonuniformEXT(material.albedoIndex)], samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+    vec4 rmao = texture(sampler2D ( textures[nonuniformEXT(material.rmaoIndex)], samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+
+    finalColor = vec4(diffuseColor.rgb,1.0f);
     //finalColor.a = 1.0f;
 }

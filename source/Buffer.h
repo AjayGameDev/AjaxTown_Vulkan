@@ -29,7 +29,7 @@ public:
         other.allocation = VK_NULL_HANDLE;
     }
 
-    Buffer& operator=(Buffer&& other)
+    Buffer& operator=(Buffer&& other) noexcept
     {
         if (this!=&other)
         {

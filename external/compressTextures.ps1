@@ -56,7 +56,6 @@ foreach($file in $files)
               --format astc-ldr-6x6 `
               --mips `
               --export-transfer-function linear `
-              --normalize `
               --output "$astc_directory/$($file.BaseName).ktx2" `
               "$($file.FullName)"
 

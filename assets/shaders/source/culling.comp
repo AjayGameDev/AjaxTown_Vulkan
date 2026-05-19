@@ -108,8 +108,8 @@ void main()
     drawCommands[id].firstIndex     =  mesh.indexOffset;
     drawCommands[id].vertexOffset   =  mesh.vertexOffset;
     drawCommands[id].instanceCount  =  mesh.instanceCount;
-    drawCommands[id].firstInstance  =  mesh.firstInstance;
-    //drawCommands[id].firstInstance  =  mesh.materialIndex;
+    //drawCommands[id].firstInstance  =  mesh.firstInstance;
+    drawCommands[id].firstInstance  =  mesh.materialIndex;
 
 
     atomicAdd(drawCount,1);

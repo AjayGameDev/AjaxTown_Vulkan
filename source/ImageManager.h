@@ -1,11 +1,11 @@
 #pragma once
 
 
-#define diffuseFormat               VK_FORMAT_R8G8B8A8_UNORM // Base color in linear space
-#define normalFormat                VK_FORMAT_A2R10G10B10_UNORM_PACK32 // 10 bit normal depth with no alpha
-#define RMAOFormat                  VK_FORMAT_R8G8B8A8_UNORM
-#define depthFormat                 VK_FORMAT_D32_SFLOAT
-#define hdrFormat                   VK_FORMAT_R16G16B16A16_SFLOAT
+constexpr VkFormat diffuseFormat    =           VK_FORMAT_R8G8B8A8_SRGB; // Base color in linear space
+constexpr VkFormat normalFormat     =           VK_FORMAT_A2R10G10B10_UNORM_PACK32; // 10 bit normal depth with no alpha
+constexpr VkFormat RMAOFormat       =           VK_FORMAT_R8G8B8A8_UNORM;
+constexpr VkFormat depthFormat      =           VK_FORMAT_D32_SFLOAT;
+constexpr VkFormat hdrFormat        =           VK_FORMAT_R16G16B16A16_SFLOAT;
 //#define finalImageFormat            VK_FORMAT_B8G8R8A8_SRGB // Final output [Change later TO DO ]
 
 

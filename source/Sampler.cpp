@@ -7,7 +7,13 @@ Sampler::Sampler(Context& context):context(context)
     samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
     samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
     samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-    samplerCreateInfo.addressModeU = samplerCreateInfo.addressModeV = samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+    samplerCreateInfo.minLod     = 0;
+    samplerCreateInfo.maxLod     = VK_LOD_CLAMP_NONE; // 1000 unlocks all mip levels
+    samplerCreateInfo.addressModeU = samplerCreateInfo.addressModeV = samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    //samplerCreateInfo.addressModeU = samplerCreateInfo.addressModeV = samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+    // add in future based on physical properties and options in menu
+    //samplerCreateInfo.anisotropyEnable = true;
+    //samplerCreateInfo.maxAnisotropy = physicalDeviceProperties.limits.maxSamplerAnisotropy;
 
     if (vkCreateSampler(context.device,&samplerCreateInfo,nullptr,&handle) != VK_SUCCESS)
     {

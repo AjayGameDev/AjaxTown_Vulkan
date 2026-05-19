@@ -26,7 +26,7 @@ void Framebuffer::CreateImages()
     {
         imageManager.Create2DImage(hdrColorImage,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true,samples,VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT);
         imageManager.Create2DImageDepth(depthImage,width,height,depthFormat,VMA_MEMORY_USAGE_GPU_ONLY,samples);
-        imageManager.Create2DImage(resolvedImage,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true,VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT);
+        imageManager.Create2DImage(resolvedImage,width,height,hdrFormat,VMA_MEMORY_USAGE_GPU_ONLY,true,VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);
     }
 
 }
