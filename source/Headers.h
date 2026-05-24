@@ -21,8 +21,10 @@
 #include "Sampler.h"
 
 // Components
-#include "Components/Camera.h"
-#include "Components/Transform.h"
+#include "ecs/components/Camera.h"
+#include "ecs/components/Transform.h"
+#include "ecs/Entity.h"
+#include "ecs/ComponentManager.h"
 
 
 

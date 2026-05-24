@@ -1,9 +1,12 @@
 #version 450
+#extension GL_GOOGLE_include_directive : require // added so we can use #include in shaders
 #extension GL_EXT_buffer_reference : require
 #extension GL_ARB_shader_draw_parameters : require
 #extension GL_ARB_gpu_shader_int64 : require
 #extension GL_EXT_nonuniform_qualifier : require
 #extension GL_EXT_shader_explicit_arithmetic_types : require
+
+#include "platform.glsl"
 
 layout(location=0) out vec4 finalColor;
 layout(location=0) in vec2 uv;
@@ -35,9 +38,48 @@ void main()
     Material material = materialBuffer.materials[materialIndex];
 
     //finalColor = vec4(1.0f,.5f,.25f,1.0f);
-    vec4 diffuseColor = texture(sampler2D ( textures[nonuniformEXT(material.albedoIndex)], samplers[nonuniformEXT(material.samplerIndex)] ), uv);
-    vec4 rmao = texture(sampler2D ( textures[nonuniformEXT(material.rmaoIndex)], samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+    vec4 diffuseColor = texture(sampler2D ( textures[nonuniformEXT(material.albedoIndex)],   samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+    vec4 rmao         = texture(sampler2D ( textures[nonuniformEXT(material.rmaoIndex)],     samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+    vec4 normalSample = texture(sampler2D ( textures[nonuniformEXT(material.normalIndex)],   samplers[nonuniformEXT(material.samplerIndex)] ), uv);
+    vec3 normal;
 
-    finalColor = vec4(diffuseColor.rgb,1.0f);
-    //finalColor.a = 1.0f;
+    #ifdef astc
+        normal.xy = normalSample.ra;
+        //diffuseColor.rgb = vec3(1,1,1);
+    #endif
+
+    #ifdef bc
+        normal.xy = normalSample.rg;
+        //diffuseColor.rgb = vec3(0,0,0);
+    #endif
+
+    normal.xy  = normal.xy * 2.0f - 1.0f;
+    normal.z   = sqrt(max(0.0,1-dot(normal.xy,normal.xy)));
+    normal     = normalize(normal);
+
+    finalColor = vec4(normal.r,normal.g,normal.b,1.0f);
+    //finalColor = diffuseColor;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

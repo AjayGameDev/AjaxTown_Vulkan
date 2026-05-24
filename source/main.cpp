@@ -15,8 +15,8 @@ int main(int argc,char* argv[])
     Framebuffer framebuffer(context,swapchain,imageManager,renderpass,renderer.GetRendererType(),renderer.GetSamplesCount());
     // Shader handling
     //Shader triangleShader(context,"triangle",ShaderType::vertfrag);
-    Shader standardShader(context,"standard",ShaderType::vertfrag);
-    Shader postprocessingShader(context,"postProcessing",ShaderType::vertfrag);
+    Shader standardShader(context,"standard",ShaderType::vert | ShaderType::frag);
+    Shader postprocessingShader(context,"postProcessing",ShaderType::vert | ShaderType::frag);
     Shader cullingShader(context,"culling",ShaderType::comp);
 
     constexpr uint32_t maxDrawCount = 10000;
@@ -269,9 +269,35 @@ int main(int argc,char* argv[])
 
     GameTime time;
 
+    //************************************************************************************************************************************************************************
+
+    EntityManager entityManager;
+    Entity player = entityManager.CreateEntity();
+    Entity enemy  = entityManager.CreateEntity();
+
+    std::cout << "\nplayer: " << player;
+    std::cout << "\nenemy: "  << enemy;
+    std::cout << "\nTotal Entities: " << entityManager.GetEntityCount();
+    Transform player_transform{0,0,0};
+    Transform enemy_transform{1,1,1};
+
+    ComponentManager<Transform> components_transform;
+    components_transform.AddComponent(player,player_transform);
+    components_transform.AddComponent(enemy,enemy_transform);
+
+    components_transform.DebugInfo(std::cout);
+
+    ComponentManager<Camera> components_camera;
+    Camera playerCamera;
+    components_camera.AddComponent(player,playerCamera);
+    components_camera.DebugInfo(std::cout);
+
+    //************************************************************************************************************************************************************************
+
 
     while (!window.ShouldCloseWindow())
     {
+
         time.Update();
         currentFrameIndex = renderer.GetCurrentFrameIndex();
         window.GetInput(deltaX,deltaY,targetDistance,x,y,z);

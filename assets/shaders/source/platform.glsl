@@ -1,0 +1,11 @@
+#if defined(TARGET_PLATFORM_ANDROID)
+
+    #define android
+    #define astc
+
+#elif defined(TARGET_PLATFORM_WIN32)
+
+    #define win32
+    #define bc
+
+#endif

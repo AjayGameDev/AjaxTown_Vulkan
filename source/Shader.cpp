@@ -24,20 +24,28 @@ void Shader::LoadShader(const char *shaderName, Context& context)
     //if (context==nullptr)
     //    this->context = context;
 
-    if (shaderType == ShaderType::vertfrag)
+    //shaderType -= ShaderType::vert;
+    //shaderType -= ShaderType::frag;
+
+    if (shaderType & ShaderType::vert)
     {
         auto vertexShaderCode    =  ReadShader(shaderName,ShaderType::vert);
-        auto fragmentShaderCode  =  ReadShader(shaderName,ShaderType::frag);
-
-        vertexShaderModule   = CreateShaderModule(context.device,vertexShaderCode);
-        fragmentShaderModule = CreateShaderModule(context.device,fragmentShaderCode);
+        vertexShaderModule       =  CreateShaderModule(context.device,vertexShaderCode);
+        //std::cout << "vert  ";
     }
-    else if (shaderType == ShaderType::comp)
+    if (shaderType & ShaderType::frag)
+    {
+        auto fragmentShaderCode  =  ReadShader(shaderName,ShaderType::frag);
+        fragmentShaderModule     =  CreateShaderModule(context.device,fragmentShaderCode);
+        //std::cout << "frag  ";
+    }
+    if (shaderType == ShaderType::comp)
     {
         auto computeShaderCode    =  ReadShader(shaderName,ShaderType::comp);
-
-        computeShaderModule   = CreateShaderModule(context.device,computeShaderCode);
+        computeShaderModule       =  CreateShaderModule(context.device,computeShaderCode);
+        //std::cout << "comp  ";
     }
+
 
 
 

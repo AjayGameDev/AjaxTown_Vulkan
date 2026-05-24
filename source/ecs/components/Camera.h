@@ -13,6 +13,11 @@ struct Camera
     Matrix4 viewProjectionMatrix;
     bool isDirty;
 
+    void Serialize(std::ostream& out)
+    {
+        out<<"{ "<<"verticalFov:"<<verticalFov<<" aspectRatio:"<<aspectRatio<<" nearPlane:"<<nearPlane<<" }";
+    }
+
     Camera()
     {
         Update(60.0f,16.0/9.0f,.01f); // don't use 16/9 for aspect ratio as it will be seen as integer divide and will give zero

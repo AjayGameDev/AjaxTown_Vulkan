@@ -32,13 +32,20 @@ foreach($file in $files)
     elseif($file.BaseName -like "*_normal*")
     {
         # astc compression with two channel normal map, astc writes one channel in rgb and other in a
-        nvtt_export `
-              --format astc-ldr-4x4 `
-              --mips `
-              --export-transfer-function linear `
-              --normalize `
-              --output "$astc_directory/$($file.BaseName).ktx2" `
-              "$($file.FullName)"
+        #nvtt_export `
+        #      --format astc-ldr-4x4 `
+        #      --mips `
+        #      --export-transfer-function linear `
+        #      --normalize `
+        #      --swizzle rrrg `
+        #      --output "$astc_directory/$($file.BaseName).ktx2" `
+        #      "$($file.FullName)"
+
+        astcenc-avx2 -cl "$($file.FullName)" "$astc_directory/$($file.BaseName).ktx" 4x4  -thorough -normal
+
+        ktx2ktx2 "$astc_directory/$($file.BaseName).ktx"
+
+        Remove-Item "$astc_directory/$($file.BaseName).ktx"
 
         # equivalent bc5 two channel conversion
         nvtt_export `

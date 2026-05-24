@@ -26,16 +26,17 @@ void FileManager::Initialize()
 	string base = "";
 	locations[Texture] = base + "textures/astc/";
 	locations[Skybox]  = base + "textures/astc/hdri/";
+	locations[Shader]  = base + "shaders/compiled/android/";
 #elif defined(TARGET_PLATFORM_WIN32)
 	//string base = "C:/Users/dubey/CLionProjects/AjaxTown/assets/";
 	std::string base   = std::string(SDL_GetBasePath()) + "assets/";
 	locations[Texture] = base + "textures/bc/";
 	locations[Skybox]  = base + "textures/bc/hdri/";
+	locations[Shader]  = base + "shaders/compiled/win32/";
 #endif
 
 	locations[Model]   = base + "model/";
 
-	locations[Shader]  = base + "shaders/compiled/";
 
 	locations[Fonts]   = base + "fonts/";
 

@@ -2,7 +2,11 @@ $currentLocation = $pwd
 $assetSourceLocation = "C:/Users/dubey/CLionProjects/AjaxTown/assets"
 $assetTargetLocation = "D:/Ajax Town Build/android-project/app/src/main/assets"
 
-robocopy $assetSourceLocation $assetTargetLocation /E /XO /XD bc /XF *.vert *.frag *.comp
+# compile shaders
+cd "$HOME/CLionProjects/AjaxTown/external"
+./compileShaders.ps1
+
+robocopy $assetSourceLocation $assetTargetLocation /E /XO /XD "bc" "win32" "source" #/XF *.vert *.frag *.comp
 
 cp "D:/Github/Ajax Town Builds/android_arm64/libmain.so" "D:/Ajax Town Build/android-project/app/src/main/jniLibs/arm64-v8a" -Force
 
@@ -15,3 +19,5 @@ adb install -r "D:/Ajax Town Build/android-project/app/build/outputs/apk/debug/a
 adb shell am start -n "com.gamedevajay.ajaxtown/org.libsdl.app.SDLActivity"
 
 cd $currentLocation
+
+

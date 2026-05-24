@@ -28,6 +28,12 @@ struct Transform
 //
 	//}
 
+	// make it serializable for priting to the screen using std::cout and saving it to the file
+	void Serialize(std::ostream& out)
+	{
+		out<<"{ Position:"<<positionScale.x<<","<<positionScale.y<<","<<positionScale.z<<","<<" Scale:"<<positionScale.w<<" Rotation:"<<rotation.x<<","<<rotation.y<<","<<rotation.z<<","<<rotation.w<<" }";
+	}
+
 	explicit Transform(float positionX = 0.0f, float positionY = 0.0f, float positionZ = 0.0f,float scale = 1.0f, float RotationX = 0.0f, float RotationY = 0.0f, float RotationZ = 0.0f,float RotationW = 1.0f)
 	{
 		this->positionScale.x = positionX;
