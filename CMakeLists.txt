@@ -2,8 +2,12 @@
 
     project(AjaxTown)
 
-    set(CMAKE_CXX_STANDARD 20)
+    #set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "0e5b6991-d74f-4b3d-a41c-cf096e0b2508")
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD ON) # for import std;
+    set(CMAKE_CXX_COMPILER_IMPORT_STD ON) # for import std;
 
+    set(CMAKE_CXX_STANDARD 23) # for modules and import std support
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
     if(ANDROID)
@@ -21,6 +25,10 @@
             "${CMAKE_CURRENT_SOURCE_DIR}/source/*.h"
     )
 
+    file(GLOB_RECURSE AjaxTownModules CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cppm"  )
+
+
+
     # Create the main target first
     if(ANDROID)
         add_library(main SHARED ${AjaxTownSourceFiles})
@@ -33,6 +41,17 @@
     else()
         add_executable(main ${AjaxTownSourceFiles})
     endif()
+
+    target_sources(
+            main
+            PUBLIC
+            FILE_SET CXX_MODULES
+            BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/source"
+            FILES ${AjaxTownModules}
+    )
+
+
+
 
     if(DEFINED TARGET_PLATFORM)
         target_compile_definitions(main PRIVATE TARGET_PLATFORM_${TARGET_PLATFORM})
@@ -68,7 +87,6 @@
     # Ensure no ASSIMP_DLL is present anywhere
     target_compile_definitions(main PRIVATE ASSIMP_STATIC_LIB)
 
-    target_precompile_headers(main PRIVATE source/pch.h)
 
     # Include directories
     target_include_directories(main PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source")
