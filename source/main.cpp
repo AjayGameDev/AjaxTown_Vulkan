@@ -1,9 +1,4 @@
-#include <SDL3/SDL.h>
-#include <vulkan/vulkan.h>
-#include <dependencies/vk_mem_alloc.h>
-
-
-import Engine;
+#include "Headers.h"
 
 
 int main(int argc,char* argv[])

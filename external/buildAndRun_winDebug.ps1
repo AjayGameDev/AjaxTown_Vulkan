@@ -1,7 +1,7 @@
 $currentLocation = $PWD
 
 $assetSourceLocation = "C:/Users/dubey/CLionProjects/AjaxTown/assets"
-$assetTargetLocation = "D:/Github/Ajax Town Builds/VS Debug/Debug/assets"
+$assetTargetLocation = "D:/Github/Ajax Town Builds/VS Debug/assets"
 
 # compile shaders
 cd "$HOME/CLionProjects/AjaxTown/external"

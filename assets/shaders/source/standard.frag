@@ -57,7 +57,7 @@ void main()
     normal.z   = sqrt(max(0.0,1-dot(normal.xy,normal.xy)));
     normal     = normalize(normal);
 
-    finalColor = vec4(normal.r,normal.g,normal.b,1.0f);
+    finalColor = vec4(diffuseColor.r,diffuseColor.g,diffuseColor.b,1.0f);
     //finalColor = diffuseColor;
 }
 
