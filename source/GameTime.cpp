@@ -1,4 +1,5 @@
 #include "GameTime.h"
+#include <SDL3/SDL.h>
 
 GameTime::GameTime()
 {

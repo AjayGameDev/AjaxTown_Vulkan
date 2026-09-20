@@ -1,10 +1,6 @@
 #pragma once
-#include <ComputePipeline.h>
-#include <vulkan/vulkan.h>
-#include <stdexcept>
-#include <vector>
+#include "ComputePipeline.h"
 
-#include "Context.h"
 
 class ComputePipelineBuilder
 {

@@ -72,7 +72,7 @@ int main(int argc,char* argv[])
     mesh_revolver.indexOffset   = indices.size();
     mesh_revolver.vertexOffset  = vertices.size();
     mesh_revolver.instanceCount = 1;
-    mesh_revolver.firstInstance = 1;
+    mesh_revolver.firstInstance = 0;
     mesh_revolver.materialIndex = 1;
 
     meshes.push_back(mesh_revolver);
@@ -94,7 +94,6 @@ int main(int argc,char* argv[])
     Transform transform_shotgun(0,0,0,1),transform_revolver(0,0,0,0); // object transform
     transforms.push_back(transform_shotgun);
     transforms.push_back(transform_revolver);
-
 
     const size_t vertexBufferSize                =    sizeof(Vertex_Standard)  * vertices.size();
     const size_t indexBufferSize                 =    sizeof(uint32_t)  * indices.size();
@@ -229,7 +228,7 @@ int main(int argc,char* argv[])
 
     memcpy(pushConstantData_forwardRendering.viewProjectionMatrix,camera.viewProjectionMatrix,sizeof(Matrix4)); // bcz it is decalred as typedef float model[4][4] instead of a struct Matrix4 { float[4][4] model };
     pushConstantData_forwardRendering.modelMatricesAddress = buffer_modelMatrices.GetAddress();
-    pushConstantData_forwardRendering.materialsAddress = buffer_materials.GetAddress();
+    pushConstantData_forwardRendering.materialsAddress     = buffer_materials.GetAddress();
 
     PushConstant pushConstant_forwardRendering(VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,0,sizeof(PushConstantData_ForwardRendering));
 
@@ -284,6 +283,8 @@ int main(int argc,char* argv[])
     ComponentManager<Transform> components_transform;
     components_transform.AddComponent(player,player_transform);
     components_transform.AddComponent(enemy,enemy_transform);
+    Transform& temp = components_transform.GetComponent(1);
+    temp.positionScale = {4,4,4,1};
 
     components_transform.DebugInfo(std::cout);
 
@@ -292,6 +293,12 @@ int main(int argc,char* argv[])
     components_camera.AddComponent(player,playerCamera);
     components_camera.DebugInfo(std::cout);
 
+    Vector3 position(0,0,-1);
+    // orbiting camera controls
+    Vector3 targetPosition(0),panDisplacement(0);
+    float targetCameraDistance = 1.0f;
+    float panSpeed = 0.001f;
+    bool focusCameraPressed = false;
     //************************************************************************************************************************************************************************
 
 
@@ -300,7 +307,7 @@ int main(int argc,char* argv[])
 
         time.Update();
         currentFrameIndex = renderer.GetCurrentFrameIndex();
-        window.GetInput(deltaX,deltaY,targetDistance,x,y,z);
+        window.GetInput(deltaX,deltaY,targetCameraDistance,x,y,z,focusCameraPressed);
         yaw   += deltaX * sensitivity;
         pitch -= deltaY * sensitivity;
 
@@ -309,14 +316,30 @@ int main(int argc,char* argv[])
         //transform_shotgun.SetRotationEuler(yaw,pitch,0);
         //transform_revolver.SetRotationEuler(yaw,pitch,0);
 
-        transforms[0].SetRotationEuler(yaw,pitch,0);
-        transforms[1].SetRotationEuler(yaw,pitch,0);
-        transforms[0].SetPosition(x,y,z);
-        transforms[1].SetPosition(x,y,z);
-        //spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
+        //transforms[0].SetRotationEuler(yaw,pitch,0);
+        //transforms[1].SetRotationEuler(yaw,pitch,0);
+//
+        //transforms[0].SetPosition(x,y,z);
+        //transforms[1].SetPosition(x,y,z);
+        spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
 
         //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
-        transform_camera.SetPosition(0,0,targetDistance);
+        //transform_camera.SetPosition(0,0,targetDistance);
+
+
+        if (focusCameraPressed)
+        {
+            targetPosition = Vector3(0);
+            focusCameraPressed = false;
+        }
+
+        panDisplacement = transform_camera.GetRight() * x  * panSpeed + transform_camera.GetUp() * y * panSpeed;
+        targetPosition = targetPosition + panDisplacement;
+
+        transform_camera.SetRotationEuler(yaw,pitch,0);
+        position = targetPosition - (transform_camera.GetForward() * targetCameraDistance);
+        transform_camera.SetPosition(position);
+
         camera.GenerateViewProjectionMatrix(transform_camera);
         memcpy(pushConstantData_forwardRendering.viewProjectionMatrix,camera.viewProjectionMatrix,sizeof(Matrix4)); // bcz it is decalred as typedef float model[4][4] instead of a struct Matrix4 { float[4][4] model };
 

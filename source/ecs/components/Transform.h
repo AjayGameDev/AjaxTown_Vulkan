@@ -9,24 +9,6 @@ struct Transform
 {
 	Vector4	   positionScale;
 	Quaternion rotation;
-	//Vector3   position;
-	//Rotation  rotation;
-	//Vector3   scale;
-	//Matrix4   modelMatrix;
-
-	//Transform()
-	//{
-	//	positionScale.x = 0;
-	//	positionScale.y = 0;
-	//	positionScale.z = 0;
-	//	positionScale.w = 1; // by default scale is 1
-//
-	//	rotation.x = 0;
-	//	rotation.y = 0;
-	//	rotation.z = 0;
-	//	rotation.w = 1;
-//
-	//}
 
 	// make it serializable for priting to the screen using std::cout and saving it to the file
 	void Serialize(std::ostream& out)
@@ -60,6 +42,7 @@ struct Transform
 		float sp = sinf(hp), cp = cosf(hp);
 		float sr = sinf(hr), cr = cosf(hr);
 
+		// Euler to Quaternion conversion
 		rotation.x = cy*sp*cr + sy*cp*sr;
 		rotation.y = sy*cp*cr - cy*sp*sr;
 		rotation.z = cy*cp*sr - sy*sp*cr;
@@ -73,9 +56,40 @@ struct Transform
 		positionScale.z = z;
 	}
 
+	void SetPosition(Vector3& position)
+	{
+		positionScale.x = position.x;
+		positionScale.y = position.y;
+		positionScale.z = position.z;
+	}
+
 	void SetScale(float scale)
 	{
 		positionScale.w = scale;
+	}
+
+	Vector3 RotateVectorByQuaternion(const Vector3& vector, const Quaternion& quaternion)
+	{
+		Vector3 qv = Vector3(quaternion.x,quaternion.y,quaternion.z); // Extracting only the vector part of the quaternion
+		Vector3 t  = Vector3::Cross(qv,vector) * 2.0f;
+		Vector3 rotatedVector = vector +  (t * quaternion.w) + Vector3::Cross(qv,t);
+
+		return rotatedVector;
+	}
+
+	Vector3 GetForward()
+	{
+		return RotateVectorByQuaternion(Vector3(0,0,1),rotation);
+	}
+
+	Vector3 GetRight()
+	{
+		return RotateVectorByQuaternion(Vector3(1,0,0),rotation);
+	}
+
+	Vector3 GetUp()
+	{
+		return RotateVectorByQuaternion(Vector3(0,1,0),rotation);
 	}
 	/*
 	void GenerateModelMatrix()

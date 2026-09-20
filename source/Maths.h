@@ -70,6 +70,16 @@ struct Vector3
 
 	}
 
+	const Vector3 operator+(const Vector3 & other) const
+	{
+		return Vector3
+		(
+			x + other.x,
+			y + other.y,
+			z + other.z
+		);
+	}
+
 	static Vector3 Cross(const Vector3& a, const Vector3& b)
 	{
 		return Vector3
@@ -98,6 +108,7 @@ struct Vector3
 		);
 	}
 
+
 	Vector3 operator-(const Vector3& other)
 	{
 		return Vector3
@@ -118,6 +129,16 @@ struct Vector3
 		);
 	}
 
+	Vector3 operator*(const float other)
+	{
+		return Vector3
+		(
+			x * other,
+			y * other,
+			z * other
+		);
+	}
+
 	Vector3 operator/(const Vector3& other)
 	{
 		return Vector3
@@ -125,6 +146,18 @@ struct Vector3
 			x / other.x,
 			y / other.y,
 			z / other.z
+		);
+	}
+
+	Vector3 operator/(const float other)
+	{
+		if (other==0)
+			throw std::runtime_error("Can't divide this vector by 0");
+		return Vector3
+		(
+			x / other,
+			y / other,
+			z / other
 		);
 	}
 

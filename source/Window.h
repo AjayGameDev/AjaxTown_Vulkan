@@ -14,7 +14,7 @@ class Window
           char const* const* GetExtensions(uint32_t& extensionCount);
           void CreateSurface(VkInstance instance, VkSurfaceKHR& surface);
           bool ShouldCloseWindow();
-          void GetInput(float& deltaX,float& deltaY,float& targetDistance,float& x,float& y, float& z);
+          void GetInput(float& deltaX,float& deltaY,float& targetDistance,float& x,float& y, float& z,bool& focusCameraPressed);
 
 
 };

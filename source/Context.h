@@ -3,34 +3,30 @@
 
 class Window;
 
-enum class RendererType
-{
-    Deferred,
-    Forward
-};
+
 
 class Context
 {
   public:
-          VkInstance                instance;
-          VkSurfaceKHR              surface;
-          VkPhysicalDevice          physicalDevice;
-          VkDevice                  device;
-          VmaAllocator              allocator;
-          VkDebugUtilsMessengerEXT  debugMessenger;
+          VkInstance                instance         =   VK_NULL_HANDLE;
+          VkSurfaceKHR              surface          =   VK_NULL_HANDLE;
+          VkPhysicalDevice          physicalDevice   =   VK_NULL_HANDLE;
+          VkDevice                  device           =   VK_NULL_HANDLE;
+          VmaAllocator              allocator        =   VK_NULL_HANDLE;
+          VkDebugUtilsMessengerEXT  debugMessenger   =   VK_NULL_HANDLE;
 
 
-          VkQueue graphicsQueue;
-          VkQueue transferQueue;
-          VkQueue computeQueue;
+          VkQueue graphicsQueue = VK_NULL_HANDLE;
+          VkQueue transferQueue = VK_NULL_HANDLE;
+          VkQueue computeQueue  = VK_NULL_HANDLE;
 
           int graphicsFamilyIndex;
           int transferFamilyIndex;
           int computeFamilyIndex;
 
-          VkSurfaceFormatKHR format;                        // selected format for the swapchain
-          VkPresentModeKHR presentMode;                    // FIFO or Mailbox basically double vs triple buffering
-          VkSurfaceCapabilitiesKHR surfaceCapabilities;   // we need to go throgh supported formats and present modes to select the right one
+          VkSurfaceFormatKHR format{};                        // selected format for the swapchain
+          VkPresentModeKHR presentMode{};                    // FIFO or Mailbox basically double vs triple buffering
+          VkSurfaceCapabilitiesKHR surfaceCapabilities{};   // we need to go throgh supported formats and present modes to select the right one
 
 
 

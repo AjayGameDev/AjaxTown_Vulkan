@@ -10,6 +10,14 @@
 #include "SDL3/SDL_vulkan.h"
 #include "SDL3/SDL_main.h"
 
+#include "ktx.h"
+#include "ktxvulkan.h"
+
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+//#include "AssimpSDLIOSystem.h"
+
 #include <unordered_map>
 #include <vector>
 #include <iostream>
@@ -17,11 +25,18 @@
 #include <memory.h>
 #include "stdexcept"
 #include "string"
+#include "array"
+#include <unordered_map>
 
 #include "Maths.h"
 #include "Context.h"
 
 
+enum class RendererType
+{
+    Deferred,
+    Forward
+};
 
 enum class ShaderType : uint8_t // restricts to only 8 values because of bitwise flags other wise you can go from 0-255
 {

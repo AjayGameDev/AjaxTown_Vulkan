@@ -1,7 +1,5 @@
 #include "ImageManager.h"
 #include "BufferManager.h"
-#include "ktx.h"
-#include "ktxvulkan.h"
 #include "FileManager.h"
 
 ImageManager::ImageManager(Context& context) : context(context) {}

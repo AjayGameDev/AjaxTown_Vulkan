@@ -48,13 +48,13 @@ void Framebuffer::CreateFrameBuffer()
         VkFramebuffer framebuffer;
         VkFramebufferCreateInfo framebufferCreateInfo{};
 
-        framebufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        framebufferCreateInfo.width = context.surfaceCapabilities.currentExtent.width;
-        framebufferCreateInfo.height = context.surfaceCapabilities.currentExtent.height;
-        framebufferCreateInfo.attachmentCount = attachments.size();
-        framebufferCreateInfo.pAttachments = attachments.data();
-        framebufferCreateInfo.layers = 1;
-        framebufferCreateInfo.renderPass = renderpass.renderpass;
+        framebufferCreateInfo.sType             =   VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+        framebufferCreateInfo.width             =   context.surfaceCapabilities.currentExtent.width;
+        framebufferCreateInfo.height            =   context.surfaceCapabilities.currentExtent.height;
+        framebufferCreateInfo.attachmentCount   =   attachments.size();
+        framebufferCreateInfo.pAttachments      =   attachments.data();
+        framebufferCreateInfo.layers            =   1;
+        framebufferCreateInfo.renderPass        =   renderpass.renderpass;
 
 
         if (vkCreateFramebuffer(context.device,&framebufferCreateInfo,nullptr,&framebuffer) != VK_SUCCESS)
