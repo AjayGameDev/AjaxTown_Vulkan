@@ -397,6 +397,10 @@ vkGetPhysicalDeviceFeatures2(physicalDevice, &supported2);
   spdlog::info("shaderInt64: {}", (bool)supported2.features.shaderInt64);
 // done checking all required features
 
+  VkPhysicalDeviceVulkan11Features features11{};
+    features11.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES;
+    features11.shaderDrawParameters = VK_TRUE;
+
     VkPhysicalDeviceVulkan12Features features12{};
     features12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
 
@@ -412,7 +416,7 @@ vkGetPhysicalDeviceFeatures2(physicalDevice, &supported2);
     features12.shaderSampledImageArrayNonUniformIndexing      =   VK_TRUE;
     features12.shaderStorageBufferArrayNonUniformIndexing     =   VK_TRUE;
     features12.descriptorBindingUniformBufferUpdateAfterBind  =   VK_TRUE;
-
+    features12.pNext = &features11;
 
     VkPhysicalDeviceVulkan13Features features13{};
     features13.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;

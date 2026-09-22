@@ -91,7 +91,7 @@ int main(int argc,char* argv[])
     camera.GenerateViewProjectionMatrix(transform_camera);
 
     std::vector<Transform> transforms;
-    Transform transform_shotgun(0,0,0,1),transform_revolver(0,0,0,0); // object transform
+    Transform transform_shotgun(.25,0,0,1),transform_revolver(-.25,0,0,1); // object transform
     transforms.push_back(transform_shotgun);
     transforms.push_back(transform_revolver);
 
@@ -321,7 +321,7 @@ int main(int argc,char* argv[])
 //
         //transforms[0].SetPosition(x,y,z);
         //transforms[1].SetPosition(x,y,z);
-        spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
+        //spdlog::info(std::to_string(x) + "   " + std::to_string(y) + "  " + std::to_string(z));
 
         //std::cout << transform_shotgun.rotation.x << "  " << transform_shotgun.rotation.y << "  " << transform_shotgun.rotation.z << "  " << transform_shotgun.rotation.w << "  "<<   "\n";
         //transform_camera.SetPosition(0,0,targetDistance);

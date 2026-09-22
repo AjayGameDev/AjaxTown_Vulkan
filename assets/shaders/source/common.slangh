@@ -1,0 +1,8 @@
+typedef float4 vec4;
+typedef float3 vec3;
+typedef float2 vec2;
+
+typedef row_major float4x4 mat4;
+typedef row_major float3x3 mat3;
+typedef row_major float2x2 mat2;
+
