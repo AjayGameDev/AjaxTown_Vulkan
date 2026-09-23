@@ -91,7 +91,7 @@ int main(int argc,char* argv[])
     camera.GenerateViewProjectionMatrix(transform_camera);
 
     std::vector<Transform> transforms;
-    Transform transform_shotgun(.25,0,0,1),transform_revolver(-.25,0,0,1); // object transform
+    Transform transform_shotgun(0,0,0,1),transform_revolver(0,0,0,0); // object transform
     transforms.push_back(transform_shotgun);
     transforms.push_back(transform_revolver);
 
